@@ -36,9 +36,6 @@ build/Release
 node_modules/
 jspm_packages/
 
-# Distribution directories
-dist/
-
 # Typescript v1 declaration files
 typings/
 
@@ -67,7 +64,6 @@ typings/
 *.pyo
 env/
 env*
-dist/
 build/
 *.egg
 *.egg-info/
