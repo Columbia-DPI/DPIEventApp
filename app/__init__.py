@@ -45,6 +45,7 @@ def select_event(tags):
     try:
         cur.execute(sql)
         cur2 = conn.cursor()
+
         for row in cur:
             sql2 = "select * from events where eid = " + str(row[0])
             cur2.execute(sql2)
