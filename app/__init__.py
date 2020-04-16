@@ -41,10 +41,9 @@ def select_event(tags):
         sql = sql[:-4]
 
     cur = conn.cursor()
-    
-    try: 
-    	cur.execute(sql)
 
+    try:
+        cur.execute(sql)
         cur2 = conn.cursor()
         for row in cur:
             sql2 = "select * from events where eid = " + str(row[0])
@@ -53,7 +52,7 @@ def select_event(tags):
 
         cur2.close()
         cur.close()
-    
+
     except Exception as e:
         print("failed to select events: " + str(e))
         return None
