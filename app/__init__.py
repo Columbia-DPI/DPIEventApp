@@ -14,8 +14,10 @@ DATABASE_URL = os.environ['DATABASE_URL']
 
 conn = psycopg2.connect(DATABASE_URL, sslmode='require')
 
-#database queries
+# database queries
+# insert_event: dictionary, int; no return value
 def insert_event(event, organizer):
+
     event_info = tuple(event.values())
     event_str = "'" + "', '".join(event_info) + "', " + str(organizer)
 
@@ -27,6 +29,7 @@ def insert_event(event, organizer):
     except Exception as e:
 	    print('failed to insert: ' + str(e))
 
+# select_event: list; return list
 def select_event(tags):
 
     res = []
@@ -60,6 +63,50 @@ def select_event(tags):
 
     return res
 
+## TO TEST
+# add_tags: list, int; no return value
+def add_tags(tags, event):
+    
+    for t in tags:
+        tid = get_tid(t)
+        sql = 'insert into event_tag values (%s)' % (event, t)
+        try:
+            conn.cursor().execute(sql, (event_str,))
+            conn.commit()
+        except Exception as e:
+            print('failed to insert: ' + str(e))
+
+
+# get_tid: str; return int
+def get_tid(tag_name):
+    
+    sql = "select tid from tags where name = '" + tag_name + "'"
+
+    try:
+        cur = conn.cursor()
+        cur.execute(sql)
+        tid = int(cur.fetchone())
+
+    except Exception as e:
+        print("failed to get tid: " + str(e))
+        return None
+
+    return tid
+
+
+
+# insert_user: dictionary
+def insert_user(bio):
+    user_bio = tuple(bio.values())
+    user_str = "'" + "', '".join(user_bio) + "'"
+
+    sql = 'insert into users (name, UNI, class, school) values (%s)' % (user_str,)
+
+    try:
+        conn.cursor().execute(sql, (user_bio,))
+        conn.commit()
+    except Exception as e:
+	    print('failed to insert: ' + str(e))
 
 #Begin page-serve routes
 
