@@ -69,7 +69,7 @@ def add_tags(tags, event):
     
     for t in tags:
         tid = get_tid(t)
-        if (tid == -1)
+        if (tid == -1):
             new_tag(t)
         sql = 'insert into event_tag values (%s)' % (event, t)
         try:
@@ -84,7 +84,7 @@ def new_tag(tag_name):
     sql = 'insert into tags (name) values (%s)' % (tag_name,)
 
     try:
-        conn.cursor().execute(sql, (tag_name,)
+        conn.cursor().execute(sql, (tag_name,))
         conn.commit()
     except Exception as e:
 	    print('failed to insert into tags: ' + str(e))    
@@ -100,7 +100,7 @@ def get_tid(tag_name):
         cur.execute(sql)
         tid = int(cur.fetchone())
         # no existing tag
-        if (tid == None) 
+        if (tid == None):
             tid = -1
 
     except Exception as e:
