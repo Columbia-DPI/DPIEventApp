@@ -1,29 +1,38 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, {Component} from 'react';
 import './App.css';
+import ReactDOM from "react-dom";
+import {BrowserRouter, Route} from "react-router-dom";
+import HomePage from "./pages/home.jsx";
+function App(){
+    return (
+      <BrowserRouter>
+        <div>
+        <Route
+          exact={true}
+          path="/"
+          render={()=>(
+            <HomePage />
+          )}
+        />
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <p>
-          My token = {window.token}
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+        <Route
+          exact={true}
+          path="/login"
+          render={()=> (
+            <div>Hello Again</div>
+          )}
+        />
+
+        <Route
+          exact={true}
+          path="/allevents"
+          render={()=>(
+            <div>Hello hello hello</div>
+          )}
+        />
+        </div>
+        </BrowserRouter>
+    );
 }
 
 export default App;

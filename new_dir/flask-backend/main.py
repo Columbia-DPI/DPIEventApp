@@ -4,6 +4,8 @@ app = Flask("__main__")
 
 # Begin page-serve routes
 @app.route("/")
+@app.route("/login")
+@app.route("/allevents")
 def index():
     return render_template("index.html", token="dumbedeedoo")
 
