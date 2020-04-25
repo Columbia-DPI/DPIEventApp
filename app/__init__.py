@@ -46,7 +46,7 @@ def select_event(tags):
     cur = conn.cursor()
 
     try:
-        cur.execute(sql)
+        cur.execute(sql)    
         cur2 = conn.cursor()
 
         for row in cur:
@@ -58,7 +58,7 @@ def select_event(tags):
         cur.close()
 
     except Exception as e:
-        print("failed to select events: " + str(e))
+        print("failed to select into events: " + str(e))
         return None
 
     return res
@@ -69,12 +69,25 @@ def add_tags(tags, event):
     
     for t in tags:
         tid = get_tid(t)
+        if (tid == -1)
+            new_tag(t)
         sql = 'insert into event_tag values (%s)' % (event, t)
         try:
             conn.cursor().execute(sql, (event_str,))
             conn.commit()
         except Exception as e:
-            print('failed to insert: ' + str(e))
+            print('failed to insert into event_tag: ' + str(e))
+
+# new_tag: 
+def new_tag(tag_name):
+
+    sql = 'insert into tags (name) values (%s)' % (tag_name,)
+
+    try:
+        conn.cursor().execute(sql, (tag_name,)
+        conn.commit()
+    except Exception as e:
+	    print('failed to insert into tags: ' + str(e))    
 
 
 # get_tid: str; return int
@@ -86,6 +99,9 @@ def get_tid(tag_name):
         cur = conn.cursor()
         cur.execute(sql)
         tid = int(cur.fetchone())
+        # no existing tag
+        if (tid == None) 
+            tid = -1
 
     except Exception as e:
         print("failed to get tid: " + str(e))
@@ -96,6 +112,7 @@ def get_tid(tag_name):
 
 
 # insert_user: dictionary
+# need to check for valid class and school
 def insert_user(bio):
     user_bio = tuple(bio.values())
     user_str = "'" + "', '".join(user_bio) + "'"
@@ -106,13 +123,14 @@ def insert_user(bio):
         conn.cursor().execute(sql, (user_bio,))
         conn.commit()
     except Exception as e:
-	    print('failed to insert: ' + str(e))
+	    print('failed to insert into users: ' + str(e))
 
-#Begin page-serve routes
+# Begin page-serve routes
 
 @app.route("/")
 def index():
     event_info = {'title': 'April Fools Party' , 'location': 'Zoom' , 'timestamp': '2020-04-01 00:00:00', 'description': 'welcome to the party', 'link': 'www.youarefooled.com'}
+    user_bio = {'name': 'DPI', 'UNI': 'dpi0123', 'class': '2022', 'school': 'CC'}
     # insert_event(event_info, 1)
     # print(select_event(['sports', 'free food']))
 
