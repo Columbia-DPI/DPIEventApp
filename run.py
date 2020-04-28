@@ -1,5 +1,5 @@
 import subprocess
-from app import app
+from myapp import myapp
 
 #output = subprocess.call(["./refresh.sh"])
-app.run()
+myapp.run()

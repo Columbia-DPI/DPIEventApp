@@ -3,13 +3,14 @@ from flask import Flask, request, session, g, redirect, url_for, abort, render_t
 myapp = Flask("__main__")
 import logging
 logging.basicConfig(level=logging.DEBUG)
-app.config['TEMPLATES_AUTO_RELOAD'] = True
+myapp.config['TEMPLATES_AUTO_RELOAD'] = True
 
 # Begin page-serve routes
 @myapp.route("/")
 @myapp.route("/login")
 @myapp.route("/allevents")
 def index():
-    return render_template("index.html", token="dumbedeedoo")
+    return "Hello World!"
+    # return render_template("index.html", token="dumbedeedoo")
 
 myapp.run(debug=True, use_reloader=False)
