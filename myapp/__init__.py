@@ -13,5 +13,4 @@ myapp.config['TEMPLATES_AUTO_RELOAD'] = True
 def index():
     return "Hello World!"
     # return render_template("index.html", token="dumbedeedoo")
-
-myapp.run(debug=True, use_reloader=False)
+# myapp.run(debug=True, use_reloader=False)
