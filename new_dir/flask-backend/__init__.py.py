@@ -1,12 +1,12 @@
 from flask import Flask, request, session, g, redirect, url_for, abort, render_template, flash, Response, jsonify
 
-dpiapp = Flask("__main__")
+myapp = Flask("__main__")
 
 # Begin page-serve routes
-@dpiapp.route("/")
-@dpiapp.route("/login")
-@dpiapp.route("/allevents")
+@myapp.route("/")
+@myapp.route("/login")
+@myapp.route("/allevents")
 def index():
     return render_template("index.html", token="dumbedeedoo")
 
-dpiapp.run(debug=True, use_reloader=False)
+myapp.run(debug=True, use_reloader=False)
