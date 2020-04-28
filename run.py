@@ -1,5 +1,5 @@
 import subprocess
-from myapp import myapp
+from flask_backend import flask_backend
 
 #output = subprocess.call(["./refresh.sh"])
-myapp.run()
+flask_backend.run()
