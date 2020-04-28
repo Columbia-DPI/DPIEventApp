@@ -1,6 +1,6 @@
 from flask import Flask, request, session, g, redirect, url_for, abort, render_template, flash, Response, jsonify
 
-myapp = Flask(__name__)
+myapp = Flask("__main__")
 import logging
 logging.basicConfig(level=logging.DEBUG)
 app.config['TEMPLATES_AUTO_RELOAD'] = True
