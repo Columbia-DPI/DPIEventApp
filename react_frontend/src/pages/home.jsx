@@ -2,46 +2,67 @@ import React, { Component } from "react";
 import AliceCarousel from 'react-alice-carousel';
 import 'react-alice-carousel/lib/alice-carousel.css';
 import Event from '../containers/event.jsx';
+import '../style.css'
 
 class HomePage extends Component {
 
   state = {
-    galleryItems: [1, 2, 3].map((i) => <h2 key={i}>{i}</h2>),
+    currentIndex: 0,
+    itemsInSlide: 1,
+    responsive: { 0: { items: 3 } },
+    galleryItems: this.galleryItems(),
   }
 
-  responsive = {
-    0: { items: 1 },
-    1024: { items: 2 },
+  galleryItems() {
+    return Array(6)
+      .fill()
+      .map((item, i) => <Event info = {{title:"Event name",type:"Academic",img:"img_"+(i+1)}}/>)
   }
 
-  onSlideChange(e) {
-    console.debug('Item`s position during a change: ', e.item)
-    console.debug('Slide`s position during a change: ', e.slide)
+  slidePrevPage = () => {
+    const currentIndex = this.state.currentIndex - this.state.itemsInSlide
+    this.setState({ currentIndex })
   }
 
-  onSlideChanged(e) {
-    console.debug('Item`s position after changes: ', e.item)
-    console.debug('Slide`s position after changes: ', e.slide)
+  slideNextPage = () => {
+    const {
+      itemsInSlide,
+      galleryItems: { length },
+    } = this.state
+    let currentIndex = this.state.currentIndex + itemsInSlide
+    if (currentIndex > length) currentIndex = length
+
+    this.setState({ currentIndex })
+  }
+
+  handleOnSlideChange = (event) => {
+    const { itemsInSlide, item } = event
+    this.setState({ itemsInSlide, currentIndex: item })
   }
 
   render() {
     // javascript code here
+    const { currentIndex, galleryItems, responsive } = this.state
+
     return (
-      <div>
-      <AliceCarousel
-        items={this.state.galleryItems}
-        responsive={this.responsive}
-        autoPlayInterval={2000}
-        autoPlayDirection="rtl"
-        autoPlay={true}
-        fadeOutAnimation={true}
-        mouseTrackingEnabled={true}
-        playButtonEnabled={true}
-        disableAutoPlayOnAction={true}
-        onSlideChange={this.onSlideChange}
-        onSlideChanged={this.onSlideChanged}
-      />
-      <Event info={{title:"event"}} />
+      <div class="Row">
+        <div class="Column_side">
+          <button class="button" onClick={this.slidePrevPage}><i class="i arrow left"></i></button>
+          </div>
+        <div class="Column_center">
+          <AliceCarousel
+            items={galleryItems}
+            slideToIndex={currentIndex}
+            responsive={responsive}
+            buttonsDisabled={false}
+            onInitialized={this.handleOnSlideChange}
+            onSlideChanged={this.handleOnSlideChange}
+            onResized={this.handleOnSlideChange}
+          />
+        </div>
+        <div class="Column_side">
+          <button class="button" onClick={this.slideNextPage}><i class="i arrow right"></i></button>
+        </div>
       </div>
     )
   }
