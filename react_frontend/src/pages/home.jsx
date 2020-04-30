@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import AliceCarousel from 'react-alice-carousel';
 import 'react-alice-carousel/lib/alice-carousel.css';
-import Event from '/../components/event.jsx';
+import Event from '../containers/event.jsx';
 
 class HomePage extends Component {
 

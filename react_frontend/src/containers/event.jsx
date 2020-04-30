@@ -5,9 +5,10 @@ class Event extends Component {
     super(props);
   }
   render(){
+    const title = this.props.info.title;
     return(
       <div>
-        this.props.info['title']
+         title
       </div>
     )
   }
