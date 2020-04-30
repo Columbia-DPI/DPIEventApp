@@ -6,6 +6,14 @@ import logging
 logging.basicConfig(level=logging.DEBUG)
 flask_backend.config['TEMPLATES_AUTO_RELOAD'] = True
 
+import dbqueries as db
+DATABASE_URL = os.environ['DATABASE_URL']
+
+conn = psycopg2.connect(DATABASE_URL, sslmode='require')
+
+
+
+
 # Begin page-serve routes
 @flask_backend.route("/")
 @flask_backend.route("/login")
