@@ -80,3 +80,5 @@ htmlcov/
 .coverage
 .coverage.*
 *,cover
+
+react_frontend/package-lock.json
