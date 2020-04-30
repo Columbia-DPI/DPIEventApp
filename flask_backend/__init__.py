@@ -11,6 +11,6 @@ flask_backend.config['TEMPLATES_AUTO_RELOAD'] = True
 @flask_backend.route("/login")
 @flask_backend.route("/allevents")
 def index():
-    return "Hello World!"
-    #return render_template("index.html", token="dumbedeedoo")
+    #return "Hello World!"
+    return render_template("index.html", token="dumbedeedoo")
 # myapp.run(debug=True, use_reloader=False)
