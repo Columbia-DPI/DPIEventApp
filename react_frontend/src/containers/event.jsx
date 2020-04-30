@@ -8,7 +8,7 @@ class Event extends Component {
     const title = this.props.info.title;
     return(
       <div>
-         title
+         {title}
       </div>
     )
   }
