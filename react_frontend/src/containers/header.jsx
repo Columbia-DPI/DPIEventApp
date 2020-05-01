@@ -8,7 +8,7 @@ class Header extends Component {
   render(){
     return(
       <div>
-          <header>Li-online_</header>
+          <header>Name Placeholder</header>
       </div>
     )
   }

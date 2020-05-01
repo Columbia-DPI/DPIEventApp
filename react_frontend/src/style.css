@@ -17,6 +17,7 @@
 body {
   font-family: "Inconsolata", monosapce;
   color: #0d1e2d;
+  background-color: whitesmoke;
 }
 
 .arrow {
@@ -52,34 +53,44 @@ h1, h2, h3, h5, h6, .font-heading {
 header{
   font-family: "Raleway", sans-serif;
   text-align: left;
-  margin-left: 100px;
-  margin-top: 25px;
-  margin-bottom: 0px;
-  font-size: 30px;
+  padding-left: 80px;
+  padding-top: 50px;
+  padding-bottom: 10px;
+  background-color: whitesmoke;
+  font-family: monospace;
+  color: black;
+  font-size: 20px;
 }
 
 .Row_cell {
-  display: table;
-  width: 80%; /*Optional*/
+  display: flex;
+  width: auto; /*Optional*/
   table-layout: fixed; /*Optional*/
   border-spacing: 10px; /*Optional*/
   margin-left: 10%;
-  margin-right: 40%;
-  background-color: rgb(250,250,250);
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
+  margin-right: 10%;
+  margin-top: 5px;
+  margin-bottom: 5px; 
+  background-color: white;
+  margin-top: 10px;
+  border-bottom-style: inset;
+  border-bottom-width: 4px;
+
 }
 
 .Column_left {
   display: table-cell;
   width: 10% !important; /*Optional*/
+  margin: 10px;
+  margin-left: 20px;
 }
 
 .Column_right {
   position: absolute;
-  margin-top: 5px;
+  margin-top: 10px;
   display: table-cell; /*Optional*/
-  width: 90%;
+  margin-left: 12%;
+
 }
 
 .Column_left .Column_left-wrap img {
@@ -99,16 +110,43 @@ header{
   font-size: 40px;
   border-width: 0;
   height: 200px;
+  background-color: whitesmoke;
 }
 
-.button:hover{background-color:white;}
+.button:hover{background-color:whitesmoke;}
 
 .button:focus{
-  background-color: white;
-  border-color: white;
-  outline-color: white;
+  background-color:whitesmoke;
+  border-color:whitesmoke;
+  outline-color:whitesmoke;
 }
 
+.showEventButton {
+  margin-left: 77%;
+  margin-bottom: 5px;
+  height: 30px;
+  border-radius: 25px;
+  background-color: rgb(30, 30, 30);
+  font-family: "Raleway", sans-serif;
+  font-size: small;
+  outline-color: white;
+  color: white;
+  width: 120px;
+}
+
+.collapseEventButton {
+  margin-left: 77%;
+  margin-bottom: 5px;
+  height: 30px;
+  border-radius: 25px;
+  background-color: rgb(242,242,242);
+  border-style: solid;
+  font-family: "Raleway", sans-serif;
+  font-size: small;
+  outline-color: rgb(242,242,242);
+  color: black;
+  width: 120px;
+}
 
 .Row {
   display: table;
@@ -293,7 +331,7 @@ header{
   font-family: "Raleway", sans-serif;
   text-align: left;
   margin-left: 30px!important;
-  margin-top: auto !important;
+  margin-top: 8px !important;
   margin-bottom: auto!important;
   
 }
@@ -309,8 +347,8 @@ header{
   margin-bottom: auto;
 }
 
-p {
-  margin-top: 1rem;
+.p {
+  margin-top: 8px;
   margin-bottom: 1rem;
 }
 
