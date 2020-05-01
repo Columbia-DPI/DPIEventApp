@@ -44,9 +44,54 @@ a:hover {
   color: #000;
 }
 
-h1, h2, h3, h4, h5, h6, .font-heading {
+h1, h2, h3, h5, h6, .font-heading {
   font-family: "Raleway", sans-serif;
   text-align: center;
+}
+
+header{
+  font-family: "Raleway", sans-serif;
+  text-align: left;
+  margin-left: 100px;
+  margin-top: 25px;
+  margin-bottom: 0px;
+  font-size: 30px;
+}
+
+.Row_cell {
+  display: table;
+  width: 80%; /*Optional*/
+  table-layout: fixed; /*Optional*/
+  border-spacing: 10px; /*Optional*/
+  margin-left: 10%;
+  margin-right: 40%;
+  background-color: rgb(250,250,250);
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+}
+
+.Column_left {
+  display: table-cell;
+  width: 10% !important; /*Optional*/
+}
+
+.Column_right {
+  position: absolute;
+  margin-top: 5px;
+  display: table-cell; /*Optional*/
+  width: 90%;
+}
+
+.Column_left .Column_left-wrap img {
+  transition: .3s transform ease;
+  transform: scale(1);
+  align-items: center;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+  height: 100%;
+  width: 100%;
+
 }
 
 .button{
@@ -78,9 +123,10 @@ h1, h2, h3, h4, h5, h6, .font-heading {
 
 .Column_side {
   position: absolute;
-  margin-top: 50px;
+  margin-top: 20px;
   display: table-cell; /*Optional*/
   width: 10%;
+  height: auto;
 }
 
 @media (max-width: 780px) {
@@ -244,6 +290,12 @@ h1, h2, h3, h4, h5, h6, .font-heading {
 
 .h4 {
   font-size: 16px;
+  font-family: "Raleway", sans-serif;
+  text-align: left;
+  margin-left: 30px!important;
+  margin-top: auto !important;
+  margin-bottom: auto!important;
+  
 }
 
 

@@ -24,7 +24,7 @@ class Event extends Component {
               </div>
               <img class="img-fluid" src={ require("../img/"+img+".jpg")}/>
             </a>
-          </div>
+      </div>
     )
   }
 }
