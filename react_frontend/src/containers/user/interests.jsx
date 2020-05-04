@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Form, Button } from 'semantic-ui-react';
+import '../form.css';
 
 class Interests extends Component{
     saveAndContinue = (e) => {
@@ -18,8 +19,8 @@ class Interests extends Component{
         <Form color='blue' >
             <h1 className="ui centered">I am interested in ... </h1>
             <Form.Group>
-              <Button onClick={this.back}>Back</Button>
-              <Button onClick={this.saveAndContinue}>Save And Continue </Button>
+                <Button onClick={this.back}>Back</Button>
+                <Button onClick={this.saveAndContinue}>Save And Continue </Button>
             </Form.Group>
         </Form>
         )

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Form, Button, Select } from 'semantic-ui-react';
+import '../form.css';
 
 const genderoptions = [
   { key: 'm', text: 'Male', value: 'male' },
@@ -32,10 +33,11 @@ class PersonalDetails extends Component{
     render(){
         const { values } = this.props;
         return(
+          <div>
             <Form >
                 <h1 className="ui centered">Welcome to DPIEventApp</h1>
 
-                <Form.Group widths='equal'>
+                <Form.Group widths='equal' class='inline fields'>
                   <Form.Field>
                       <label>First Name</label>
                       <input
@@ -52,14 +54,14 @@ class PersonalDetails extends Component{
                       defaultValue={values.lastName}
                       />
                   </Form.Field>
+                </Form.Group>
+                <Form.Group widths='equal' class='inline fields'>
                   <Form.Field
                     control={Select}
                     label='Gender'
                     options={genderoptions}
                     placeholder='Gender'
                   />
-                </Form.Group>
-                <Form.Group widths='equal'>
                   <Form.Field
                     control={Select}
                     label='Year'
@@ -73,8 +75,10 @@ class PersonalDetails extends Component{
                     placeholder='College'
                   />
                 </Form.Group>
-                <Button onClick={this.saveAndContinue}>Save And Continue </Button>
+                <Button size='small' onClick={this.saveAndContinue}>Save And Continue </Button>
             </Form>
+
+          </div>
         )
     }
 }
