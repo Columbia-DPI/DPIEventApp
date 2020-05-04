@@ -18,6 +18,7 @@ class Db:
     # dictionary of event info, int uid
     # return eid of event added, return -1 on failure
     def insert_event(self, event, organizer):
+
         eid = -1
         event_info = tuple(event.values())
         event_str = "'" + "', '".join(event_info) + "', " + str(organizer)
@@ -49,8 +50,6 @@ class Db:
 
         res = []
 
-        # construct query message
-        
         if (tags == None or len(tags) == 0):
             e_num = self.eid_by_likes()
             res = [self.get_event(e[0]) for e in e_num]
@@ -80,6 +79,7 @@ class Db:
     # eid_by_likes: rank list of events by number of likes
     # return list of (eid, num)
     def eid_by_likes(self):
+
         res = []
         sql = """select events.eid, count(*) as num 
                 from (events left join likes on events.eid = likes.eid) 
@@ -122,7 +122,6 @@ class Db:
     def tags_by_freq(self):
 
         res = []
-
         sql = """select distinct tid, tag, freq from ( 
             select distinct event_tag.tid, count(*) as freq from event_tag 
             group by event_tag.tid) as f 
@@ -285,7 +284,6 @@ class Db:
     def view_liked(self, uid):
 
         res = []
-
         sql = "select distinct eid from likes where uid = '" + str(uid) + "'"
 
         try:
@@ -347,7 +345,10 @@ class Db:
     # input eid
     # return list of tags
     def get_event_tags(self, eid):
+
+        res = []
         sql = "select tag from tags join event_tag on event_tag.tid = tags.tid where eid = '" + str(eid) + "'"
+
         try:
             cur = self.conn.cursor()
             cur.execute(sql)    
@@ -359,4 +360,53 @@ class Db:
             return None
 
         return res
+
+
+
+    # what_interest: tags that a user is interested in
+    # input uid
+    # return list of ints tids
+    def what_interest(self, uid):
+
+        res = []
+        sql = "select tid from interests where uid = '" + str(uid) + "'"
+
+        try:
+            cur = self.conn.cursor()
+            cur.execute(sql)    
+            res = [int(row[0]) for row in cur]
+            cur.close()
+
+        except Exception as e:
+            print("failed to view what user " + str(uid) + " likes: " + str(e))
+            return None
+
+        return res
+
+
+
+    # recommend_for_user: recommend events for user based on number of tags matched
+    # input uid
+    # return tuple of event info
+    def recommend_for_user(self, uid):
+
+        res = []
+        sql = "select eid, count(*) as match from interests join event_tag on interests.tid = event_tag.tid and uid = '"
+        sql += str(uid)
+        sql += "' group by eid order by match desc"
+
+        print(self.what_interest(uid))
+
+        try:
+            cur = self.conn.cursor()
+            cur.execute(sql)    
+            res = [self.get_event(row[0]) for row in cur]
+            cur.close()
+
+        except Exception as e:
+            print("failed to recommend events for user " + str(uid) + " : " + str(e))
+            return None
+
+        return res
+
 

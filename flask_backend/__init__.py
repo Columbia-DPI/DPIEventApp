@@ -65,6 +65,11 @@ def coalitionSearch():
 def index():
     #return "Hello World!"
 
+    # TEST recommend_for_user
+    res = sess_db.recommend_for_user(3)
+    for r in res:
+        print(r)
+
     # TEST select_event, get_event and eid_by_likes
     # test1
     print("test1:")
