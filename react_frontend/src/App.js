@@ -1,9 +1,13 @@
-import React, {Component} from 'react';
+import React, {useContext, Component, useImperativeHandle, useReducer} from 'react';
 import './App.css';
 import ReactDOM from "react-dom";
 import {BrowserRouter, Route} from "react-router-dom";
 import HomePage from "./pages/home.jsx";
+import { Auth0Context } from './contexts/auth0-context';
+
 function App(){
+    const auth0 = useContext(Auth0Context);
+
     return (
       <BrowserRouter>
         <div>
@@ -19,7 +23,11 @@ function App(){
           exact={true}
           path="/login"
           render={()=> (
-            <div>Hello Again</div>
+          <div>Hello Again
+            {auth0.user && (
+              <p>{auth0.user.name}</p>
+            )}
+          </div>
           )}
         />
 
