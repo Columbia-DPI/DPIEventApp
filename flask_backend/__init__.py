@@ -36,8 +36,26 @@ def coalitionSearch():
     #return jsonify({'Item 1':'chicken', 'Item 2':'steak', 'Item 3':'wegetarian for Raghav'})
 
     results = sess_db.select_event(None)
+
+    final_res = []
+
+    for res in results:
+    	res_dict = {}
+    	res_dict["some_number"] = res[0][0]
+    	res_dict["title"] = res[0][1]
+    	res_dict["location"] = res[0][2]
+    	res_dict["timestamp"] = res[0][3]
+    	res_dict["description"] = res[0][4]
+    	res_dict["link"] = res[0][5]
+    	res_dict["organizer"] = res[0][6]
+
+    	final_res.append(res_dict) 
+
     print(results)
-    return {"response": list(map(lambda x:x.serialize(), results))}
+    print(final_res)
+    #return jsonify(res_dict)
+    return{"response": final_res}
+    #return {"response": list(map(lambda x:x.serialize(), res_dict))}
 
 
 # Begin page-serve routes
