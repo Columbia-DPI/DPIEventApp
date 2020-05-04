@@ -60,8 +60,7 @@ def coalitionSearch():
 
 # Begin page-serve routes
 @flask_backend.route("/")
-@flask_backend.route("/login")
-@flask_backend.route("/allevents")
+@flask_backend.route("/<path:path>")
 def index():
     #return "Hello World!"
     return render_template("index.html", token="dumbedeedoo")
