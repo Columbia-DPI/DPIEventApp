@@ -74,6 +74,8 @@ _mailinglist
 .idea/
 docs/_build/
 .vscode
+flask_backend/static/
+flask_backend/templates/
 
 # Coverage reports
 htmlcov/
