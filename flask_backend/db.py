@@ -1,3 +1,14 @@
+"""
+TO DO:
+    - Deal with modify/delete requests
+    - Improve error handling, do not exit on all errors
+    - How to store image files?
+    - Add archive function based on timestamp, only show future events
+    - Add time filter, filter event by date (tomorrow, this week, next week, etc)
+"""
+
+
+
 import os
 import psycopg2
 
@@ -96,7 +107,7 @@ class Db:
         return res
 
 
-    # get_event: helper function to get event info by eid
+    # get_event: get event info by eid
     # input int eid
     # return event info tuple
     def get_event(self, eid):
@@ -278,10 +289,10 @@ class Db:
 
 
 
-    # view_liked: show the events that a user likes
+    # my_likes: show the events that a user likes
     # uid
     # returns list of event information
-    def view_liked(self, uid):
+    def my_likes(self, uid):
 
         res = []
         sql = "select distinct eid from likes where uid = '" + str(uid) + "'"
@@ -340,19 +351,19 @@ class Db:
 
         return res
 
-
+    # RETEST THIS  
     # get_event_tags: get tags of an event
     # input eid
-    # return list of tags
+    # return list of (tid, tag)
     def get_event_tags(self, eid):
 
         res = []
-        sql = "select tag from tags join event_tag on event_tag.tid = tags.tid where eid = '" + str(eid) + "'"
+        sql = "select tags.tid, tag from tags join event_tag on event_tag.tid = tags.tid where eid = '" + str(eid) + "'"
 
         try:
             cur = self.conn.cursor()
             cur.execute(sql)    
-            res = [row[0] for row in cur]
+            res = [row for row in cur]
             cur.close()
 
         except Exception as e:
@@ -363,10 +374,10 @@ class Db:
 
 
 
-    # what_interest: tags that a user is interested in
+    # my_interests: tags that a user is interested in
     # input uid
     # return list of ints tids
-    def what_interest(self, uid):
+    def my_interests(self, uid):
 
         res = []
         sql = "select tid from interests where uid = '" + str(uid) + "'"
@@ -395,7 +406,7 @@ class Db:
         sql += str(uid)
         sql += "' group by eid order by match desc"
 
-        print(self.what_interest(uid))
+        print(self.my_interests(uid))
 
         try:
             cur = self.conn.cursor()
@@ -410,3 +421,78 @@ class Db:
         return res
 
 
+
+# TO DO: before coding the following, consider changing the delete options in database
+    # get_user_bio: show user bio
+    # input uid
+    # retunr user bio tuple
+    def get_user_bio(self, eid):
+
+        res = []
+        sql = "select * from users where uid = '" + str(uid) + "'"
+        try:
+            cur = self.conn.cursor()
+            cur.execute(sql) 
+            res.append(cur.fetchone())
+            cur.close()
+        except Exception as e:
+            print("failed to get user bio" + str(uid) + ": " + str(e))
+            return None  
+
+        return res
+
+
+
+    # edit_event
+    # input eid
+    # return tuple of fields modified
+    def edit_event(self, eid):
+        # to-do
+
+    
+
+    # edit_bio
+    # input uid
+    # return tuple of fields modified
+    def edit_bio(self, uid):
+        # to-do
+
+
+
+    # my_events: show events I created
+    # input uid
+    # return list of ints eids
+    def my_events(self, uid):
+        # to-do
+
+
+
+    # delete_event
+    # input uid, eid
+    # return 1 on success and -1 on failure
+    def delete_event(self, eid):
+        # to-do
+
+
+
+    # unlike_event: undo like event
+    # input uid, eid
+    # return 1 on success and -1 on failure
+    def unlike_event(self, uid, eid):
+        # to-do
+
+
+
+    # uninterest_tag: remove tag from user's list of interests
+    # input uid, tid
+    # return 1 on success and -1 on failure
+    def uninterest_tags(self, uid, tids):
+        # to-do
+    
+
+
+    # uninterest_tag: remove tag from event
+    # input eid, list of ints tids
+    # return number of tags removed on success and -1 on failure
+    def remove_tags(self, eid, tids):
+        # to-do

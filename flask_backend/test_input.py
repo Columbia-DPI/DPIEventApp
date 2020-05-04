@@ -1,9 +1,9 @@
 """ all functions:
+[create event]
         insert_event(self, event, organizer) WORKS
         select_event(self, tags) WORKS
         eid_by_likes(self) WORKS
         get_event(self, eid) WORKS
-        get_event_tags(self, eid) WORKS
         
         add_tags(self, tags, event) WORKS
         new_tag(self, tag_name) WORKS
@@ -12,14 +12,27 @@
 
         insert_user(self, bio) WORKS
         interest_tag(self, uid, tids) WORKS
-        like_event(self, uid, eid) WORKS
-        view_liked(self, uid) WORKS
 
+        like_event(self, uid, eid) WORKS       
         num_likes(self, eid) WORKS
         who_likes(self, eid) WORKS
-        what_interest(self, uid) WORKS
 
         recommend_for_user(self, uid) WORKS
+    get_user_bio(self, uid)
+
+    edit_event(self, eid)
+    edit_bio(self, uid)
+
+    my_events(self, uid)
+    delete_event(self, uid)
+        my_likes(self, uid) WORKS
+    unlike_event(self, uid, eid)
+        my_interests(self, uid) WORKS
+    uninterest_tags(self, uid, tids)
+        get_event_tags(self, eid) WORKS
+    remove_tags(self, eid, tids)
+
+        
 """
 
 
@@ -179,10 +192,10 @@ for u in range(2, 9, 1):
 
 
 
-# TEST view_liked
+# TEST my_likes
 for u in range(2, 9, 1):
     print("user " + str(u) + " likes: ")
-    res = sess_db.view_liked(u)
+    res = sess_db.my_likes(u)
     for r in res:
         print(r)
 
@@ -211,8 +224,8 @@ for e in range(10, 22, 1):
 
 
 
-# TEST what_interest
-print(sess_db.what_interest(3))
+# TEST my_interests
+print(sess_db.my_interests(3))
 
 
 
