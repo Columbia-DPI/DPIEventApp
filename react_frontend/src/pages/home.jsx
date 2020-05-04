@@ -24,7 +24,29 @@ class HomePage extends Component {
       .map((item, i) => <Event info = {{title:"Event name",type:"Academic",img:"img_"+(i+1)}}/>)
   }
 
+  fetchResults() {
+    let that = this;
+    let payload = {
+      "placeholder": "nothing rn",
+    };
+    let uri = "./api/getAllEvents";
+    fetch(uri, {
+      method: "post",
+      body: JSON.stringify(payload)
+    }).then(function(response){
+      return response.json();
+    }).then(function(data){
+      console.log(data);
+      console.log("Fetched: "+JSON.stringify(data));
+      // that.setState({serverData:data.response});
+    }); 
+
+
+  }
+
   eventList() {
+      this.fetchResults();
+
       return Array(6)
         .fill()
         .map((item, i) => <Collection_cell info = {{title:"DPI Info session",type:"Academic",img:"img_"+(i+1),description:"This event has free food and guest speakers!"}}/>)

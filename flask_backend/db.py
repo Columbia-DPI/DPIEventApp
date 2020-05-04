@@ -15,7 +15,7 @@ class Db:
     # insert_event: insert event information
     # dictionary of event info, int uid
     # return eid of event added, return -1 on failure
-    def insert_event(event, organizer):
+    def insert_event(self, event, organizer):
         eid = -1
         event_info = tuple(event.values())
         event_str = "'" + "', '".join(event_info) + "', " + str(organizer)
@@ -40,13 +40,13 @@ class Db:
     # select_event: select event by tag name
     # list of tag names
     # return list of event information
-    def select_event(tags):
+    def select_event(self, tags):
 
         res = []
 
         # construct query message
         if (tags == None):
-            sql = "select distinct event_tag.eid from (event_tag join tags on event_tag.tid = tags.tid)"
+            sql = "select distinct events.eid from events"
         else:
             sql = "select distinct event_tag.eid from (event_tag join tags on event_tag.tid = tags.tid) where "
             for tag in tags:
@@ -55,11 +55,12 @@ class Db:
             sql = sql[:-4]
 
         try:
-            cur = conn.cursor()
+            cur = self.conn.cursor()
             cur.execute(sql)    
             for row in cur:
                 # row is (eid, tid)
-                res.append(get_event(int(row[0])))
+                #print(row)
+                res.append(self.get_event(int(row[0])))
             cur.close()
 
         except Exception as e:
@@ -91,12 +92,12 @@ class Db:
     # get_event: helper function to get event info by eid
     # input int eid
     # return event info tuple
-    def get_event(eid):
+    def get_event(self, eid):
 
         res = []
         sql = "select * from events where eid = '" + str(eid) + "'"
         try:
-            cur = conn.cursor()
+            cur = self.conn.cursor()
             cur.execute(sql) 
             res.append(cur.fetchone())
         except Exception as e:
