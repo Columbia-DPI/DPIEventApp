@@ -39,7 +39,7 @@ class HomePage extends Component {
       console.log(data);
       console.log("Fetched: "+JSON.stringify(data));
       // that.setState({serverData:data.response});
-    }); 
+    });
 
 
   }
@@ -94,7 +94,7 @@ class HomePage extends Component {
       showButton = <button class="collapseEventButton" onClick={this.displayAllEvents}>collapse list</button>
     }
 
-    
+
     return (
       <div>
         <Header/>
@@ -123,7 +123,7 @@ class HomePage extends Component {
         <div>
           {listComp}
         </div>
-        
+
       </div>
     )
   }
