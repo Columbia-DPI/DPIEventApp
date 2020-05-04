@@ -4,7 +4,7 @@ import ReactDOM from "react-dom";
 import {BrowserRouter, Route} from "react-router-dom";
 import HomePage from "./pages/home.jsx";
 import { Auth0Context } from './contexts/auth0-context';
-import { LoginTest } from './pages/loginTest'
+import LoginTest from './pages/loginTest'
 
 function App(){
     const auth0 = useContext(Auth0Context);
@@ -39,7 +39,6 @@ function App(){
             <div>Hello hello hello</div>
           )}
         />
-        </div>
 
         <Route
           exact={true}

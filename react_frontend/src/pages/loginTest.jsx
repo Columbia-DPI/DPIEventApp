@@ -24,5 +24,6 @@ function LoginTest() {
         )}
       </div>
     );
+}
 
-export default LoginTest
+export default LoginTest;
