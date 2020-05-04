@@ -49,7 +49,7 @@ def coalitionSearch():
     	res_dict["link"] = res[0][5]
     	res_dict["organizer"] = res[0][6]
 
-    	final_res.append(res_dict) 
+    	final_res.append(res_dict)
 
     print(results)
     print(final_res)
@@ -61,7 +61,7 @@ def coalitionSearch():
 # Begin page-serve routes
 @flask_backend.route("/")
 @flask_backend.route("/login")
-@flask_backend.route("/allevents")
+@flask_backend.route("/<path:path>")
 def index():
     #return "Hello World!"
 

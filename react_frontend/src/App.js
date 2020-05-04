@@ -1,25 +1,40 @@
-import React, {Component} from 'react';
+import React, {useContext, Component, useImperativeHandle, useReducer} from 'react';
 import './App.css';
 import ReactDOM from "react-dom";
 import {BrowserRouter, Route} from "react-router-dom";
+import { Container } from 'semantic-ui-react';
 import HomePage from "./pages/home.jsx";
+import SignupForm from './pages/signup.jsx';
+import { Auth0Context } from './contexts/auth0-context';
+
 function App(){
+    const { user, loginWithRedirect, isLoading} = useContext(Auth0Context);
     return (
+      <div>
+      <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.12/semantic.min.css"/>
       <BrowserRouter>
         <div>
         <Route
           exact={true}
           path="/"
-          render={()=>(
-            <HomePage />
-          )}
+          render={()=>{
+            if (isLoading){
+              return (<div>Loading...</div>);
+            } else if (!user) {
+              return (<div><button onClick={loginWithRedirect}>log in</button></div>);
+            } else {
+              return (<HomePage />);
+            }
+          }}
         />
 
         <Route
           exact={true}
           path="/login"
           render={()=> (
-            <div>Hello Again</div>
+            <Container textAlign='center'>
+              <SignupForm />
+            </Container>
           )}
         />
 
@@ -32,6 +47,7 @@ function App(){
         />
         </div>
         </BrowserRouter>
+        </div>
     );
 }
 

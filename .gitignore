@@ -1,3 +1,6 @@
+flask_backend/static/react/*
+flask_backend/templates/*
+
 # Logs
 logs
 *.log
@@ -74,6 +77,8 @@ _mailinglist
 .idea/
 docs/_build/
 .vscode
+flask_backend/static/
+flask_backend/templates/
 
 # Coverage reports
 htmlcov/
