@@ -64,5 +64,25 @@ def coalitionSearch():
 @flask_backend.route("/allevents")
 def index():
     #return "Hello World!"
+
+    # TEST select_event, get_event and eid_by_likes
+    # test1
+    print("test1:")
+    tev1 = ["party", "social", "free food", "online","stupid"]
+    res = sess_db.select_event(tev1)
+    for r in res:
+        print(r)
+    # test 3
+    print("test3:")
+    res = sess_db.select_event(["stupid"])
+    for r in res:
+        print(r)
+
+    # test 5
+    print("test5:")
+    res = sess_db.select_event([])
+    for r in res:
+        print(r)
+    
     return render_template("index.html", token="dumbedeedoo")
 flask_backend.run(debug=True, use_reloader=False)
