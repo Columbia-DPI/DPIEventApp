@@ -18,9 +18,9 @@ import requests
 import os
 import sys
 sys.path.append('./modules')
-from modules import db
+#from modules import db
 import logging
-#from db import Db
+from db import Db
 #load_dotenv()
 
 # database connection
