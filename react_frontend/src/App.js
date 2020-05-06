@@ -8,6 +8,7 @@ import SignupForm from './pages/signup.jsx';
 import Profile from './pages/profile.jsx';
 import { Auth0Context } from './contexts/auth0-context';
 import { Menu } from "semantic-ui-react";
+import Login from './pages/login'
 
 function App(){
     const { user, loginWithRedirect, isLoading} = useContext(Auth0Context);
@@ -20,12 +21,10 @@ function App(){
           exact={true}
           path="/"
           render={()=>{
-            if (isLoading){
-              return (<div>Loading...</div>);
-            } else if (!user) {
-              return (<div><button onClick={loginWithRedirect}>log in</button></div>);
-            } else {
+            if (user && !isLoading){
               return (<SignupForm />);
+            } else {
+              return (<div><Login login={loginWithRedirect} isLoading={isLoading}></Login></div>);
             }
           }}
         />

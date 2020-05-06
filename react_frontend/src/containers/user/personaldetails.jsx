@@ -1,6 +1,11 @@
 import React, { Component } from 'react';
 import { Form, Button, Select } from 'semantic-ui-react';
 import '../form.css';
+import styled from 'styled-components'
+
+const Title = styled.h1`
+  margin-bottom: 50px;
+`
 
 const genderoptions = [
   { key: 'm', text: 'Male', value: 'male' },
@@ -30,12 +35,17 @@ class PersonalDetails extends Component{
         this.props.nextStep()
     }
 
+    back = (e) => {
+        e.preventDefault()
+        this.props.prevStep()
+    }
+
     render(){
         const { values } = this.props;
         return(
           <div>
             <Form >
-                <h1 className="ui centered">Welcome to DPIEventApp</h1>
+                <Title className="ui centered">Welcome to CUBrite</Title>
 
                 <Form.Group widths='equal' class='inline fields'>
                   <Form.Field>
@@ -81,7 +91,8 @@ class PersonalDetails extends Component{
                     onChange={this.props.handleDropdown('school')}
                   />
                 </Form.Group>
-                <Button size='small' onClick={this.saveAndContinue}>Save And Continue </Button>
+                <Button size='small' onClick={this.saveAndContinue}>Save and Continue</Button>
+                
             </Form>
 
           </div>

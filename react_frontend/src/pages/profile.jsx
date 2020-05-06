@@ -2,7 +2,15 @@ import React, { Component } from "react";
 import '../style.css'
 import _ from "lodash";
 import Collection_cell from '../containers/collection_cell.jsx'
-import { Header, Image, Label } from 'semantic-ui-react'
+import { Header, Image, Label, Button } from 'semantic-ui-react'
+import { Link } from 'react-router-dom'
+import styled from 'styled-components'
+
+const Home = styled(Link)`
+  position: absolute;
+  top: 20px;
+  left: 20px;
+`
 
 class Profile extends Component {
 
@@ -55,6 +63,7 @@ class Profile extends Component {
     const tags = this.allTags()
     return (
       <div>
+        <Home to="/home"><Button>Home</Button></Home>
        <Image circular src={require("../img/profile.png")} style={{height : "auto", width : "25%",marginLeft:"auto",marginRight:"auto"}}/>
        <div>
         <Header as='h2' content='Username' style={{marginTop:"10px",marginBottom:"20px"}}>

@@ -1,6 +1,19 @@
 import React, { Component } from 'react';
 import { Form, Button } from 'semantic-ui-react';
 import '../form.css';
+import styled from 'styled-components'
+
+const Buttons = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+`
+
+const Title = styled.h1`
+  margin-bottom: 50px;
+`
 
 class Interests extends Component{
 
@@ -36,7 +49,7 @@ class Interests extends Component{
         return(
             <div>
                 <h1></h1>
-                <h1 className="ui centered">I am interested in ... </h1>
+                <Title className="ui centered">I am interested in ... </Title>
                 {tags_div}
                 <Form color='blue' >
                     <Form.Group>
