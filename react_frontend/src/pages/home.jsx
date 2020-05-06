@@ -4,7 +4,6 @@ import 'react-alice-carousel/lib/alice-carousel.css';
 import Event from '../containers/event.jsx';
 import Header from '../containers/header.jsx'
 import Collection_cell from '../containers/collection_cell.jsx'
-import Collection from '../containers/collection.jsx'
 import SearchDropdown from '../containers/SearchDropdown.jsx'
 import '../style.css'
 
@@ -50,7 +49,8 @@ class HomePage extends Component {
       //console.log("serverData.length"+serverData.length+"server"+serverData);
       return Array(6)
         .fill()
-        .map((item, i) => <Collection_cell info = {{title:"DPI Info session",type:"Academic",img:"img_"+(i+1),description:"This event has free food and guest speakers!"}}/>)
+        .map((item, i) => <Collection_cell info = {{title:"DPI Info session",type:"Academic",img:"img_"+(i+1),
+                                            description:"This event has free food and guest speakers!"}}/>)
   }
 
   slidePrevPage = () => {
@@ -96,7 +96,6 @@ class HomePage extends Component {
       filter = <SearchDropdown/>
       showButton = <button class="collapseEventButton" onClick={this.displayAllEvents}>collapse list</button>
     }
-
 
     return (
       <div>

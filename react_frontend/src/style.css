@@ -81,7 +81,7 @@ header{
   display: table-cell;
   width: 10% !important; /*Optional*/
   margin: 10px;
-  margin-left: 20px;
+  margin-left: 10px;
 }
 
 
@@ -90,22 +90,24 @@ header{
   width: 30% !important; /*Optional*/
   height: auto;
   margin: 10px;
-  margin-left: 20px;
+  margin-left: 10px;
 }
 
 .Column_right {
-  position: absolute;
+  position: inherit;
   margin-top: 10px;
+  width: 100%;
   display: table-cell; /*Optional*/
-  margin-left: 12%;
+  margin-left: 5px;
 
 }
 
 .Column_right_large {
-  position: absolute;
+  position: inherit;
   margin-top: 10px;
+  width: 100%;
   display: table-cell; /*Optional*/
-  margin-left: 29%;
+  margin-left: 5px;
 
 }
 
