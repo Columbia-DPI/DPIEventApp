@@ -165,25 +165,6 @@ header{
   width: 120px;
 }
 
-.Row {
-  display: table;
-  width: 100%; /*Optional*/
-  table-layout: fixed; /*Optional*/
-  border-spacing: 10px; /*Optional*/
-}
-.Column_center {
-  display: table-cell;
-  width: 80%; /*Optional*/
-}
-
-.Column_side {
-  position: absolute;
-  margin-top: 20px;
-  display: table-cell; /*Optional*/
-  width: 10%;
-  height: auto;
-}
-
 @media (max-width: 780px) {
   .custom-navbar > .container {
     padding-right: 0;
@@ -296,7 +277,7 @@ header{
   color: #fff;
   opacity: 1;
   visibility: visible;
-  margin-top: px;
+  margin-top: 0px;
   transition: .3s all ease;
 }
 
@@ -328,6 +309,7 @@ header{
   margin-top: 0px;
   opacity: 0;
   visibility: visible;
+  width: 20px;
 }
 
 .ml-auto, .mx-auto {

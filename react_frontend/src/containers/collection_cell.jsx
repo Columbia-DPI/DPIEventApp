@@ -32,7 +32,7 @@ class Collection_cell extends Component {
       <div class="Row_cell" onClick={this.handleClick}>
           <div class={this.state.selectedStyle}>
           <img class="img-cell" src={img}
-                              style={{height : "auto", width : "100%"}}/>
+                              style={{height : "10rem", width : "100%"}}/>
             </div>
           <div class={this.state.textedStyle}>
             <h4 style={{margin:"auto"}}>
@@ -41,7 +41,7 @@ class Collection_cell extends Component {
             <p style={{margin:"auto"}}>{type}</p>
             <span>{description}</span>
           </div>
-        </div>
+      </div>
     )
   }
 }
