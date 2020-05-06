@@ -64,7 +64,6 @@ class HomePage extends Component {
   }
 
   eventList() {
-
       return Array(6)
         .fill()
         .map((item, i) => <Collection_cell info = {{title:"DPI Info session",type:"Academic",img:"img_"+(i+1),description:"This event has free food and guest speakers!"}}/>)
@@ -103,7 +102,6 @@ class HomePage extends Component {
   }
 
   render() {
-
     // store value in serverData
     if (this.serverData==null){
     this.fetchResults().then(
