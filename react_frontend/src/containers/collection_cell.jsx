@@ -31,7 +31,7 @@ class Collection_cell extends Component {
     return( 
       <div class="Row_cell" onClick={this.handleClick}>
           <div class={this.state.selectedStyle}>
-          <img class="img-cell" src={require("../img/"+img+".jpg")}
+          <img class="img-cell" src={img}
                               style={{height : "auto", width : "100%"}}/>
             </div>
           <div class={this.state.textedStyle}>

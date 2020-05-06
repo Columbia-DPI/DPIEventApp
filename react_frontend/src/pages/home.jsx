@@ -8,66 +8,47 @@ import Collection from '../containers/collection.jsx'
 import '../style.css'
 
 class HomePage extends Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      serverData: null,
+      currentIndex: 0,
+      itemsInSlide: 1,
+      showList: false,
+      responsive: { 0: { items: 3 } },
+      events: []
+    }
 
-  state = {
-    serverData: null,
-    currentIndex: 0,
-    itemsInSlide: 1,
-    showList: false,
-    responsive: { 0: { items: 3 } },
-    galleryItems: this.galleryItems(),
-    eventList: this.eventList(),
+    this.fetchAllEvents = this.fetchAllEvents.bind(this)
+    this.eventList = this.eventList.bind(this)
   }
 
-  galleryItems() {
-      return Array(6)
-      .fill()
-      .map((item, i) => <Event info = {{title:"Event name",type:"Academic",img:"img_"+(i+1)}}/>)
+  componentDidMount(){
+    this.fetchAllEvents()
   }
-/*
-  fetchResults() {
-    let that = this;
-    let payload = {
-      "placeholder": "nothing rn",
-    };
-    let uri = "./api/getAllEvents";
-    fetch(uri, {
-      method: "post",
-      body: JSON.stringify(payload)
-    }).then(function(response){
-      return response.json();
-    }).then(function(data){
-      //console.log(data);
-      //console.log("Fetched: "+JSON.stringify(data));
-      //return JSON.stringify(data);
-      // that.setState({serverData:data.response});
-    });
-  }
-*/
-  fetchResults() {
+
+  fetchAllEvents() {
     let payload={
       "placeholder": "nothing rn",
     };
     let url = "./api/getAllEvents";
-    let fetchPromise = fetch(url, {
+    fetch(url, {
       method: "post",
       body: JSON.stringify(payload)
-    });
-    let jsonPromise = fetchPromise.then(response => response.json());
-
-    return Promise.all([fetchPromise, jsonPromise]).then(function(data) {
-      return {
-        json: JSON.stringify(data),
-        data: data.response
-      };
-    });
+    })
+      .then(response => response.json())
+      .then(res => {
+        this.setState({
+          events: res['response']
+      })})
   }
 
   eventList() {
-
-      return Array(6)
-        .fill()
-        .map((item, i) => <Collection_cell info = {{title:"DPI Info session",type:"Academic",img:"img_"+(i+1),description:"This event has free food and guest speakers!"}}/>)
+      return this.state.events
+        .map((item, i) => <Collection_cell info = {{title: item['title'],
+                                                    type: "Academic",
+                                                    img: item['link'],
+                                                    description: item['description']}}/>)
   }
 
   slidePrevPage = () => {
@@ -78,10 +59,9 @@ class HomePage extends Component {
   slideNextPage = () => {
     const {
       itemsInSlide,
-      galleryItems: { length },
     } = this.state
     let currentIndex = this.state.currentIndex + itemsInSlide
-    if (currentIndex > length) currentIndex = length
+    if (currentIndex > this.state.events.length) currentIndex = this.state.events.length
 
     this.setState({ currentIndex })
   }
@@ -104,22 +84,12 @@ class HomePage extends Component {
 
   render() {
 
-    // store value in serverData
-    if (this.serverData==null){
-    this.fetchResults().then(
-      data=>{
-        data=data.json;
-        this.setState({
-          serverData:data
-        });
-      }
-    );}
+    console.log("events: ", this.state.events);
 
-    console.log("serverData: ", this.state['serverData']);
     // javascript code here
     var listComp = null
     var showButton = <button class="showEventButton" onClick={this.displayAllEvents}>show all events</button>
-    const { currentIndex, galleryItems, responsive, showList} = this.state
+    const { currentIndex, events, responsive, showList} = this.state
     if (showList){
       listComp = this.eventList()
       showButton = <button class="collapseEventButton" onClick={this.displayAllEvents}>collapse list</button>
@@ -135,7 +105,7 @@ class HomePage extends Component {
             </div>
           <div class="Column_center">
             <AliceCarousel
-              items={galleryItems}
+              items={this.eventList()}
               slideToIndex={currentIndex}
               responsive={responsive}
               buttonsDisabled={false}
