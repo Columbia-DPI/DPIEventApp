@@ -10,7 +10,7 @@ import '../style.css'
 class HomePage extends Component {
 
   state = {
-    serverData: "haha",
+    serverData: null,
     currentIndex: 0,
     itemsInSlide: 1,
     showList: false,
@@ -38,9 +38,9 @@ class HomePage extends Component {
       return response.json();
     }).then(function(data){
       //console.log(data);
-      console.log("Fetched: "+JSON.stringify(data));
-      that.setState({serverData:data.response});
-      console.log("serverData"+that.state.serverData);
+      //console.log("Fetched: "+JSON.stringify(data));
+      that.setState({serverData:JSON.stringify(data)});
+      console.log("serverData"+that.state);
     });
   }
 
