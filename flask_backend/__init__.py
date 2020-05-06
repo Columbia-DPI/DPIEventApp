@@ -11,17 +11,20 @@ from oauthlib.oauth2 import WebApplicationClient
 from user import User
 from dotenv import load_dotenv
 """
+
 #import modules
-import './flask_backend/modules'
+#import './flask_backend/modules'
 import requests
 import os
 import sys
+sys.path.append('./modules')
+from modules import db
 import logging
-from db import Db
+#from db import Db
 #load_dotenv()
 
 # database connection
-sess_db = Db.init_db()
+sess_db = db.Db.init_db()
 
 
 flask_backend = Flask(__name__)
