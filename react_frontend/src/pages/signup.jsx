@@ -5,7 +5,7 @@ import Success from '../containers/user/success.jsx';
 import styled from 'styled-components'
 
 const PageContainer = styled.div`
-    height: 60rem;
+    height: 40rem;
     width: 100%;
     padding: 0 10rem;
     display: flex;
