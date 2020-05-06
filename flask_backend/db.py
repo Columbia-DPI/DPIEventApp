@@ -458,7 +458,8 @@ class Db:
         sql += "timestamp = '" + timestamp + "', " + "description = '" + description + "', "
         sql += "link = '" + link + "' "
         sql += "where eid = '" + str(eid) + "'"
-
+        print(sql)
+        
         try:
             cur = self.conn.cursor()
             cur.execute(sql) 
@@ -484,16 +485,17 @@ class Db:
         email = user_bio[3]
         year = user_bio[4]
 
+
         sql = "update users set name = '" + name + "', uni = '" + UNI + "', "
         sql += "school = '" + school + "', " + "email = '" + email + "', "
         sql += "year = '" + year + "' "
         sql += "where uid = '" + str(uid) + "'"
+        print(sql)
 
         try:
             cur = self.conn.cursor()
             cur.execute(sql) 
             self.conn.commit()
-            print(cur)
             print("Successfully edited bio of user" + str(uid))
             cur.close()
         except Exception as e:

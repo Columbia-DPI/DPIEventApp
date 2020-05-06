@@ -18,19 +18,20 @@
         who_likes(self, eid) WORKS
 
         recommend_for_user(self, uid) WORKS
-    get_user_bio(self, uid)
+        get_user_bio(self, uid) WORKS
 
-    edit_event(self, eid)
-    edit_bio(self, uid)
+        edit_event(self, eid) WORKS
+        edit_bio(self, uid) WORKS
 
-    my_events(self, uid)
+        y_events(self, uid) WORKS
     delete_event(self, uid)
+    delete_tag_all(self, tid, tag)
         my_likes(self, uid) WORKS
-    unlike_event(self, uid, eid)
+        unlike_event(self, uid, eid) WORKS
         my_interests(self, uid) WORKS
-    uninterest_tags(self, uid, tids)
+        uninterest_tags(self, uid, tids) WORKS
         get_event_tags(self, eid) WORKS
-    remove_tags(self, eid, tids)
+        remove_tags(self, eid, tids) WORKS
 
         
 """
@@ -59,7 +60,7 @@ for user in users:
 # TEST insert_event 
 # sample event string input
 # {"title":" ", "location": " ", "timestamp": "2020-04-01 00:00:00", "description":" ", "link":" "}
-e1 = {"title":"April Fools' Party", "location": "Zoom", "timestamp": "2020-04-01 00:00:00", "description":"You are fooled!", "link":"https://aprilfools.com"}
+e1 = {"title":"April Fools Party", "location": "Zoom", "timestamp": "2020-04-01 00:00:00", "description":"You are fooled!", "link":"https://aprilfools.com"}
 e2 = {"title":"Escape the Zoom", "location": "Zoom", "timestamp": "2020-04-02 20:00:00", "description":"Escape the Zoom with your friends", "link":"https://bit.ly/zoom"}
 e3 = {"title":"Event 3", "location": "333", "timestamp": "2020-04-03 03:00:00", "description":"third test event", "link":"https://event3.com"}
 e4 = {"title":"Event 4", "location": "444", "timestamp": "2020-04-04 04:00:00", "description":"fourth test event", "link":"https://event4.com"}
@@ -233,3 +234,42 @@ print(sess_db.my_interests(3))
 res = sess_db.recommend_for_user(3)
 for r in res:
     print(r)
+
+
+
+# TEST remove_tags
+print(sess_db.get_event_tags(20))
+sess_db.remove_tags(20, [9,23])
+print(sess_db.get_event_tags(20))
+
+
+
+# TEST get_user_bio and edit_bio
+u1 = {"name": "Very Confused", "UNI":"vc1", "school":"CC", "email":"confuseduser1@columbia.edu","year":"2020"}
+sess_db.edit_bio(3,u1)
+print(sess_db.get_user_bio(3))
+
+
+
+# TEST edit_event
+e3 = {"title":"Google Workshop", "location": "Lerner", "timestamp": "2020-05-10 19:00:00", "description":"Gooooooogle", "link":"https://google.com"}
+sess_db.edit_event(12)
+print(sess_db.get_event(12))
+
+
+
+# TEST unlike_event
+# user 3 unlike event 10
+print(sess_db.who_likes(10))
+print(sess_db.my_likes(3))
+print(sess_db.unlike_event(3, 10))
+print(sess_db.who_likes(10))
+print(sess_db.my_likes(3))  
+
+
+# TEST uninterest_tags
+print(sess_db.my_interests(4)) # [2, 16, 9, 12, 15]
+sess_db.uninterest_tags(4, [2,16])
+print(sess_db.my_interests(4)) # [9, 12, 15]
+
+
