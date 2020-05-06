@@ -1,7 +1,7 @@
 """ all functions:
 [create event]
-        insert_event(self, event, organizer) WORKS
-        select_event(self, tags) WORKS
+            insert_event(self, event, organizer) WORKS
+            select_event(self, tags) WORKS
         eid_by_likes(self) WORKS
         get_event(self, eid) WORKS
         
@@ -10,14 +10,14 @@
         get_tid(self, tag_name) WORKS
         tags_by_freq(self) WORKS
 
-        insert_user(self, bio) WORKS
-        interest_tag(self, uid, tids) WORKS
+            insert_user(self, bio) WORKS
+            interest_tag(self, uid, tids) WORKS
 
         like_event(self, uid, eid) WORKS       
         num_likes(self, eid) WORKS
         who_likes(self, eid) WORKS
 
-        recommend_for_user(self, uid) WORKS
+            recommend_for_user(self, uid) WORKS
         get_user_bio(self, uid) WORKS
 
         edit_event(self, eid) WORKS

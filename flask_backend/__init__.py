@@ -58,6 +58,22 @@ def coalitionSearch():
     #return {"response": list(map(lambda x:x.serialize(), res_dict))}
 
 
+
+@flask_backend.route("/api/getUserBio/<int:uid>", methods=['POST'])
+def get_bio(uid):
+    # TO DO
+    data = request.get_json(force=True)
+    result = sess_db.get_user_bio(uid)
+    # parse as dictionary
+    final_result = []
+    return{"response": final_result}
+
+
+
+
+
+
+
 # Begin page-serve routes
 @flask_backend.route("/")
 @flask_backend.route("/login")
