@@ -61,18 +61,24 @@ class PersonalDetails extends Component{
                     label='Gender'
                     options={genderoptions}
                     placeholder='Gender'
+                    defaultValue={values.gender}
+                    onChange={this.props.handleDropdown('gender')}
                   />
+
                   <Form.Field
                     control={Select}
                     label='Year'
                     options={yearoptions}
-                    placeholder='School Year'
+                    placeholder='Year'
+                    defaultValue={values.schoolyear}
+                    onChange={this.props.handleDropdown('schoolyear')}
                   />
                   <Form.Field
                     control={Select}
-                    label='College'
+                    label='School'
                     options={collegeoptions}
-                    placeholder='College'
+                    placeholder={values.school}
+                    onChange={this.props.handleDropdown('school')}
                   />
                 </Form.Group>
                 <Button size='small' onClick={this.saveAndContinue}>Save And Continue </Button>
