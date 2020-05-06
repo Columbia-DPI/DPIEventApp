@@ -31,7 +31,7 @@ flask_backend.config['TEMPLATES_AUTO_RELOAD'] = True
 @flask_backend.route("/api/getAllEvents", methods=['POST'])
 def coalitionSearch():
     data = request.get_json(force=True)
-    zipcode = data['placeholder']
+    # zipcode = data['placeholder']
 
     #return jsonify({'Item 1':'chicken', 'Item 2':'steak', 'Item 3':'wegetarian for Raghav'})
 
@@ -41,7 +41,7 @@ def coalitionSearch():
 
     for res in results:
     	res_dict = {}
-    	res_dict["some_number"] = res[0][0]
+    	res_dict["eid"] = res[0][0]
     	res_dict["title"] = res[0][1]
     	res_dict["location"] = res[0][2]
     	res_dict["timestamp"] = res[0][3]
@@ -62,28 +62,13 @@ def coalitionSearch():
 @flask_backend.route("/")
 @flask_backend.route("/login")
 @flask_backend.route("/home")
+@flask_backend.route("/profile")
 @flask_backend.route("/<path:path>")
+
+
+
 def index():
     #return "Hello World!"
-
-    # TEST select_event, get_event and eid_by_likes
-    # test1
-    print("test1:")
-    tev1 = ["party", "social", "free food", "online","stupid"]
-    res = sess_db.select_event(tev1)
-    for r in res:
-        print(r)
-    # test 3
-    print("test3:")
-    res = sess_db.select_event(["stupid"])
-    for r in res:
-        print(r)
-
-    # test 5
-    print("test5:")
-    res = sess_db.select_event([])
-    for r in res:
-        print(r)
     
     return render_template("index.html", token="dumbedeedoo")
 flask_backend.run(debug=True, use_reloader=False)
