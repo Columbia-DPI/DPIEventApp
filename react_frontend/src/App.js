@@ -5,6 +5,7 @@ import {BrowserRouter, Route} from "react-router-dom";
 import { Container } from 'semantic-ui-react';
 import HomePage from "./pages/home.jsx";
 import SignupForm from './pages/signup.jsx';
+import Profile from './pages/profile.jsx';
 import { Auth0Context } from './contexts/auth0-context';
 
 function App(){
@@ -32,6 +33,14 @@ function App(){
           path="/home"
           render={()=> (
             <HomePage />
+          )}
+        />
+
+        <Route
+          exact={true}
+          path="/profile"
+          render={()=> (
+            <Profile/>
           )}
         />
 
