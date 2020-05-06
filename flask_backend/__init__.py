@@ -24,7 +24,7 @@ from db import Db
 #load_dotenv()
 
 # database connection
-sess_db = db.Db.init_db()
+sess_db = Db.init_db()
 
 
 flask_backend = Flask(__name__)
