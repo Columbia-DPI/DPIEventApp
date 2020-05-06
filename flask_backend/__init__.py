@@ -62,6 +62,7 @@ def coalitionSearch():
 @flask_backend.route("/")
 @flask_backend.route("/login")
 @flask_backend.route("/home")
+@flask_backend.route("/profile")
 @flask_backend.route("/<path:path>")
 
 
