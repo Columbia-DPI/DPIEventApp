@@ -8,10 +8,10 @@ class SignupForm extends Component {
         step: 1,
         firstName: '',
         lastName: '',
-        schoolyear: '',
+        schoolyear: 'Year',
         school: 'School',
-        gender: '',
-        interest: ''
+        gender: 'Gender',
+        interests: {}
     }
 
     nextStep = () => {
@@ -29,7 +29,11 @@ class SignupForm extends Component {
     }
 
     handleChange = input => event => {
-        this.setState({ [input] : event.target.value })
+        if (input=='interests'){
+            console.log("interest: ", event.target)
+        } else{
+            this.setState({ [input] : event.target.value })
+        }
     }
 
     handleDropdown = input => event => {
