@@ -8,8 +8,8 @@ import styled from 'styled-components'
 
 const Home = styled(Link)`
   position: absolute;
-  top: 20px;
-  left: 20px;
+  top: 50px;
+  left: 50px;
 `
 
 class Profile extends Component {
