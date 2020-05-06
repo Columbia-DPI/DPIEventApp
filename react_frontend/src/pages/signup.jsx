@@ -2,6 +2,17 @@ import React, { Component } from 'react';
 import PersonalDetails from '../containers/user/personaldetails.jsx';
 import Interests from '../containers/user/interests.jsx';
 import Success from '../containers/user/success.jsx';
+import styled from 'styled-components'
+
+const PageContainer = styled.div`
+    height: 60rem;
+    width: 100%;
+    padding: 0 10rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+`
 
 class SignupForm extends Component {
     state = {
@@ -48,23 +59,23 @@ class SignupForm extends Component {
         // The values need to be saved to database when there is a change
         switch(step) {
         case 1:
-            return <PersonalDetails
+            return <PageContainer><PersonalDetails
                     nextStep={this.nextStep}
                     prevStep={this.prevStep}
                     handleChange = {this.handleChange}
                     handleDropdown = {this.handleDropdown}
                     values={values}
-                    />
+                    /></PageContainer>
         case 2:
-            return <Interests
+            return <PageContainer><Interests
                     nextStep={this.nextStep}
                     prevStep={this.prevStep}
                     handleChange={this.handleChange}
                     handleDropdown={this.handleDropdown}
                     values={values}
-                    />
+                    /></PageContainer>
         case 3:
-            return <Success />
+            return <PageContainer><Success /></PageContainer>
         }
     }
 }

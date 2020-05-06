@@ -6,6 +6,7 @@ import Header from '../containers/header.jsx'
 import Collection_cell from '../containers/collection_cell.jsx'
 import Collection from '../containers/collection.jsx'
 import '../style.css'
+import styled from 'styled-components'
 
 class HomePage extends Component {
 

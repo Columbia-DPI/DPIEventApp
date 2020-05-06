@@ -1,17 +1,17 @@
 {
   "files": {
     "main.css": "/static/react/css/main.456629ec.chunk.css",
-    "main.js": "/static/react/js/main.4a2085a3.chunk.js",
-    "main.js.map": "/static/react/js/main.4a2085a3.chunk.js.map",
+    "main.js": "/static/react/js/main.9a2a181e.chunk.js",
+    "main.js.map": "/static/react/js/main.9a2a181e.chunk.js.map",
     "runtime-main.js": "/static/react/js/runtime-main.ab287a6d.js",
     "runtime-main.js.map": "/static/react/js/runtime-main.ab287a6d.js.map",
     "css/2.b706bf63.chunk.css": "/static/react/css/2.b706bf63.chunk.css",
-    "js/2.e7603d83.chunk.js": "/static/react/js/2.e7603d83.chunk.js",
-    "js/2.e7603d83.chunk.js.map": "/static/react/js/2.e7603d83.chunk.js.map",
+    "js/2.538d4a13.chunk.js": "/static/react/js/2.538d4a13.chunk.js",
+    "js/2.538d4a13.chunk.js.map": "/static/react/js/2.538d4a13.chunk.js.map",
     "../../templates/index.html": "/static/react/../../templates/index.html",
     "css/2.b706bf63.chunk.css.map": "/static/react/css/2.b706bf63.chunk.css.map",
     "css/main.456629ec.chunk.css.map": "/static/react/css/main.456629ec.chunk.css.map",
-    "js/2.e7603d83.chunk.js.LICENSE.txt": "/static/react/js/2.e7603d83.chunk.js.LICENSE.txt",
+    "js/2.538d4a13.chunk.js.LICENSE.txt": "/static/react/js/2.538d4a13.chunk.js.LICENSE.txt",
     "media/img_1.jpg": "/static/react/media/img_1.d9d83728.jpg",
     "media/img_2.jpg": "/static/react/media/img_2.981d091e.jpg",
     "media/img_3.jpg": "/static/react/media/img_3.0893d01e.jpg",
@@ -19,14 +19,14 @@
     "media/img_5.jpg": "/static/react/media/img_5.d0aa4038.jpg",
     "media/img_6.jpg": "/static/react/media/img_6.33feaf22.jpg",
     "media/profile.png": "/static/react/media/profile.446cc987.png",
-    "precache-manifest.ae521bf0ca15204e33eb5ddea112251a.js": "/static/react/precache-manifest.ae521bf0ca15204e33eb5ddea112251a.js",
+    "precache-manifest.8a74a41130a59b797533c05007a958a0.js": "/static/react/precache-manifest.8a74a41130a59b797533c05007a958a0.js",
     "service-worker.js": "/static/react/service-worker.js"
   },
   "entrypoints": [
     "js/runtime-main.ab287a6d.js",
     "css/2.b706bf63.chunk.css",
-    "js/2.e7603d83.chunk.js",
+    "js/2.538d4a13.chunk.js",
     "css/main.456629ec.chunk.css",
-    "js/main.4a2085a3.chunk.js"
+    "js/main.9a2a181e.chunk.js"
   ]
 }
