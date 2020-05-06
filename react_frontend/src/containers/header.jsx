@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import '../style.css';
 import styled from 'styled-components';
 import { Auth0Context } from '../contexts/auth0-context'
+import { Button } from 'semantic-ui-react'
 
 const Container = styled.div`
   width: 100%;
@@ -20,10 +21,14 @@ class Header extends Component {
   render(){
     const logout = this.context.logout;
     return(
-      <Container>
-          <header>Name Placeholder</header>
-          <button onClick={() => this.context.logout({returnTo: window.location.origin})}>Log out</button>
-      </Container>
+      <div>
+        <div>
+          <header style={{alignContent:"center"}}>CUBrite</header>
+        </div>
+        <div style={{marginLeft:"80%"}}>
+          <Button onClick={() => this.context.logout({returnTo: window.location.origin})}>Log out</Button>
+        </div>
+      </div>
     )
   }
 }

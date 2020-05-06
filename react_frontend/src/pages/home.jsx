@@ -10,6 +10,7 @@ import '../style.css'
 class HomePage extends Component {
 
   state = {
+    serverData: null,
     currentIndex: 0,
     itemsInSlide: 1,
     showList: false,
@@ -23,7 +24,7 @@ class HomePage extends Component {
       .fill()
       .map((item, i) => <Event info = {{title:"Event name",type:"Academic",img:"img_"+(i+1)}}/>)
   }
-
+/*
   fetchResults() {
     let that = this;
     let payload = {
@@ -36,16 +37,33 @@ class HomePage extends Component {
     }).then(function(response){
       return response.json();
     }).then(function(data){
-      console.log(data);
-      console.log("Fetched: "+JSON.stringify(data));
+      //console.log(data);
+      //console.log("Fetched: "+JSON.stringify(data));
+      //return JSON.stringify(data);
       // that.setState({serverData:data.response});
-    }); 
+    });
+  }
+*/
+  fetchResults() {
+    let payload={
+      "placeholder": "nothing rn",
+    };
+    let url = "./api/getAllEvents";
+    let fetchPromise = fetch(url, {
+      method: "post",
+      body: JSON.stringify(payload)
+    });
+    let jsonPromise = fetchPromise.then(response => response.json());
 
-
+    return Promise.all([fetchPromise, jsonPromise]).then(function(data) {
+      return {
+        json: JSON.stringify(data),
+        data: data.response
+      };
+    });
   }
 
   eventList() {
-      this.fetchResults();
 
       return Array(6)
         .fill()
@@ -85,6 +103,19 @@ class HomePage extends Component {
   }
 
   render() {
+
+    // store value in serverData
+    if (this.serverData==null){
+    this.fetchResults().then(
+      data=>{
+        data=data.json;
+        this.setState({
+          serverData:data
+        });
+      }
+    );}
+
+    console.log("serverData: ", this.state['serverData']);
     // javascript code here
     var listComp = null
     var showButton = <button class="showEventButton" onClick={this.displayAllEvents}>show all events</button>
@@ -94,7 +125,7 @@ class HomePage extends Component {
       showButton = <button class="collapseEventButton" onClick={this.displayAllEvents}>collapse list</button>
     }
 
-    
+
     return (
       <div>
         <Header/>
@@ -123,7 +154,7 @@ class HomePage extends Component {
         <div>
           {listComp}
         </div>
-        
+
       </div>
     )
   }
