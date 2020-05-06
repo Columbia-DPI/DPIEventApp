@@ -3,6 +3,7 @@ import { Form, Button } from 'semantic-ui-react';
 import '../form.css';
 
 class Interests extends Component{
+
     saveAndContinue = (e) => {
         e.preventDefault();
         this.props.nextStep();
@@ -14,6 +15,7 @@ class Interests extends Component{
     }
 
     render(){
+        console.log(this.props);
         const { values } = this.props
         return(
         <Form color='blue' >

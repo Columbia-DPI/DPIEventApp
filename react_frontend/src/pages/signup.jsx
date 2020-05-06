@@ -9,7 +9,8 @@ class SignupForm extends Component {
         firstName: '',
         lastName: '',
         schoolyear: '',
-        college: '',
+        school: 'School',
+        gender: '',
         interest: ''
     }
 
@@ -31,17 +32,23 @@ class SignupForm extends Component {
         this.setState({ [input] : event.target.value })
     }
 
+    handleDropdown = input => event => {
+        console.log(event.target)
+        this.setState({ [input] : event.target.querySelector('span').innerHTML})
+    }
+
     render(){
         const {step} = this.state;
-        const { firstName, lastName, schoolyear, college, interest } = this.state;
-        const values = { firstName, lastName, schoolyear, college, interest};
+        const { firstName, lastName, schoolyear, school, gender, interest } = this.state;
+        const values = { firstName, lastName, schoolyear, school, gender, interest};
+        // The values need to be saved to database when there is a change
         switch(step) {
-
         case 1:
             return <PersonalDetails
                     nextStep={this.nextStep}
                     prevStep={this.prevStep}
                     handleChange = {this.handleChange}
+                    handleDropdown = {this.handleDropdown}
                     values={values}
                     />
         case 2:
@@ -49,6 +56,7 @@ class SignupForm extends Component {
                     nextStep={this.nextStep}
                     prevStep={this.prevStep}
                     handleChange={this.handleChange}
+                    handleDropdown={this.handleDropdown}
                     values={values}
                     />
         case 3:

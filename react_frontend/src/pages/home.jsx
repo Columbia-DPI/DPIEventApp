@@ -4,7 +4,7 @@ import 'react-alice-carousel/lib/alice-carousel.css';
 import Event from '../containers/event.jsx';
 import Header from '../containers/header.jsx'
 import Collection_cell from '../containers/collection_cell.jsx'
-import SearchDropdown from '../containers/SearchDropdown.jsx'
+import Collection from '../containers/collection.jsx'
 import '../style.css'
 
 class HomePage extends Component {
@@ -24,7 +24,7 @@ class HomePage extends Component {
       .fill()
       .map((item, i) => <Event info = {{title:"Event name",type:"Academic",img:"img_"+(i+1)}}/>)
   }
-
+/*
   fetchResults() {
     let that = this;
     let payload = {
@@ -39,18 +39,35 @@ class HomePage extends Component {
     }).then(function(data){
       //console.log(data);
       //console.log("Fetched: "+JSON.stringify(data));
-      that.setState({serverData:JSON.stringify(data)});
-      console.log("serverData"+that.state);
+      //return JSON.stringify(data);
+      // that.setState({serverData:data.response});
+    });
+  }
+*/
+  fetchResults() {
+    let payload={
+      "placeholder": "nothing rn",
+    };
+    let url = "./api/getAllEvents";
+    let fetchPromise = fetch(url, {
+      method: "post",
+      body: JSON.stringify(payload)
+    });
+    let jsonPromise = fetchPromise.then(response => response.json());
+
+    return Promise.all([fetchPromise, jsonPromise]).then(function(data) {
+      return {
+        json: JSON.stringify(data),
+        data: data.response
+      };
     });
   }
 
   eventList() {
-      this.fetchResults();
-      //console.log("serverData.length"+serverData.length+"server"+serverData);
+
       return Array(6)
         .fill()
-        .map((item, i) => <Collection_cell info = {{title:"DPI Info session",type:"Academic",img:"img_"+(i+1),
-                                            description:"This event has free food and guest speakers!"}}/>)
+        .map((item, i) => <Collection_cell info = {{title:"DPI Info session",type:"Academic",img:"img_"+(i+1),description:"This event has free food and guest speakers!"}}/>)
   }
 
   slidePrevPage = () => {
@@ -86,16 +103,28 @@ class HomePage extends Component {
   }
 
   render() {
+
+    // store value in serverData
+    if (this.serverData==null){
+    this.fetchResults().then(
+      data=>{
+        data=data.json;
+        this.setState({
+          serverData:data
+        });
+      }
+    );}
+
+    console.log("serverData: ", this.state['serverData']);
     // javascript code here
     var listComp = null
-    var filter = null
     var showButton = <button class="showEventButton" onClick={this.displayAllEvents}>show all events</button>
     const { currentIndex, galleryItems, responsive, showList} = this.state
     if (showList){
       listComp = this.eventList()
-      filter = <SearchDropdown/>
       showButton = <button class="collapseEventButton" onClick={this.displayAllEvents}>collapse list</button>
     }
+
 
     return (
       <div>
@@ -121,9 +150,6 @@ class HomePage extends Component {
         </div>
         <div>
           {showButton}
-        </div>
-        <div>
-          {filter}
         </div>
         <div>
           {listComp}

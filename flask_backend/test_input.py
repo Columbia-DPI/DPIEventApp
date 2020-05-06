@@ -1,9 +1,9 @@
 """ all functions:
+[create event]
         insert_event(self, event, organizer) WORKS
         select_event(self, tags) WORKS
         eid_by_likes(self) WORKS
         get_event(self, eid) WORKS
-        get_event_tags(self, eid) WORKS
         
         add_tags(self, tags, event) WORKS
         new_tag(self, tag_name) WORKS
@@ -12,11 +12,27 @@
 
         insert_user(self, bio) WORKS
         interest_tag(self, uid, tids) WORKS
-        like_event(self, uid, eid) WORKS
-        view_liked(self, uid) WORKS
 
+        like_event(self, uid, eid) WORKS       
         num_likes(self, eid) WORKS
         who_likes(self, eid) WORKS
+
+        recommend_for_user(self, uid) WORKS
+    get_user_bio(self, uid)
+
+    edit_event(self, eid)
+    edit_bio(self, uid)
+
+    my_events(self, uid)
+    delete_event(self, uid)
+        my_likes(self, uid) WORKS
+    unlike_event(self, uid, eid)
+        my_interests(self, uid) WORKS
+    uninterest_tags(self, uid, tids)
+        get_event_tags(self, eid) WORKS
+    remove_tags(self, eid, tids)
+
+        
 """
 
 
@@ -53,7 +69,7 @@ e7 = {"title":"Event 7", "location": "777", "timestamp": "2020-04-07 07:00:00", 
 e8 = {"title":"Event 8", "location": "888", "timestamp": "2020-04-08 08:00:00", "description":"eighth test event", "link":"https://event8.com"}
 e9 = {"title":"Event 9", "location": "999", "timestamp": "2020-04-09 09:00:00", "description":"ninth test event", "link":"https://event9.com"}
 e10 = {"title":"Event 10", "location": "101010", "timestamp": "2020-04-10 10:00:00", "description":"tenth test event", "link":"https://event10.com"}
-e11 = {"title":"Final Exam", "location": "Columbia", "timestamp": "2020-05-12 10:00:00", "description":"You passes the final", "link":"https://final.com"}
+e11 = {"title":"Final Exam", "location": "Columbia", "timestamp": "2020-05-12 10:00:00", "description":"You passed the final", "link":"https://final.com"}
 e12 = {"title":"DPI Expo", "location": "Zoom", "timestamp": "2020-05-06 20:00:00", "description":"Come and take a look", "link":"https://dpidpidpidpi.com"}
 
 evs = [e1, e2, e3, e4, e5, e6, e7, e8, e9, e10, e11, e12]
@@ -97,7 +113,7 @@ for r in res:
 
 
 # TEST select_event, get_event and eid_by_likes
- # test1
+# test1
 print("test1:")
 tev1 = ["party", "social", "free food", "online","stupid"]
 res = sess_db.select_event(tev1)
@@ -176,10 +192,10 @@ for u in range(2, 9, 1):
 
 
 
-# TEST view_liked
+# TEST my_likes
 for u in range(2, 9, 1):
     print("user " + str(u) + " likes: ")
-    res = sess_db.view_liked(u)
+    res = sess_db.my_likes(u)
     for r in res:
         print(r)
 
@@ -198,8 +214,22 @@ for e in range(10, 22, 1):
     print("event " + str(e) + " is liked by :")
     print(res)
 
+
+
 # TEST get_event_tags
 for e in range(10, 22, 1):
     res = sess_db.get_event_tags(e)
     print("event " + str(e) + " is has tags :")
     print(res)
+
+
+
+# TEST my_interests
+print(sess_db.my_interests(3))
+
+
+
+# TEST recommend_for_user
+res = sess_db.recommend_for_user(3)
+for r in res:
+    print(r)
