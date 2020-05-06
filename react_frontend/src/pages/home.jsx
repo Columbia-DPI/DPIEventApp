@@ -5,11 +5,13 @@ import Event from '../containers/event.jsx';
 import Header from '../containers/header.jsx'
 import Collection_cell from '../containers/collection_cell.jsx'
 import Collection from '../containers/collection.jsx'
+import SearchDropdown from '../containers/SearchDropdown.jsx'
 import '../style.css'
 
 class HomePage extends Component {
 
   state = {
+    serverData: "haha",
     currentIndex: 0,
     itemsInSlide: 1,
     showList: false,
@@ -36,17 +38,16 @@ class HomePage extends Component {
     }).then(function(response){
       return response.json();
     }).then(function(data){
-      console.log(data);
+      //console.log(data);
       console.log("Fetched: "+JSON.stringify(data));
-      // that.setState({serverData:data.response});
+      that.setState({serverData:data.response});
+      console.log("serverData"+that.state.serverData);
     });
-
-
   }
 
   eventList() {
       this.fetchResults();
-
+      //console.log("serverData.length"+serverData.length+"server"+serverData);
       return Array(6)
         .fill()
         .map((item, i) => <Collection_cell info = {{title:"DPI Info session",type:"Academic",img:"img_"+(i+1),description:"This event has free food and guest speakers!"}}/>)
@@ -87,10 +88,12 @@ class HomePage extends Component {
   render() {
     // javascript code here
     var listComp = null
+    var filter = null
     var showButton = <button class="showEventButton" onClick={this.displayAllEvents}>show all events</button>
     const { currentIndex, galleryItems, responsive, showList} = this.state
     if (showList){
       listComp = this.eventList()
+      filter = <SearchDropdown/>
       showButton = <button class="collapseEventButton" onClick={this.displayAllEvents}>collapse list</button>
     }
 
@@ -119,6 +122,9 @@ class HomePage extends Component {
         </div>
         <div>
           {showButton}
+        </div>
+        <div>
+          {filter}
         </div>
         <div>
           {listComp}

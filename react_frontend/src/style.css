@@ -17,7 +17,7 @@
 body {
   font-family: "Inconsolata", monosapce;
   color: #0d1e2d;
-  background-color: whitesmoke;
+  background-color: whitesmoke !important;
 }
 
 .arrow {
@@ -69,10 +69,9 @@ header{
   border-spacing: 10px; /*Optional*/
   margin-left: 10%;
   margin-right: 10%;
-  margin-top: 5px;
-  margin-bottom: 5px; 
+  margin-top: 0px;
+  margin-bottom: 0px; 
   background-color: white;
-  margin-top: 10px;
   border-bottom-style: inset;
   border-bottom-width: 4px;
 
@@ -85,11 +84,28 @@ header{
   margin-left: 20px;
 }
 
+
+.Column_left_large {
+  display: table-cell;
+  width: 30% !important; /*Optional*/
+  height: auto;
+  margin: 10px;
+  margin-left: 20px;
+}
+
 .Column_right {
   position: absolute;
   margin-top: 10px;
   display: table-cell; /*Optional*/
   margin-left: 12%;
+
+}
+
+.Column_right_large {
+  position: absolute;
+  margin-top: 10px;
+  display: table-cell; /*Optional*/
+  margin-left: 29%;
 
 }
 
@@ -139,7 +155,7 @@ header{
   margin-bottom: 5px;
   height: 30px;
   border-radius: 25px;
-  background-color: rgb(242,242,242);
+  background-color: white;
   border-style: solid;
   font-family: "Raleway", sans-serif;
   font-size: small;
