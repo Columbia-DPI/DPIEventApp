@@ -17,7 +17,7 @@ from dotenv import load_dotenv
 import requests
 import os
 import sys
-sys.path.append('./modules')
+#sys.path.append('./modules')
 #from modules import db
 import logging
 from db import Db
