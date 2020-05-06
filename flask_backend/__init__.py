@@ -92,4 +92,4 @@ def index():
     #return "Hello World!"
     
     return render_template("index.html", token="dumbedeedoo")
-flask_backend.run(debug=True, use_reloader=False)
+#flask_backend.run(debug=True, use_reloader=False)
