@@ -28,3 +28,4 @@ Werkzeug==0.16.0
 zipp==0.6.0
 gunicorn
 flask_login
+./flask_backend/modules
