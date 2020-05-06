@@ -25,7 +25,7 @@ function App(){
             } else if (!user) {
               return (<div><button onClick={loginWithRedirect}>log in</button></div>);
             } else {
-              return (<HomePage />);
+              return (<SignupForm />);
             }
           }}
         />
