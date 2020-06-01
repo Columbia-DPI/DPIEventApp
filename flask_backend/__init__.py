@@ -77,6 +77,7 @@ def get_bio(uid):
 # Begin page-serve routes
 @flask_backend.route("/")
 @flask_backend.route("/login")
+@flask_backend.route("/allevents")
 @flask_backend.route("/home")
 @flask_backend.route("/profile")
 @flask_backend.route("/<path:path>")
