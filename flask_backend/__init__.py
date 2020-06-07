@@ -56,8 +56,11 @@ def coalitionSearch():
     #return jsonify(res_dict)
     return{"response": final_res}
     #return {"response": list(map(lambda x:x.serialize(), res_dict))}
-
-
+"""
+@flask_backend.route("/api/search", method=['POST'])
+def keyword_search():
+    data=request.get_json(force=True)
+"""
 
 @flask_backend.route("/api/getUserBio/<int:uid>", methods=['POST'])
 def get_bio(uid):
@@ -85,6 +88,6 @@ def get_bio(uid):
 
 def index():
     #return "Hello World!"
-    
+
     return render_template("index.html", token="dumbedeedoo")
 flask_backend.run(debug=True, use_reloader=False)
