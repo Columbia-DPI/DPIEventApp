@@ -17,6 +17,7 @@ class HomePage extends Component {
     showList: false,
     responsive: { 0: { items: 3 } },
     galleryItems: this.galleryItems(),
+    tags:['All'],
     eventList: this.eventList(),
   }
 
@@ -25,26 +26,47 @@ class HomePage extends Component {
       .fill()
       .map((item, i) => <Event info = {{title:"Event name",type:"Academic",img:"img_"+(i+1)}}/>)
   }
-/*
-  fetchResults() {
-    let that = this;
-    let payload = {
-      "placeholder": "nothing rn",
+
+  searchEvents = (keyword) => {
+    let payload={
+      "keyword": keyword,
+      "tags": this.state.tags
+
     };
-    let uri = "./api/getAllEvents";
-    fetch(uri, {
+    let url = "./api/search";
+    fetch(url, {
       method: "post",
       body: JSON.stringify(payload)
-    }).then(function(response){
-      return response.json();
-    }).then(function(data){
-      //console.log(data);
-      //console.log("Fetched: "+JSON.stringify(data));
-      //return JSON.stringify(data);
-      // that.setState({serverData:data.response});
-    });
+    })
+      .then(response => response.json())
+      .then(res => {
+        this.setState({
+          events: res['response']
+      })})
   }
-*/
+
+  removeTag = (i) => {
+    const newTags = [...this.state.tags]
+    newTags.splice(i,1);
+    this.setState({tags:newTags});
+  }
+
+  inputKeyDown = (e) => {
+    const val = e.target.value;
+    if (e.key === 'Enter' && val) {
+      if (this.state.tags.find(tag => tag.toLowerCase() === val.toLowerCase())) {
+        return;
+      }
+      this.setState({ tags: [...this.state.tags, val]});
+      this.tagInput.value = null;
+    } else if (e.key === 'Backspace' && !val) {
+      this.removeTag(this.state.tags.length - 1);
+    }
+  }
+
+
+
+
   fetchResults() {
     let payload={
       "placeholder": "nothing rn",
@@ -105,16 +127,18 @@ class HomePage extends Component {
   render() {
     // store value in serverData
     if (this.serverData==null){
-    this.fetchResults().then(
-      data=>{
-        data=data.json;
-        this.setState({
-          serverData:data
-        });
-      }
-    );}
+      this.fetchResults().then(
+        data=>{
+          data=data.json;
+          this.setState({
+            serverData:data
+          });
+        }
+      );
+      //console.log("serverData: ", this.state['serverData']);
+    }
 
-    console.log("serverData: ", this.state['serverData']);
+
     // javascript code here
     var listComp = null
     var showButton = <button class="showEventButton" onClick={this.displayAllEvents}>show all events</button>
@@ -123,6 +147,7 @@ class HomePage extends Component {
       listComp = this.eventList()
       showButton = <button class="collapseEventButton" onClick={this.displayAllEvents}>collapse list</button>
     }
+    const tags = this.state.tags
 
 
     return (
@@ -143,6 +168,19 @@ class HomePage extends Component {
               onResized={this.handleOnSlideChange}
             />
           </div>
+
+          <div className="input-tag">
+            <ul className="input-tag__tags">
+              { tags.map((tag, i) => (
+                <li key={tag}>
+                  {tag}
+                  <button type="button" onClick={() => { this.removeTag(i); }}>+</button>
+                </li>
+              ))}
+              <li className="input-tag__tags__input"><input type="text" onKeyDown={this.inputKeyDown} ref={c => { this.tagInput = c; }} /></li>
+            </ul>
+          </div>
+
           <div class="Column_side">
             <button class="button" onClick={this.slideNextPage}><i class="i arrow right"></i></button>
           </div>
@@ -153,7 +191,6 @@ class HomePage extends Component {
         <div>
           {listComp}
         </div>
-
       </div>
     )
   }
