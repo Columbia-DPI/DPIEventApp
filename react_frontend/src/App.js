@@ -9,6 +9,7 @@ import Profile from './pages/profile.jsx';
 import { Auth0Context } from './contexts/auth0-context';
 import { Menu } from "semantic-ui-react";
 import Login from './pages/login'
+import AllEvents from './pages/allevents.jsx'
 
 function App(){
     const { user, loginWithRedirect, isLoading} = useContext(Auth0Context);
@@ -58,9 +59,10 @@ function App(){
           exact={true}
           path="/allevents"
           render={()=>(
-            <div>Hello hello hello</div>
+            <AllEvents />
           )}
         />
+
         </div>
         </BrowserRouter>
         </div>

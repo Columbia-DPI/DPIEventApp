@@ -56,11 +56,14 @@ def coalitionSearch():
     #return jsonify(res_dict)
     return{"response": final_res}
     #return {"response": list(map(lambda x:x.serialize(), res_dict))}
-"""
-@flask_backend.route("/api/search", method=['POST'])
-def keyword_search():
-    data=request.get_json(force=True)
-"""
+
+
+@flask_backend.route("/api/storeUserData", methods=['POST'])
+def store_data():
+    data = request.get_json(force=True)
+    #put data into database here
+    print(data)
+    return data
 
 @flask_backend.route("/api/getUserBio/<int:uid>", methods=['POST'])
 def get_bio(uid):
@@ -69,9 +72,9 @@ def get_bio(uid):
     result = sess_db.get_user_bio(uid)
     # parse as dictionary
     final_result = []
+
+
     return{"response": final_result}
-
-
 
 
 
@@ -80,6 +83,7 @@ def get_bio(uid):
 # Begin page-serve routes
 @flask_backend.route("/")
 @flask_backend.route("/login")
+@flask_backend.route("/allevents")
 @flask_backend.route("/home")
 @flask_backend.route("/profile")
 @flask_backend.route("/<path:path>")
