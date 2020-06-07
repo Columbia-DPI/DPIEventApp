@@ -25,6 +25,30 @@ class SignupForm extends Component {
         interests: {}
     }
 
+    sendData() {
+        let payload={
+          "firstName": this.state.firstName,
+          "lastName": this.state.lastName,
+          "schoolYear": this.state.schoolyear,
+          "school": this.state.school,
+          "gender": this.state.gender,
+          "interests": this.state.interests,
+        };
+        let url = "./api/storeUserData";
+        let fetchPromise = fetch(url, {
+          method: "post",
+          body: JSON.stringify(payload)
+        });
+        let jsonPromise = fetchPromise.then(response => response.json());
+    
+        return Promise.all([fetchPromise, jsonPromise]).then(function(data) {
+          return {
+            json: JSON.stringify(data),
+            data: data.response
+          };
+        });
+      }
+
     nextStep = () => {
         const { step } = this.state
         this.setState({
@@ -75,6 +99,7 @@ class SignupForm extends Component {
                     values={values}
                     /></PageContainer>
         case 3:
+            this.sendData()
             return <PageContainer><Success /></PageContainer>
         }
     }

@@ -32,7 +32,7 @@ flask_backend.config['TEMPLATES_AUTO_RELOAD'] = True
 def coalitionSearch():
     data = request.get_json(force=True)
     # zipcode = data['placeholder']
-
+    
     #return jsonify({'Item 1':'chicken', 'Item 2':'steak', 'Item 3':'wegetarian for Raghav'})
 
     results = sess_db.select_event(None)
@@ -58,6 +58,12 @@ def coalitionSearch():
     #return {"response": list(map(lambda x:x.serialize(), res_dict))}
 
 
+@flask_backend.route("/api/storeUserData", methods=['POST'])
+def store_data():
+    data = request.get_json(force=True)
+    #put data into database here
+    print(data)
+    return data
 
 @flask_backend.route("/api/getUserBio/<int:uid>", methods=['POST'])
 def get_bio(uid):
