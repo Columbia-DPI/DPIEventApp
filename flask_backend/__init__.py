@@ -66,9 +66,9 @@ def get_bio(uid):
     result = sess_db.get_user_bio(uid)
     # parse as dictionary
     final_result = []
+    
+
     return{"response": final_result}
-
-
 
 
 
