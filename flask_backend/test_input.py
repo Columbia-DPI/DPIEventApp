@@ -1,37 +1,40 @@
 """ all functions:
-[create event]
-        insert_event(self, event, organizer) WORKS
+[Display events]
         select_event(self, tags) WORKS
-        eid_by_likes(self) WORKS
-        get_event(self, eid) WORKS
-        
-        add_tags(self, tags, event) WORKS
-        new_tag(self, tag_name) WORKS
-        get_tid(self, tag_name) WORKS
-        tags_by_freq(self) WORKS
+            eid_by_likes(self) WORKS
+            get_event(self, eid) WORKS
+        recommend_for_user(self, uid) WORKS
 
-        insert_user(self, bio) WORKS
-        interest_tag(self, uid, tids) WORKS
-
-        like_event(self, uid, eid) WORKS       
+[One event]
         num_likes(self, eid) WORKS
         who_likes(self, eid) WORKS
 
-        recommend_for_user(self, uid) WORKS
+[Use Info]
+        insert_user(self, bio) WORKS
         get_user_bio(self, uid) WORKS
-
-        edit_event(self, eid) WORKS
         edit_bio(self, uid) WORKS
 
-        y_events(self, uid) WORKS
-    delete_event(self, uid)
-    delete_tag_all(self, tid, tag)
-        my_likes(self, uid) WORKS
-        unlike_event(self, uid, eid) WORKS
-        my_interests(self, uid) WORKS
-        uninterest_tags(self, uid, tids) WORKS
+[Manage events]
+        insert_event(self, event, organizer) WORKS
+        my_events(self, uid) WORKS
+        edit_event(self, eid) WORKS
+        add_tags(self, tags, event) WORKS
+            new_tag(self, tag_name) WORKS
+            get_tid(self, tag_name) WORKS
+            tags_by_freq(self) WORKS
+        delete_event(self, uid) WORKS
         get_event_tags(self, eid) WORKS
         remove_tags(self, eid, tids) WORKS
+            delete_tag_all(self, tid, tag) WORKS (probably not used at all) 
+        
+[User Preferences]           
+        like_event(self, uid, eid) WORKS       
+        my_likes(self, uid) WORKS
+        unlike_event(self, uid, eid) WORKS
+        interest_tag(self, uid, tids) WORKS
+        my_interests(self, uid) WORKS
+        uninterest_tags(self, uid, tids) WORKS
+        
 
         
 """

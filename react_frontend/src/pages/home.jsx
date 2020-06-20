@@ -9,7 +9,6 @@ import styled from 'styled-components'
 import '../style.css'
 import { Button } from "semantic-ui-react";
 
-
 const responsiveCarousel = {
   superLargeDesktop: {
     breakpoint: { max: 4000, min: 3000 },

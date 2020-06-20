@@ -2,17 +2,52 @@ import React, { Component } from 'react';
 import PersonalDetails from '../containers/user/personaldetails.jsx';
 import Interests from '../containers/user/interests.jsx';
 import Success from '../containers/user/success.jsx';
+import styled from 'styled-components'
+
+const PageContainer = styled.div`
+    height: 60rem;
+    width: 100%;
+    padding: 0 10rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+`
 
 class SignupForm extends Component {
     state = {
         step: 1,
         firstName: '',
         lastName: '',
-        schoolyear: '',
+        schoolyear: 'Year',
         school: 'School',
-        gender: '',
-        interest: ''
+        gender: 'Gender',
+        interests: {}
     }
+
+    sendData() {
+        let payload={
+          "firstName": this.state.firstName,
+          "lastName": this.state.lastName,
+          "schoolYear": this.state.schoolyear,
+          "school": this.state.school,
+          "gender": this.state.gender,
+          "interests": this.state.interests,
+        };
+        let url = "./api/storeUserData";
+        let fetchPromise = fetch(url, {
+          method: "post",
+          body: JSON.stringify(payload)
+        });
+        let jsonPromise = fetchPromise.then(response => response.json());
+    
+        return Promise.all([fetchPromise, jsonPromise]).then(function(data) {
+          return {
+            json: JSON.stringify(data),
+            data: data.response
+          };
+        });
+      }
 
     nextStep = () => {
         const { step } = this.state
@@ -29,7 +64,11 @@ class SignupForm extends Component {
     }
 
     handleChange = input => event => {
-        this.setState({ [input] : event.target.value })
+        if (input=='interests'){
+            console.log("interest: ", event.target)
+        } else{
+            this.setState({ [input] : event.target.value })
+        }
     }
 
     handleDropdown = input => event => {
@@ -44,23 +83,24 @@ class SignupForm extends Component {
         // The values need to be saved to database when there is a change
         switch(step) {
         case 1:
-            return <PersonalDetails
+            return <PageContainer><PersonalDetails
                     nextStep={this.nextStep}
                     prevStep={this.prevStep}
                     handleChange = {this.handleChange}
                     handleDropdown = {this.handleDropdown}
                     values={values}
-                    />
+                    /></PageContainer>
         case 2:
-            return <Interests
+            return <PageContainer><Interests
                     nextStep={this.nextStep}
                     prevStep={this.prevStep}
                     handleChange={this.handleChange}
                     handleDropdown={this.handleDropdown}
                     values={values}
-                    />
+                    /></PageContainer>
         case 3:
-            return <Success />
+            this.sendData()
+            return <PageContainer><Success /></PageContainer>
         }
     }
 }

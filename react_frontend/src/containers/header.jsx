@@ -3,6 +3,7 @@ import '../style.css';
 import styled from 'styled-components';
 import { Auth0Context } from '../contexts/auth0-context'
 import { Button } from 'semantic-ui-react'
+import { Link } from 'react-router-dom';
 
 const Container = styled.div`
   width: 100%;
@@ -25,7 +26,8 @@ class Header extends Component {
         <div>
           <header style={{alignContent:"center"}}>CUBrite</header>
         </div>
-        <div style={{marginLeft:"80%"}}>
+        <div style={{marginLeft:"77%"}}>
+          <Link to="/profile"><Button>My profile</Button></Link>
           <Button onClick={() => this.context.logout({returnTo: window.location.origin})}>Log out</Button>
         </div>
       </div>

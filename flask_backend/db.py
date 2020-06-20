@@ -1,6 +1,7 @@
 """
 TO DO:
-    - Deal with modify/delete requests
+
+!! TEST search by key
     - Improve error handling, do not exit on all errors
     - How to store image files?
     - Add archive function based on timestamp, only show future events
@@ -54,32 +55,61 @@ class Db:
         return eid
 
 
-    # select_event: select event by tag name
-    # list of tag names
+    # select_event: select event by tag/key name
+    # list of tag/key names
     # return list of event information
-    def select_event(self, tags):
+    def select_event(self, tagkeys):
 
         res = []
 
-        if (tags == None or len(tags) == 0):
+        if (tagkeys == None or len(tagkeys) == 0):
             e_num = self.eid_by_likes()
             res = [self.get_event(e[0]) for e in e_num]
 
         else:
-            sql = "select distinct event_tag.eid, count(*) as num from (event_tag join tags on event_tag.tid = tags.tid and ("
+            sql_tag = "select distinct event_tag.eid, count(*) as num from (event_tag join tags on event_tag.tid = tags.tid and ("
 
-            # sql = "select distinct event_tag.eid from (event_tag join tags on event_tag.tid = tags.tid) where "
-            for tag in tags:
-                sql += "tags.tag = '" + tag + "' or "
+            keys = []
+            for tk in tagkeys:
+                if self.get_tid(tk) == -1: # not a tag
+                    keys.append(tk)
+                else: # is a tag
+                    sql += "tags.tag = '" + tag + "' or "
 
-            sql = sql[:-4]
-            sql += ")) left join likes on event_tag.eid = likes.eid group by event_tag.eid order by num desc"
+            sql_tag = sql[:-4]
+            sql_tag += ")) left join likes on event_tag.eid = likes.eid group by event_tag.eid order by num desc"
             # print(sql)
+
+            sql_key_title = "select distinct eid from events where title like '%" + key + "%'"
+            sql_key_desc = "select distinct eid from events where description like '%" + key + "%'"
+            
             try:
                 cur = self.conn.cursor()
-                cur.execute(sql)    
-                res = [self.get_event(int(row[0])) for row in cur]
+                cur.execute(sql_tag)    
+                # the result of this query should be a list of (eids, freq)
+                eid_tag = [int(row[0]) for row in cur]
+        
+                cur2 = self.conn.cursor()
+                cur2.execute(sql_key_title)
+                eid_key = [int(row[0]) for row in cur2]
+                if len(eid_tag)+len(eid_key) < 15:
+                    cur3 = self.conn.cursor()
+                    cur3.execute(sql_key_desc)
+                    for row in cur3:
+                        r = int(row[0])
+                        if r not in eid_key:
+                            eid_key.append(r)
+                    cur3.close()
+
+                eids = []
+                for eid in eid_tag:
+                    if eid in eid_key:
+                        eids.append(eid)
+
+                res = [self.get_event(i) for i in eids]
+
                 cur.close()
+                cur2.close()
 
             except Exception as e:
                 print("failed to select events by tags: " + str(e))

@@ -58,9 +58,32 @@ def coalitionSearch():
     #return {"response": list(map(lambda x:x.serialize(), res_dict))}
 
 
+@flask_backend.route("/api/storeUserData", methods=['POST'])
+def store_data():
+    data = request.get_json(force=True)
+    #put data into database here
+    print(data)
+    return data
+
+@flask_backend.route("/api/getUserBio/<int:uid>", methods=['POST'])
+def get_bio(uid):
+    # TO DO
+    data = request.get_json(force=True)
+    result = sess_db.get_user_bio(uid)
+    # parse as dictionary
+    final_result = []
+
+
+    return{"response": final_result}
+
+
+
+
+
 # Begin page-serve routes
 @flask_backend.route("/")
 @flask_backend.route("/login")
+@flask_backend.route("/allevents")
 @flask_backend.route("/home")
 @flask_backend.route("/profile")
 @flask_backend.route("/<path:path>")
@@ -69,6 +92,6 @@ def coalitionSearch():
 
 def index():
     #return "Hello World!"
-    
+
     return render_template("index.html", token="dumbedeedoo")
 flask_backend.run(debug=True, use_reloader=False)

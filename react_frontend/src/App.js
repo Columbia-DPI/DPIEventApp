@@ -8,6 +8,8 @@ import SignupForm from './pages/signup.jsx';
 import Profile from './pages/profile.jsx';
 import { Auth0Context } from './contexts/auth0-context';
 import { Menu } from "semantic-ui-react";
+import Login from './pages/login'
+import AllEvents from './pages/allevents.jsx'
 
 function App(){
     const { user, loginWithRedirect, isLoading} = useContext(Auth0Context);
@@ -20,16 +22,16 @@ function App(){
           exact={true}
           path="/"
           render={()=>{
-            if (isLoading){
-              return (<div>Loading...</div>);
-            } else if (!user) {
-              return (<div><button onClick={loginWithRedirect}>log in</button></div>);
+            if (user && !isLoading){
+              return (<SignupForm />);
             } else {
-              return (<HomePage />);
+              return (<div><Login login={loginWithRedirect} isLoading={isLoading}></Login></div>);
             }
           }}
         />
-
+        
+        <Route exact path="/home" component={HomePage} />
+        
         <Route
           exact={true}
           path="/profile"
@@ -52,9 +54,10 @@ function App(){
           exact={true}
           path="/allevents"
           render={()=>(
-            <div>Hello hello hello</div>
+            <AllEvents />
           )}
         />
+
         </div>
         </BrowserRouter>
         </div>
