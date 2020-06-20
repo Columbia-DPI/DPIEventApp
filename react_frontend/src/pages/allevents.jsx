@@ -1,6 +1,4 @@
 import React, { Component } from "react";
-import AliceCarousel from 'react-alice-carousel';
-import 'react-alice-carousel/lib/alice-carousel.css';
 import Event from '../containers/event.jsx';
 import Header from '../containers/header.jsx'
 import Collection_cell from '../containers/collection_cell.jsx'

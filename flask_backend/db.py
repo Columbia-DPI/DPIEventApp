@@ -97,7 +97,7 @@ class Db:
                     cur3.execute(sql_key_desc)
                     for row in cur3:
                         r = int(row[0])
-                        if  not in eid_key:
+                        if r not in eid_key:
                             eid_key.append(r)
                     cur3.close()
 

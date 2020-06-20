@@ -29,14 +29,9 @@ function App(){
             }
           }}
         />
-        <Route
-          exact={true}
-          path="/home"
-          render={()=> (
-            <HomePage />
-          )}
-        />
-
+        
+        <Route exact path="/home" component={HomePage} />
+        
         <Route
           exact={true}
           path="/profile"
