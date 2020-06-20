@@ -1,13 +1,28 @@
 import React, { Component } from "react";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
+import "react-responsive-modal/styles.css";
 import Event from '../containers/event.jsx';
 import Header from '../containers/header.jsx'
 import Collection_cell from '../containers/collection_cell.jsx'
 import Collection from '../containers/collection.jsx'
 import styled from 'styled-components'
 import '../style.css'
-import { Button } from "semantic-ui-react";
+import Popup from '../containers/Popup.jsx'
+import { Modal } from "react-responsive-modal";
+
+const EventContainer = styled.div`
+  height: 100%;
+  width: 100%;
+  border: solid black 0.2rem;
+  display: block;
+`
+
+const PopupContainer = styled.div`
+  height: 60rem;
+  width: 800px;
+  padding: 10px;
+`
 
 const responsiveCarousel = {
   superLargeDesktop: {
@@ -39,18 +54,33 @@ class HomePage extends Component {
     super(props);
     this.state = {
       serverData: null,
-      events: []
+      events: [],
+      event_carousel_num: 12,
+      popup_index: -1,
+      open: false
     }
 
     this.fetchAllEvents = this.fetchAllEvents.bind(this)
     this.eventList = this.eventList.bind(this)
+    this.togglePopup = this.togglePopup.bind(this)
+    this.onClosePopup = this.onClosePopup.bind(this)
   }
 
   componentDidMount(){
     this.fetchAllEvents()
   }
 
-  
+  componentDidUpdate(){
+    console.log(this.state.popup_index)
+  }
+
+  togglePopup(event_index){
+    this.setState({
+      popup_index: event_index,
+      open: true
+    })
+  }
+
   fetchAllEvents() {
     let payload={
       "placeholder": "nothing rn",
@@ -63,27 +93,33 @@ class HomePage extends Component {
       .then(response => response.json())
       .then(res => {
         this.setState({
-          events: res['response']
+          events: res['response'],
+          event_carousel_num: res['response'].length < 12 ? res['response'].length : 12
       })})
   }
 
   eventList(type) {
-      if (type == "all"){
-          return this.state.events
-          .map((item, i) => <Collection_cell info = {{title: item['title'],
-                                                      type: "Academic",
-                                                      img: item['link'],
-                                                      description: item['description'], 
-                                                      timestamp: item['timestamp']}}/>)
-      }
-      return this.state.events
-        .map((item, i) => <Event info = {{title: item['title'],
+    if (type == "all"){
+        return this.state.events
+        .map((item, i) => <Collection_cell info = {{title: item['title'],
                                                     type: "Academic",
                                                     img: item['link'],
-                                                    description: item['description'],
+                                                    description: item['description'], 
                                                     timestamp: item['timestamp']}}/>)
+    }
+    return this.state.events
+      .map((item, i) => <Event info = {{title: item['title'],
+                                                  type: "Academic",
+                                                  img: item['link'],
+                                                  description: item['description'],
+                                                  timestamp: item['timestamp']}}/>)
   }
 
+  onClosePopup(){
+    this.setState({
+      open: false
+    })
+  }
   render() {
     return (
       <div>
@@ -98,18 +134,26 @@ class HomePage extends Component {
                     itemClass="carousel-item-padding-40-px">
             {this.state.events.map((item, i) => {
               return(
-                <div key={"div" + i}>
-                  <Event info = {{title: item['title'],
-                                                    type: "Academic",
-                                                    img: item['link'],
-                                                    description: item['description'],
-                                                    timestamp: item['timestamp']}}/>
-                </div>
+                <EventContainer onClick={() => this.togglePopup(i)}>
+                     <Event info = {{title: item['title'],
+                                  type: "Academic",
+                                  img: item['link'],
+                                  description: item['description'],
+                                  timestamp: item['timestamp']}}/>
+                </EventContainer>
               )
             })}
           </Carousel>
         </CarouselContainer>
-
+        {this.state.events.map((item, i) => {
+          if (i === this.state.popup_index){
+            return (<Modal open={this.state.open} onClose = {this.onClosePopup}>
+                      <PopupContainer>
+                        <Popup index={i} event={item} />
+                      </PopupContainer>
+                    </Modal>)
+          }
+        })}
       </div>
     )
   }
