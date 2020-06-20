@@ -239,6 +239,7 @@ header{
   display: block;
   position: relative;
   overflow: hidden;
+  padding-bottom:100%;
 }
 
 .item .item-wrap:after {
