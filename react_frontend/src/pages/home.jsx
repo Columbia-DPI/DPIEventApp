@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
+import "react-responsive-modal/styles.css";
 import Event from '../containers/event.jsx';
 import Header from '../containers/header.jsx'
 import Collection_cell from '../containers/collection_cell.jsx'
@@ -15,6 +16,12 @@ const EventContainer = styled.div`
   width: 100%;
   border: solid black 0.2rem;
   display: block;
+`
+
+const PopupContainer = styled.div`
+  height: 60rem;
+  width: 800px;
+  padding: 10px;
 `
 
 const responsiveCarousel = {
@@ -49,12 +56,14 @@ class HomePage extends Component {
       serverData: null,
       events: [],
       event_carousel_num: 12,
-      popup_index: -1
+      popup_index: -1,
+      open: false
     }
 
     this.fetchAllEvents = this.fetchAllEvents.bind(this)
     this.eventList = this.eventList.bind(this)
     this.togglePopup = this.togglePopup.bind(this)
+    this.onClosePopup = this.onClosePopup.bind(this)
   }
 
   componentDidMount(){
@@ -67,7 +76,8 @@ class HomePage extends Component {
 
   togglePopup(event_index){
     this.setState({
-      popup_index: event_index
+      popup_index: event_index,
+      open: true
     })
   }
 
@@ -105,8 +115,12 @@ class HomePage extends Component {
                                                   timestamp: item['timestamp']}}/>)
   }
 
+  onClosePopup(){
+    this.setState({
+      open: false
+    })
+  }
   render() {
-    const { popup_index } = this.state
     return (
       <div>
         <Header/>
@@ -131,10 +145,15 @@ class HomePage extends Component {
             })}
           </Carousel>
         </CarouselContainer>
-
-        <Modal open={popup_index === 1} onClose = {this.togglePopup(-1)}>
-          hello again
-        </Modal>
+        {this.state.events.map((item, i) => {
+          if (i === this.state.popup_index){
+            return (<Modal open={this.state.open} onClose = {this.onClosePopup}>
+                      <PopupContainer>
+                        <Popup index={i} event={item} />
+                      </PopupContainer>
+                    </Modal>)
+          }
+        })}
       </div>
     )
   }
