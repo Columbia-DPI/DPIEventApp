@@ -61,8 +61,15 @@ def coalitionSearch():
 @flask_backend.route("/api/storeUserData", methods=['POST'])
 def store_data():
     data = request.get_json(force=True)
+
+    interests = data.pop('interests', None)
+
     #put data into database here
+    uid = sess_db.insert_user(data)
+    #sess_db.interest_tag(uid, interests)
+
     print(data)
+    print(interests)
     return data
 
 @flask_backend.route("/api/getUserBio/<int:uid>", methods=['POST'])
