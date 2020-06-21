@@ -142,13 +142,7 @@ class Db:
     def get_event(self, eid):
 
         res = []
-<<<<<<< HEAD
-        sql = """select eid, title, location, timestamp, users.name, description, link 
-                from events join users on events.organizer = users.uid where eid = '" + str(eid) + "'
-                """
-=======
-        sql = "select * from events where eid = '" + str(eid) + "'"
->>>>>>> 39aa460e9270045df4b19c895c1e0fde339f9050
+        sql = "select eid, title, location, timestamp, users.name, description, link from events join users on events.organizer = users.uid where eid = " + str(eid)
         try:
             cur = self.conn.cursor()
             cur.execute(sql) 
