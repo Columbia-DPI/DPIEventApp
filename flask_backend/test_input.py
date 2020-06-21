@@ -26,6 +26,7 @@
         get_event_tags(self, eid) WORKS
         remove_tags(self, eid, tids) WORKS
             delete_tag_all(self, tid, tag) WORKS (probably not used at all) 
+        show_all_tags(self)
         
 [User Preferences]           
         like_event(self, uid, eid) WORKS       
@@ -245,8 +246,8 @@ print(sess_db.get_event_tags(20))
 sess_db.remove_tags(20, [9,23])
 print(sess_db.get_event_tags(20))
 
-
-
+# TO DO
+# first_name, last_name, uni, school, year, gender
 # TEST get_user_bio and edit_bio
 u1 = {"name": "Very Confused", "UNI":"vc1", "school":"CC", "email":"confuseduser1@columbia.edu","year":"2020"}
 sess_db.edit_bio(3,u1)

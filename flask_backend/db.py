@@ -1,6 +1,5 @@
 """
 TO DO:
-
 !! TEST search by key
     - Improve error handling, do not exit on all errors
     - How to store image files?
@@ -143,7 +142,9 @@ class Db:
     def get_event(self, eid):
 
         res = []
-        sql = "select * from events where eid = '" + str(eid) + "'"
+        sql = """select eid, title, location, timestamp, users.name, description, link 
+                from events join users on events.organizer = users.uid where eid = '" + str(eid) + "'
+                """
         try:
             cur = self.conn.cursor()
             cur.execute(sql) 
@@ -250,7 +251,7 @@ class Db:
 
         return int(tid[0])
 
-
+# EDIT
     # insert_user: dictionary
     # need to check for valid class and school
     # return uid of user just added, returns -1 on failure
@@ -298,6 +299,26 @@ class Db:
                 return -1
 
         return count
+
+    # show all tags
+    # get from the database all tags with their tids
+    # return a list of tid, tag
+    def show_all_tags(self):
+        res = []
+        sql = "select distinct * from tags"
+
+        try:
+            cur = self.conn.cursor()
+            cur.execute(sql)    
+            res=[row[0] for row in cur]
+            cur.close()
+
+        except Exception as e:
+            print("failed to show all tags" + str(e))
+            return None
+
+        return res
+
 
 
     # like_event: a user likes an event
