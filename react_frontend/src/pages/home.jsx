@@ -128,6 +128,7 @@ class HomePage extends Component {
           <Carousel responsive={responsiveCarousel}
                     autoPlay={this.props.deviceType !== "mobile" ? true : false}
                     autoPlaySpeed={3000}
+                    infiniteLoop={true}
                     keyBoardControl={true}
                     removeArrowOnDeviceType={["tablet", "mobile"]}
                     deviceType={this.props.deviceType}
@@ -139,7 +140,8 @@ class HomePage extends Component {
                                   type: "Academic",
                                   img: item['link'],
                                   description: item['description'],
-                                  timestamp: item['timestamp']}}/>
+                                  timestamp: item['timestamp'], 
+                                  organizer: item['organizer']}}/>
                 </EventContainer>
               )
             })}

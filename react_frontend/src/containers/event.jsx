@@ -18,12 +18,13 @@ class Event extends Component {
     const type = this.props.info.type;
     const img = this.props.info.img;
     const timestamp = this.props.info.timestamp;
+    const organizer = this.props.info.organizer;
     return(
       <div class="item cultural col-sm-6 col-md-4 col-lg-4 mb-4">
             <a class="item-wrap">
               <div class="event-info">
                 <h3>{title}</h3>
-                <span>{type} <br />{timestamp}</span>
+                <span>{type} <br /> {organizer} <br /> {timestamp} <br /></span>
               </div>
               <CarouselImg src={img}/>
             </a>
