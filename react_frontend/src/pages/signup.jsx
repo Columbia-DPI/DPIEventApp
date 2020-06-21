@@ -22,7 +22,7 @@ class SignupForm extends Component {
         schoolyear: 'Year',
         school: 'School',
         gender: 'Gender',
-        interests: {}
+        interests: {'All':''}
     }
 
     sendData() {
@@ -40,7 +40,7 @@ class SignupForm extends Component {
           body: JSON.stringify(payload)
         });
         let jsonPromise = fetchPromise.then(response => response.json());
-    
+
         return Promise.all([fetchPromise, jsonPromise]).then(function(data) {
           return {
             json: JSON.stringify(data),
@@ -65,7 +65,9 @@ class SignupForm extends Component {
 
     handleChange = input => event => {
         if (input=='interests'){
-            console.log("interest: ", event.target)
+            var current = this.state.interests
+            current[event.target.name]=''
+            this.setState({[input] : current})
         } else{
             this.setState({ [input] : event.target.value })
         }
@@ -80,6 +82,7 @@ class SignupForm extends Component {
         const {step} = this.state;
         const { firstName, lastName, schoolyear, school, gender, interest } = this.state;
         const values = { firstName, lastName, schoolyear, school, gender, interest};
+        console.log(this.state.interests)
         // The values need to be saved to database when there is a change
         switch(step) {
         case 1:

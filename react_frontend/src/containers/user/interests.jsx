@@ -35,7 +35,6 @@ class Interests extends Component{
 
         var tags=['free food' , 'tech', 'professional',  'academic',  'art' , 'study break', 'social event',  'sports' , 'party', 'social ', 'online' , 'stupid' , 'resume drop' , 'finance ', 'concert ', 'choir' , 'varsity ', 'useless ', 'club meeting' , 'panel'  , 'challenge' ]
 
-        console.log(this.props);
         const { values } = this.props
         var tags_div = this.state.tags.map((tag, index)=>(
                       <div class="ui toggle checkbox" style={{height: '50px'}}>
