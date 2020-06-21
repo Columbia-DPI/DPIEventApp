@@ -134,10 +134,11 @@ class HomePage extends Component {
                     deviceType={this.props.deviceType}
                     itemClass="carousel-item-padding-40-px">
             {this.state.events.map((item, i) => {
+              const tags = item['tags'].slice(0, 3).join(", ")
               return(
                 <EventContainer onClick={() => this.togglePopup(i)}>
                      <Event info = {{title: item['title'],
-                                  type: "Academic",
+                                  type: tags,
                                   img: item['link'],
                                   description: item['description'],
                                   timestamp: item['timestamp'], 

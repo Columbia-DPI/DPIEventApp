@@ -40,19 +40,18 @@ def coalitionSearch():
     final_res = []
 
     for res in results:
-    	res_dict = {}
-    	res_dict["eid"] = res[0][0]
-    	res_dict["title"] = res[0][1]
-    	res_dict["location"] = res[0][2]
-    	res_dict["timestamp"] = res[0][3]
-    	res_dict["organizer"] = res[0][4]
-    	res_dict["description"] = res[0][5]
-    	res_dict["link"] = res[0][6]
+        res_dict = {}
+        res_dict["eid"] = res[0][0]
+        res_dict["title"] = res[0][1]
+        res_dict["location"] = res[0][2]
+        res_dict["timestamp"] = res[0][3]
+        res_dict["organizer"] = res[0][4]
+        res_dict["description"] = res[0][5]
+        res_dict["link"] = res[0][6]
+        res_dict["tags"] = [pair[1] for pair in sess_db.get_event_tags(res_dict["eid"])]
 
-    	final_res.append(res_dict)
-
-    print(results)
-    print(final_res)
+        final_res.append(res_dict)
+    
     #return jsonify(res_dict)
     return{"response": final_res}
     #return {"response": list(map(lambda x:x.serialize(), res_dict))}

@@ -51,6 +51,8 @@ export default class Popup extends Component {
                         <h1>{this.props.event['title']}</h1>
                         <h3>Organizer </h3>
                         <p>{this.props.event['organizer']}</p>
+                        <h3>Tags</h3>
+                        <p>{this.props.event['tags'].join(", ")}</p>
                         <h3>Time </h3>
                         <p>{this.props.event['timestamp']}</p>
                         <h3>Location</h3>
