@@ -9,7 +9,7 @@ class Success extends Component{
             <div>
                 <h1 className="ui centered">Success! :)</h1>
                 <Link to="/home">
-                <Button size='small' class="ui button" onClicked={()=>{window.open(`http://127.0.0.1:5000/`)}}>
+                <Button size='small' class="ui button">
                   Go check it out
                 </Button>
                 </Link>

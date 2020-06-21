@@ -45,9 +45,9 @@ def coalitionSearch():
     	res_dict["title"] = res[0][1]
     	res_dict["location"] = res[0][2]
     	res_dict["timestamp"] = res[0][3]
-    	res_dict["description"] = res[0][4]
-    	res_dict["link"] = res[0][5]
-    	res_dict["organizer"] = res[0][6]
+    	res_dict["organizer"] = res[0][4]
+    	res_dict["description"] = res[0][5]
+    	res_dict["link"] = res[0][6]
 
     	final_res.append(res_dict)
 
