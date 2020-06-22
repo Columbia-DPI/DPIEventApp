@@ -142,13 +142,9 @@ class Db:
     def get_event(self, eid):
 
         res = []
-<<<<<<< HEAD
         sql = """select eid, title, location, timestamp, users.name, description, link 
                 from events join users on events.organizer = users.uid where eid = '" + str(eid) + "'
                 """
-=======
-        sql = "select * from events where eid = '" + str(eid) + "'"
->>>>>>> 39aa460e9270045df4b19c895c1e0fde339f9050
         try:
             cur = self.conn.cursor()
             cur.execute(sql) 
@@ -265,7 +261,7 @@ class Db:
         user_bio = tuple(bio.values())
         user_str = "'" + "', '".join(user_bio) + "'"
 
-        sql = 'insert into users (name, uni, school, email, year) values (%s)' % (user_str,)
+        sql = 'insert into users (first_name, last_name, uni, school, year, gender, email) values (%s)' % (user_str,)
 
         try:
             self.conn.cursor().execute(sql, (user_bio,))
