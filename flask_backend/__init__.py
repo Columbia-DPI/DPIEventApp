@@ -70,6 +70,16 @@ def store_data():
     print(interests)
     return data
 
+@flask_backend.route("/api/getInterestTags", methods=['POST'])
+def get_interests():
+    tags = {}
+    tag_list = sess_db.tags_by_freq()
+    for tag in tag_list:
+        tags[tag[1]] = tag[0]
+
+    #tags["all"] = tuple(sess_db.tags_by_freq())
+    return tags
+
 @flask_backend.route("/api/getUserBio/<int:uid>", methods=['POST'])
 def get_bio(uid):
     # TO DO
