@@ -10,7 +10,7 @@ class AllEvents extends Component {
   state = {
     serverData: null,
     eventList: this.eventList(),
-    tags:['All']
+    tags:['tech']
   }
 
   removeTag = (i) => {
@@ -32,13 +32,12 @@ class AllEvents extends Component {
     }
   }
 
-  searchEvents = (keyword) => {
+  searchEvents_2() {
     let payload={
-      "keyword": keyword,
       "tags": this.state.tags
 
     };
-    let url = "./api/search";
+    let url = "./api/searchEvents";
     fetch(url, {
       method: "post",
       body: JSON.stringify(payload)
@@ -50,11 +49,11 @@ class AllEvents extends Component {
       })})
   }
 
-  fetchResults() {
+  searchEvents() {
     let payload={
-      "placeholder": "nothing rn",
+      "tags": this.state.tags
     };
-    let url = "./api/getAllEvents";
+    let url = "./api/searchEvents";
     let fetchPromise = fetch(url, {
       method: "post",
       body: JSON.stringify(payload)
@@ -78,7 +77,7 @@ class AllEvents extends Component {
   render() {
     // store value in serverData
     if (this.serverData==null){
-    this.fetchResults().then(
+    this.searchEvents().then(
       data=>{
         data=data.json;
         this.setState({
