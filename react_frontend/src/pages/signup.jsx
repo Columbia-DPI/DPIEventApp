@@ -31,8 +31,8 @@ class SignupForm extends Component {
           "firstName": this.state.firstName,
           "lastName": this.state.lastName,
           'uni': this.state.uni,
-          "schoolYear": this.state.schoolyear,
           "school": this.state.school,
+          "schoolYear": this.state.schoolyear,
           "gender": this.state.gender,
           "interests": this.state.interests,
         };
