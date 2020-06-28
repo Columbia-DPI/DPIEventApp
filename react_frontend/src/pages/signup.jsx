@@ -19,6 +19,7 @@ class SignupForm extends Component {
         step: 1,
         firstName: '',
         lastName: '',
+        uni: '',
         schoolyear: 'Year',
         school: 'School',
         gender: 'Gender',
@@ -29,6 +30,7 @@ class SignupForm extends Component {
         let payload={
           "firstName": this.state.firstName,
           "lastName": this.state.lastName,
+          'uni': this.state.uni,
           "schoolYear": this.state.schoolyear,
           "school": this.state.school,
           "gender": this.state.gender,
@@ -80,8 +82,8 @@ class SignupForm extends Component {
 
     render(){
         const {step} = this.state;
-        const { firstName, lastName, schoolyear, school, gender, interest } = this.state;
-        const values = { firstName, lastName, schoolyear, school, gender, interest};
+        const { firstName, lastName, uni, schoolyear, school, gender, interest } = this.state;
+        const values = { firstName, lastName, uni, schoolyear, school, gender, interest};
         console.log(this.state.interests)
         // The values need to be saved to database when there is a change
         switch(step) {

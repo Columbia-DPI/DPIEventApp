@@ -64,6 +64,14 @@ class PersonalDetails extends Component{
                       defaultValue={values.lastName}
                       />
                   </Form.Field>
+                  <Form.Field>
+                      <label>UNI</label>
+                      <input
+                      placeholder='UNI'
+                      onChange={this.props.handleChange('uni')}
+                      defaultValue={values.uni}
+                      />
+                  </Form.Field>
                 </Form.Group>
                 <Form.Group widths='equal' class='inline fields'>
                   <Form.Field
@@ -92,7 +100,7 @@ class PersonalDetails extends Component{
                   />
                 </Form.Group>
                 <Button size='small' onClick={this.saveAndContinue}>Save and Continue</Button>
-                
+
             </Form>
 
           </div>
