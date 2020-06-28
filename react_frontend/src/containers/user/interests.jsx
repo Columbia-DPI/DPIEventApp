@@ -17,9 +17,6 @@ const Title = styled.h1`
 
 class Interests extends Component{
 
-    state={
-      tags:['free food' , 'tech', 'professional',  'academic',  'art' , 'study break', 'social event',  'sports' , 'party', 'social ', 'online' , 'stupid' , 'resume drop' , 'finance ', 'concert ', 'choir' , 'varsity ', 'useless ', 'club meeting' , 'panel'  , 'challenge' ]
-    }
 
     saveAndContinue = (e) => {
         e.preventDefault();
@@ -32,11 +29,9 @@ class Interests extends Component{
     }
 
     render(){
-
-        var tags=['free food' , 'tech', 'professional',  'academic',  'art' , 'study break', 'social event',  'sports' , 'party', 'social ', 'online' , 'stupid' , 'resume drop' , 'finance ', 'concert ', 'choir' , 'varsity ', 'useless ', 'club meeting' , 'panel'  , 'challenge' ]
-
         const { values } = this.props
-        var tags_div = this.state.tags.map((tag, index)=>(
+        console.log(this.props)
+        var tags_div = this.props.values.tags.map((tag, index)=>(
                       <div class="ui toggle checkbox" style={{height: '50px'}}>
                         <input
                           type="checkbox"

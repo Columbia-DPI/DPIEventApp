@@ -23,7 +23,8 @@ class SignupForm extends Component {
         schoolyear: 'Year',
         school: 'School',
         gender: 'Gender',
-        interests: {'All':''}
+        interests: {'All':''},
+        tags:['free food' , 'tech', 'professional',  'academic',  'art' , 'study break', 'social event',  'sports' , 'party', 'social ', 'online' , 'stupid' , 'resume drop' , 'finance ', 'concert ', 'choir' , 'varsity ', 'useless ', 'club meeting' , 'panel'  , 'challenge' ]
     }
 
     sendData() {
@@ -31,8 +32,8 @@ class SignupForm extends Component {
           "firstName": this.state.firstName,
           "lastName": this.state.lastName,
           'uni': this.state.uni,
-          "schoolYear": this.state.schoolyear,
           "school": this.state.school,
+          "schoolYear": this.state.schoolyear,
           "gender": this.state.gender,
           "interests": this.state.interests,
         };
@@ -82,9 +83,9 @@ class SignupForm extends Component {
 
     render(){
         const {step} = this.state;
-        const { firstName, lastName, uni, schoolyear, school, gender, interest } = this.state;
-        const values = { firstName, lastName, uni, schoolyear, school, gender, interest};
-        console.log(this.state.interests)
+        const { firstName, lastName, uni, schoolyear, school, gender, interest, tags } = this.state;
+        const values = { firstName, lastName, uni, schoolyear, school, gender, interest, tags};
+        //console.log(this.state.interests)
         // The values need to be saved to database when there is a change
         switch(step) {
         case 1:
