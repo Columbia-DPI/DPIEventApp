@@ -96,17 +96,21 @@ def search_events():
     events = sess_db.select_event(tags)
     return events
 
-@flask_backend.route("/api/markEventAsInterested", methods=['POST'])
+@flask_backend.route("/api/postEventInterest", methods=['POST'])
 def mark_event_as_interested():
     data = request.get_json(force=True)
-    print("interested?", data.pop('interested', None))
     return {"status": "success"}
 
+@flask_backend.route("/api/checkUserInDB/<string:email>", methods=["GET"])
+def check_user_in_db(email):
+
+    return {"userInDB": sess_db.get_uid_by_email(email) != -1}
+
 # Begin page-serve routes
-@flask_backend.route("/")
+@flask_backend.route("/", defaults={'path': ''})
 @flask_backend.route("/<path:path>")
 def index(path):
     #return "Hello World!"
     return render_template("index.html", token="dumbedeedoo")
-    
+
 flask_backend.run(debug=True, use_reloader=False)

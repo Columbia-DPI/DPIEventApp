@@ -65,7 +65,7 @@ export default class Popup extends Component {
           "user_email": this.props.user_email,
           "interested": interested
         };
-        let url = "./api/markEventAsInterested";
+        let url = "./api/postEventInterest";
         fetch(url, {
           method: "post",
           body: JSON.stringify(payload)
@@ -93,7 +93,7 @@ export default class Popup extends Component {
                     <h3>Description</h3>
                     <p>{this.props.event['description']}</p>
                     <Button onClick={this.toggleInterested}>
-                        {this.state.interested ? "Uninterest" : "Interest"}
+                        {this.state.interested ? "Unlike" : "Like"}
                     </Button>
                     <EventLink>
                         <p><b>Event link: </b>{this.props.event['link']}</p>

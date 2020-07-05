@@ -698,3 +698,18 @@ class Db:
             return -1
 
         return 1
+
+    def get_uid_by_email(self, email):
+        sql = f"select uid from users where email = '{email}'"
+        try: 
+            cur = self.conn.cursor()
+            cur.execute(sql)
+            ret = cur.fetchone()
+            if ret:
+                return ret[0]
+            else:
+                print("no user associated with this email")
+                return -1
+        except Exception as e:
+            print(f"failed to query uid by email {email}")
+            return -1
