@@ -64,7 +64,7 @@ def store_data():
 
     #put data into database here
     uid = sess_db.insert_user(data)
-    #sess_db.interest_tag(uid, interests)
+    sess_db.interest_tag(uid, interests)
 
     print(data)
     print(interests)
