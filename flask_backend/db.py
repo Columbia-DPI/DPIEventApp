@@ -289,7 +289,9 @@ class Db:
         try:
             cur = self.conn.cursor()
             cur.execute(sql)    
-            res = int(cur.fetchone()[0])
+            ret = cur.fetchone()
+            if ret:
+                res = int(ret[0])
             cur.close()
 
         except Exception as e:

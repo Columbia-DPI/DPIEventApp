@@ -1,4 +1,4 @@
-import React, {useContext, Component, useImperativeHandle, useReducer} from 'react';
+import React, {useContext, useState, useEffect} from 'react';
 import './App.css';
 import {BrowserRouter, Route, Redirect} from "react-router-dom";
 import { Container } from 'semantic-ui-react';
@@ -11,11 +11,23 @@ import AllEvents from './pages/allevents.jsx'
 
 function App(){
     const { user, loginWithRedirect, isLoading} = useContext(Auth0Context);
+    const [ userInDB, setUserInDB ] = useState(false)
 
-    const checkUserInDB = async (user) => {
+    useEffect(() => {
+      if (user) {
+        checkUserInDB()
+      }
+    })
+
+    const checkUserInDB = async () => {
       let res = await fetch("./api/checkUserInDB/" + user.email, {method: "GET"})
       let json = await res.json()
-      return json['userInDB']
+      if (json){
+        setUserInDB(json['userInDB'])
+      }
+      else {
+        setUserInDB(false)
+      }
     }
 
     return (
@@ -28,7 +40,6 @@ function App(){
           path="/"
           render={()=>{
             if (user && !isLoading){
-              let userInDB = checkUserInDB(user)
               return userInDB ? 
                     (<Redirect to={{pathname: "/home"}}></Redirect>)
                     : (<SignupForm email ={user.email}/>);
