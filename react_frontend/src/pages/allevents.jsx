@@ -9,7 +9,7 @@ class AllEvents extends Component {
 
   state = {
     serverData: null,
-    eventList: this.eventList(),
+    //eventList: this.eventList(),
     tags:[]
   }
 
@@ -85,10 +85,10 @@ class AllEvents extends Component {
         });
       }
     );}
-
+    console.log("---------------------------------");
     console.log("serverData: ", this.state['serverData']);
     // javascript code here
-    var listComp = this.eventList()
+    //var listComp = this.eventList()
     const tags = this.state.tags || []
     /*
     var listComp = null
@@ -115,7 +115,7 @@ class AllEvents extends Component {
          </ul>
         </div>
         <div>
-          {listComp}
+          {tags}
         </div>
       </div>
     )
