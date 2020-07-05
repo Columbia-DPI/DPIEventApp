@@ -1,5 +1,6 @@
 import React, { Component } from "react"
 import styled from "styled-components"
+import { Button } from "semantic-ui-react"
 
 const Container = styled.div`
     height: 100%;
@@ -42,6 +43,35 @@ const EventLink = styled.div`
 `
 
 export default class Popup extends Component {
+    constructor(props){
+        super(props)
+        this.state = {
+            interested: this.props.interested ? this.props.interested : false
+        }
+        this.postEventInterest = this.postEventInterest.bind(this)
+        this.toggleInterested = this.toggleInterested.bind(this)
+    }
+
+    toggleInterested(){
+        this.postEventInterest(!this.state.interested)
+        this.setState({
+            interested: !this.state.interested
+        })
+    }
+
+    postEventInterest(interested) {
+        let payload={
+          "eid": this.props.eid,
+          "user_email": this.props.user_email,
+          "interested": interested
+        };
+        let url = "./api/markEventAsInterested";
+        fetch(url, {
+          method: "post",
+          body: JSON.stringify(payload)
+        })
+    }
+    
     render(){
         return (
             <Container>
@@ -62,9 +92,12 @@ export default class Popup extends Component {
                 <RowTwo>
                     <h3>Description</h3>
                     <p>{this.props.event['description']}</p>
+                    <Button onClick={this.toggleInterested}>
+                        {this.state.interested ? "Uninterest" : "Interest"}
+                    </Button>
                     <EventLink>
                         <p><b>Event link: </b>{this.props.event['link']}</p>
-                </EventLink>
+                    </EventLink>
                 </RowTwo>
             </Container>
         )

@@ -66,8 +66,6 @@ def store_data():
     uid = sess_db.insert_user(data)
     sess_db.interest_tag(uid, interests)
 
-    print(data)
-    print(interests)
     return data
 
 @flask_backend.route("/api/getInterestTags", methods=['POST'])
@@ -95,26 +93,20 @@ def get_bio(uid):
 def search_events():
     data = request.get_json(force=True)
     tags = data.pop('tags', None)
-    print(tags)
     events = sess_db.select_event(tags)
     return events
 
-
-
-
+@flask_backend.route("/api/markEventAsInterested", methods=['POST'])
+def mark_event_as_interested():
+    data = request.get_json(force=True)
+    print("interested?", data.pop('interested', None))
+    return {"status": "success"}
 
 # Begin page-serve routes
 @flask_backend.route("/")
-@flask_backend.route("/login")
-@flask_backend.route("/allevents")
-@flask_backend.route("/home")
-@flask_backend.route("/profile")
 @flask_backend.route("/<path:path>")
-
-
-
-def index():
+def index(path):
     #return "Hello World!"
-
     return render_template("index.html", token="dumbedeedoo")
+    
 flask_backend.run(debug=True, use_reloader=False)
