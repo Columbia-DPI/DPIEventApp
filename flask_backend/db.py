@@ -62,6 +62,8 @@ class Db:
         res = []
 
         if (tagkeys == None or len(tagkeys) == 0):
+
+            #print(self.eid_by_likes())
             e_num = self.eid_by_likes()
             res = [self.get_event(e[0]) for e in e_num]
 
@@ -142,14 +144,16 @@ class Db:
     def get_event(self, eid):
 
         res = []
-        sql = "select eid, title, location, timestamp, users.name, description, link from events join users on events.organizer = users.uid where eid = " + str(eid)
+        sql = """select eid, title, location, timestamp, users.first_name, description, link 
+                from events join users on events.organizer = users.uid where eid = '%s'
+                """ %str(eid)
         try:
             cur = self.conn.cursor()
             cur.execute(sql) 
             res.append(cur.fetchone())
             cur.close()
         except Exception as e:
-            print("failed to get event info" + str(eid) + ": " + str(e))
+            print("failed to get event info for eid = " + str(eid) + ": " + str(e))
             return None  
 
         return res
@@ -525,19 +529,21 @@ class Db:
     # edit_bio
     # input uid, new user bio
     # return tuple of fields modified
+    # bio has 6 elements: e.g. u1 = {"first_name": "Very", "last_name" :"Confused", "UNI":"vc1", "school":"CC", "year":"2020", "gender" : "Male"}
     def edit_bio(self, uid, bio):
-
         user_bio = tuple(bio.values())
-        name = user_bio[0]
-        UNI = user_bio[1]
-        school = user_bio[2]
-        email = user_bio[3]
+        first_name = user_bio[0]
+        last_name = user_bio[1]
+        UNI = user_bio[2]
+        school = user_bio[3]
         year = user_bio[4]
+        gender = user_bio[5]
 
 
-        sql = "update users set name = '" + name + "', uni = '" + UNI + "', "
-        sql += "school = '" + school + "', " + "email = '" + email + "', "
-        sql += "year = '" + year + "' "
+
+        sql = "update users set first_name = '" + first_name + "', last_name = '" + last_name +"', uni = '" + UNI + "', "
+        sql += "school = '" + school + "', "
+        sql += "year = '" + year + "', gender = '" + gender + "'"
         sql += "where uid = '" + str(uid) + "'"
         print(sql)
 
