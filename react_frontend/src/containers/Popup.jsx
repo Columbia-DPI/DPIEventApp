@@ -61,8 +61,8 @@ export default class Popup extends Component {
 
     postEventInterest(interested) {
         let payload={
-          "eid": this.props.eid,
-          "user_email": this.props.user_email,
+          "eid": this.props.event['eid'],
+          "email": this.props.email,
           "interested": interested
         };
         let url = "./api/postEventInterest";

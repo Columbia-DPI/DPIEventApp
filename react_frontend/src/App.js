@@ -38,7 +38,9 @@ function App(){
           }}
         />
         
-        <Route exact path="/home" component={HomePage} />
+        <Route exact path="/home" render={() => {
+          return (<HomePage email={user ? user.email : null} />)
+        }} />
         
         <Route
           exact={true}

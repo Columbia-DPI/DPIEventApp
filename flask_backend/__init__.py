@@ -99,12 +99,22 @@ def search_events():
 @flask_backend.route("/api/postEventInterest", methods=['POST'])
 def mark_event_as_interested():
     data = request.get_json(force=True)
+    uid = sess_db.get_uid(data.pop('email', 'null'))
+    eid = data.pop('eid', 'null')
+    if data.pop('interested', False):
+        ret = sess_db.like_event(uid, eid)
+    else:
+        ret = sess_db.unlike_event(uid, eid)
+    
+    if not ret:
+        return {"status": "failure"}
+
     return {"status": "success"}
 
 @flask_backend.route("/api/checkUserInDB/<string:email>", methods=["GET"])
 def check_user_in_db(email):
-
-    return {"userInDB": sess_db.get_uid_by_email(email) != -1}
+    ret = sess_db.get_uid(email)
+    return {"userInDB": ret and ret != -1}
 
 # Begin page-serve routes
 @flask_backend.route("/", defaults={'path': ''})
