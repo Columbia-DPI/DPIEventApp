@@ -40,7 +40,7 @@ class Db:
             cur = self.conn.cursor()
             cur.execute(sql, (event_str,))
             self.conn.commit()
-            sql2 = 'select max(eid) as latest_event from events'
+            sql2 = 'select max(eid) as latest_event from events' 
             cur2 = self.conn.cursor()
             cur2.execute(sql2)
             eid = int(cur2.fetchone()[0])
@@ -83,13 +83,13 @@ class Db:
 
             sql_key_title = "select distinct eid from events where title like '%" + key + "%'"
             sql_key_desc = "select distinct eid from events where description like '%" + key + "%'"
-
+            
             try:
                 cur = self.conn.cursor()
-                cur.execute(sql_tag)
+                cur.execute(sql_tag)    
                 # the result of this query should be a list of (eids, freq)
                 eid_tag = [int(row[0]) for row in cur]
-
+        
                 cur2 = self.conn.cursor()
                 cur2.execute(sql_key_title)
                 eid_key = [int(row[0]) for row in cur2]
@@ -123,17 +123,17 @@ class Db:
     def eid_by_likes(self):
 
         res = []
-        sql = """select events.eid, count(*) as num
-                from (events left join likes on events.eid = likes.eid)
+        sql = """select events.eid, count(*) as num 
+                from (events left join likes on events.eid = likes.eid) 
                 group by events.eid order by num desc"""
         try:
             cur = self.conn.cursor()
-            cur.execute(sql)
+            cur.execute(sql) 
             res = [row for row in cur]
             cur.close()
         except Exception as e:
             print("failed to rank eid by likes: " + str(e))
-            return None
+            return None  
 
         return res
 
@@ -144,20 +144,20 @@ class Db:
     def get_event(self, eid):
 
         res = []
-        sql = """select eid, title, location, timestamp, users.first_name, description, link
+        sql = """select eid, title, location, timestamp, users.first_name, description, link 
                 from events join users on events.organizer = users.uid where eid = '%s'
                 """ %str(eid)
         try:
             cur = self.conn.cursor()
-            cur.execute(sql)
+            cur.execute(sql) 
             res.append(cur.fetchone())
             cur.close()
         except Exception as e:
             print("failed to get event info for eid = " + str(eid) + ": " + str(e))
-            return None
+            return None  
 
         return res
-
+        
 
     # tags_by_freq: show top 20 most frequently used tags
     # no input
@@ -166,23 +166,23 @@ class Db:
     def tags_by_freq(self):
 
         res = []
-        sql = """select distinct tid, tag, freq from (
-            select distinct event_tag.tid, count(*) as freq from event_tag
-            group by event_tag.tid) as f
-            natural join tags
-            order by freq desc
+        sql = """select distinct tid, tag, freq from ( 
+            select distinct event_tag.tid, count(*) as freq from event_tag 
+            group by event_tag.tid) as f 
+            natural join tags 
+            order by freq desc 
             limit 20"""
 
         try:
             cur = self.conn.cursor()
-            cur.execute(sql)
+            cur.execute(sql)  
             res = [row for row in cur]
             cur.close()
         except Exception as e:
             print("failed to show tags by frequency: " + str(e))
             return None
 
-        return res
+        return res    
 
 
     # add_tags: add (eid, tags) into event_tag
@@ -197,7 +197,7 @@ class Db:
             if (tid == -1):
                 self.new_tag(t)
                 tid = self.get_tid(t)
-            et_str = str(eid) +", " + str(tid)
+            et_str = str(eid) +", " + str(tid) 
             sql = 'insert into event_tag values (%s)' % (et_str,)
 
             try:
@@ -209,7 +209,7 @@ class Db:
             except Exception as e:
                 print('failed to insert into event_tag :' + str(e))
                 return -1
-
+        
         return count
 
 
@@ -225,9 +225,9 @@ class Db:
             self.conn.cursor().execute(sql, (tag_str,))
             self.conn.commit()
         except Exception as e:
-            print('failed to insert into tags: ' + str(e))
+            print('failed to insert into tags: ' + str(e))   
             return -1
-
+         
         return self.get_tid(tag_name)
 
 
@@ -235,7 +235,7 @@ class Db:
     # string tag_name
     # return int tid, returns -1 on failure
     def get_tid(self, tag_name):
-
+        
         sql = "select distinct tid from tags where tag = '" + tag_name + "'"
 
         try:
@@ -249,7 +249,7 @@ class Db:
 
         except Exception as e:
             print('failed to get tid of ' + tag_name +': '+ str(e))
-
+            
 
         return int(tid[0])
 
@@ -263,12 +263,12 @@ class Db:
         user_bio = tuple(bio.values())
         user_str = "'" + "', '".join(user_bio) + "'"
 
-        sql = 'insert into users (first_name, last_name, uni, school, year, gender, email) values (%s)' % (user_str,)
+        sql = 'insert into users (first_name, last_name, uni, school, year, gender) values (%s)' % (user_str,)
 
         try:
             self.conn.cursor().execute(sql, (user_bio,))
             self.conn.commit()
-            sql2 = 'select max(uid) as latest_user from users'
+            sql2 = 'select max(uid) as latest_user from users' 
             cur2 = self.conn.cursor()
             cur2.execute(sql2)
             uid = int(cur2.fetchone()[0])
@@ -311,7 +311,7 @@ class Db:
 
         try:
             cur = self.conn.cursor()
-            cur.execute(sql)
+            cur.execute(sql)    
             res=[row[0] for row in cur]
             cur.close()
 
@@ -327,7 +327,7 @@ class Db:
     # auto-generated uid, eid
     # returns (uid, eid) on success
     def like_event(self, uid, eid):
-
+        
         # note the table has eid, uid but it does not affect the result
         like_str = str(uid) + ',' + str(eid)
         sql = 'insert into likes (uid, eid) values (%s)' % (like_str,)
@@ -352,7 +352,7 @@ class Db:
 
         try:
             cur = self.conn.cursor()
-            cur.execute(sql)
+            cur.execute(sql)    
             res=[self.get_event(int(row[0])) for row in cur]
             cur.close()
 
@@ -360,7 +360,7 @@ class Db:
             print("failed to view events liked by " + str(uid) + ": " + str(e))
             return None
 
-        return res
+        return res    
 
 
 
@@ -374,7 +374,7 @@ class Db:
 
         try:
             cur = self.conn.cursor()
-            cur.execute(sql)
+            cur.execute(sql)    
             num = int(cur.fetchone()[0])
             cur.close()
 
@@ -394,7 +394,7 @@ class Db:
 
         try:
             cur = self.conn.cursor()
-            cur.execute(sql)
+            cur.execute(sql)    
             res = [int(row[0]) for row in cur]
             cur.close()
 
@@ -404,7 +404,7 @@ class Db:
 
         return res
 
-    # RETEST THIS
+    # RETEST THIS  
     # get_event_tags: get tags of an event
     # input eid
     # return list of (tid, tag)
@@ -415,7 +415,7 @@ class Db:
 
         try:
             cur = self.conn.cursor()
-            cur.execute(sql)
+            cur.execute(sql)    
             res = [row for row in cur]
             cur.close()
 
@@ -437,7 +437,7 @@ class Db:
 
         try:
             cur = self.conn.cursor()
-            cur.execute(sql)
+            cur.execute(sql)    
             res = [int(row[0]) for row in cur]
             cur.close()
 
@@ -463,7 +463,7 @@ class Db:
 
         try:
             cur = self.conn.cursor()
-            cur.execute(sql)
+            cur.execute(sql)    
             res = [self.get_event(row[0]) for row in cur]
             cur.close()
 
@@ -484,12 +484,12 @@ class Db:
         sql = "select * from users where uid = '" + str(uid) + "'"
         try:
             cur = self.conn.cursor()
-            cur.execute(sql)
+            cur.execute(sql) 
             res.append(cur.fetchone())
             cur.close()
         except Exception as e:
             print("failed to get user bio" + str(uid) + ": " + str(e))
-            return None
+            return None  
 
         return res
 
@@ -512,10 +512,10 @@ class Db:
         sql += "link = '" + link + "' "
         sql += "where eid = '" + str(eid) + "'"
         print(sql)
-
+        
         try:
             cur = self.conn.cursor()
-            cur.execute(sql)
+            cur.execute(sql) 
             self.conn.commit()
             print("Successfully modified event " + str(eid))
         except Exception as e:
@@ -529,25 +529,27 @@ class Db:
     # edit_bio
     # input uid, new user bio
     # return tuple of fields modified
+    # bio has 6 elements: e.g. u1 = {"first_name": "Very", "last_name" :"Confused", "UNI":"vc1", "school":"CC", "year":"2020", "gender" : "Male"}
     def edit_bio(self, uid, bio):
-
         user_bio = tuple(bio.values())
-        name = user_bio[0]
-        UNI = user_bio[1]
-        school = user_bio[2]
-        email = user_bio[3]
+        first_name = user_bio[0]
+        last_name = user_bio[1]
+        UNI = user_bio[2]
+        school = user_bio[3]
         year = user_bio[4]
+        gender = user_bio[5]
 
 
-        sql = "update users set name = '" + name + "', uni = '" + UNI + "', "
-        sql += "school = '" + school + "', " + "email = '" + email + "', "
-        sql += "year = '" + year + "' "
+
+        sql = "update users set first_name = '" + first_name + "', last_name = '" + last_name +"', uni = '" + UNI + "', "
+        sql += "school = '" + school + "', "
+        sql += "year = '" + year + "', gender = '" + gender + "'"
         sql += "where uid = '" + str(uid) + "'"
         print(sql)
 
         try:
             cur = self.conn.cursor()
-            cur.execute(sql)
+            cur.execute(sql) 
             self.conn.commit()
             print("Successfully edited bio of user" + str(uid))
             cur.close()
@@ -563,13 +565,13 @@ class Db:
     # input uid
     # return list of ints eids
     def my_events(self, uid):
-
+        
         res = []
         sql = "select eid from events where organizer  = '" + str(uid) + "'"
 
         try:
             cur = self.conn.cursor()
-            cur.execute(sql)
+            cur.execute(sql)  
             res = [row[0] for row in cur]
             cur.close()
         except Exception as e:
@@ -589,7 +591,7 @@ class Db:
 
         try:
             cur = self.conn.cursor()
-            cur.execute(sql)
+            cur.execute(sql) 
             self.conn.commit()
             print("User " + str(uid) + " has successfully unliked event "+ str(eid))
             cur.close()
@@ -610,14 +612,14 @@ class Db:
 
         for t in tids:
             sql += "tid = '" + str(t) + "' or "
-
+        
         sql = sql[:-4]
         sql += ")"
         print(sql)
 
         try:
             cur = self.conn.cursor()
-            cur.execute(sql)
+            cur.execute(sql) 
             self.conn.commit()
             cur.close()
         except Exception as e:
@@ -625,7 +627,7 @@ class Db:
             return -1
 
         return 1
-
+    
 
 
     # remove_tag: remove tag from event
@@ -637,13 +639,13 @@ class Db:
 
         for t in tids:
             sql += "tid = '" + str(t) + "' or "
-
+        
         sql = sql[:-4]
         sql += ")"
 
         try:
             cur = self.conn.cursor()
-            cur.execute(sql)
+            cur.execute(sql) 
             self.conn.commit()
             print(sql)
             cur.close()
@@ -665,7 +667,7 @@ class Db:
         # affected tables: tags, event_tag, interests
         try:
             cur = self.conn.cursor()
-            cur.execute(sql)
+            cur.execute(sql) 
             self.conn.commit()
             print(sql)
             cur.close()
@@ -687,7 +689,7 @@ class Db:
         # affected tables: events, event_tag, likes
         try:
             cur = self.conn.cursor()
-            cur.execute(sql)
+            cur.execute(sql) 
             self.conn.commit()
             print(sql)
             cur.close()
