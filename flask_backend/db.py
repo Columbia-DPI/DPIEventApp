@@ -263,11 +263,7 @@ class Db:
         user_bio = tuple(bio.values())
         user_str = "'" + "', '".join(user_bio) + "'"
 
-<<<<<<< HEAD
-        sql = 'insert into users (name, uni, school, email, year) values (%s)' % (user_str,)
-=======
         sql = 'insert into users (first_name, last_name, uni, school, year, gender, email) values (%s)' % (user_str,)
->>>>>>> d74ab5b87bb25c9ef26b45435365765e52c9d3a6
 
         try:
             self.conn.cursor().execute(sql, (user_bio,))
