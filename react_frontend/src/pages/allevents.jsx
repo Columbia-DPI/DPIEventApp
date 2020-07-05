@@ -10,7 +10,7 @@ class AllEvents extends Component {
   state = {
     serverData: null,
     eventList: this.eventList(),
-    tags:['tech']
+    tags:[]
   }
 
   removeTag = (i) => {
@@ -89,7 +89,7 @@ class AllEvents extends Component {
     console.log("serverData: ", this.state['serverData']);
     // javascript code here
     var listComp = this.eventList()
-    const tags = this.state.tags
+    const tags = this.state.tags || []
     /*
     var listComp = null
     var showButton = <button class="showEventButton" onClick={this.displayAllEvents}>show all events</button>
