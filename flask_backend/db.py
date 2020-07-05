@@ -75,7 +75,7 @@ class Db:
                 if self.get_tid(tk) == -1: # not a tag
                     keys.append(tk)
                 else: # is a tag
-                    sql += "tags.tag = '" + tag + "' or "
+                    sql_tag += "tags.tag = '" + tag + "' or "
 
             sql_tag = sql[:-4]
             sql_tag += ")) left join likes on event_tag.eid = likes.eid group by event_tag.eid order by num desc"
