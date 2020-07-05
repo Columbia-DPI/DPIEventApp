@@ -263,8 +263,7 @@ class Db:
         user_bio = tuple(bio.values())
         user_str = "'" + "', '".join(user_bio) + "'"
 
-        sql = 'insert into users (first_name, last_name, uni, school, year, gender, email) values (%s)' % (user_str,)
-
+        sql = 'insert into users (first_name, last_name, uni, school, year, gender) values (%s)' % (user_str,)
         try:
             self.conn.cursor().execute(sql, (user_bio,))
             self.conn.commit()
