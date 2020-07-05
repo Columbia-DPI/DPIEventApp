@@ -263,7 +263,7 @@ class Db:
         user_bio = tuple(bio.values())
         user_str = "'" + "', '".join(user_bio) + "'"
 
-        sql = 'insert into users (first_name, last_name, uni, school, year, gender, email) values (%s)' % (user_str,)
+        sql = 'insert into users (first_name, last_name, uni, school, year, gender) values (%s)' % (user_str,)
 
         try:
             self.conn.cursor().execute(sql, (user_bio,))
@@ -529,19 +529,21 @@ class Db:
     # edit_bio
     # input uid, new user bio
     # return tuple of fields modified
+    # bio has 6 elements: e.g. u1 = {"first_name": "Very", "last_name" :"Confused", "UNI":"vc1", "school":"CC", "year":"2020", "gender" : "Male"}
     def edit_bio(self, uid, bio):
-
         user_bio = tuple(bio.values())
-        name = user_bio[0]
-        UNI = user_bio[1]
-        school = user_bio[2]
-        email = user_bio[3]
+        first_name = user_bio[0]
+        last_name = user_bio[1]
+        UNI = user_bio[2]
+        school = user_bio[3]
         year = user_bio[4]
+        gender = user_bio[5]
 
 
-        sql = "update users set name = '" + name + "', uni = '" + UNI + "', "
-        sql += "school = '" + school + "', " + "email = '" + email + "', "
-        sql += "year = '" + year + "' "
+
+        sql = "update users set first_name = '" + first_name + "', last_name = '" + last_name +"', uni = '" + UNI + "', "
+        sql += "school = '" + school + "', "
+        sql += "year = '" + year + "', gender = '" + gender + "'"
         sql += "where uid = '" + str(uid) + "'"
         print(sql)
 

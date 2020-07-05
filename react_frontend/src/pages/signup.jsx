@@ -25,12 +25,14 @@ class SignupForm extends Component {
             schoolyear: 'Year',
             school: 'School',
             gender: 'Gender',
-            interests: {'All':''},
+            interests: {},
             tags:['free food' , 'tech', 'professional',  'academic',  'art' , 'study break', 'social event',  'sports' , 'party', 'social ', 'online' , 'stupid' , 'resume drop' , 'finance ', 'concert ', 'choir' , 'varsity ', 'useless ', 'club meeting' , 'panel'  , 'challenge' ],
-            tag_dict: null
+            tag_dict: null,
+            final_tags: null
         }
     
         this.getInterests = this.getInterests.bind(this)
+        this.getTags = this.getTags.bind(this)
       }
 
     sendData() {
@@ -41,7 +43,7 @@ class SignupForm extends Component {
           "school": this.state.school,
           "schoolYear": this.state.schoolyear,
           "gender": this.state.gender,
-          "interests": this.state.interests,
+          "interests": this.state.final_tags,
         };
         let url = "./api/storeUserData";
         let fetchPromise = fetch(url, {
@@ -72,6 +74,17 @@ class SignupForm extends Component {
             this.setState({tag_dict: response})
             this.setState({tags: Object.keys(this.state.tag_dict)})
           })
+      }
+
+      getTags() {
+        var interest_tags = []
+        var interest_keys = Object.keys(this.state.interests)
+
+        for (var i = 0; i < interest_keys.length; i++){
+          interest_tags.push(this.state.tag_dict[interest_keys[i]])
+        }
+        console.log(interest_tags)
+        this.setState({final_tags: interest_tags})
       }
 
     nextStep = () => {
@@ -135,7 +148,10 @@ class SignupForm extends Component {
                     values={values}
                     /></PageContainer>
         case 3:
-            this.sendData()
+            if (this.state.final_tags === null){
+              this.getTags();
+            }
+            this.sendData();
             return <PageContainer><Success /></PageContainer>
         }
     }

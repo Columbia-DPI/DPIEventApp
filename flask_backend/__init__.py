@@ -51,7 +51,7 @@ def coalitionSearch():
         res_dict["tags"] = [pair[1] for pair in sess_db.get_event_tags(res_dict["eid"])]
 
         final_res.append(res_dict)
-    
+
     #return jsonify(res_dict)
     return{"response": final_res}
     #return {"response": list(map(lambda x:x.serialize(), res_dict))}
@@ -64,7 +64,7 @@ def store_data():
 
     #put data into database here
     uid = sess_db.insert_user(data)
-    #sess_db.interest_tag(uid, interests)
+    sess_db.interest_tag(uid, interests)
 
     print(data)
     print(interests)
@@ -90,6 +90,14 @@ def get_bio(uid):
 
 
     return{"response": final_result}
+
+@flask_backend.route("/api/searchEvents", methods=['POST'])
+def search_events():
+    data = request.get_json(force=True)
+    tags = data.pop('tags', None)
+    print(tags)
+    events = sess_db.select_event(tags)
+    return events
 
 
 
