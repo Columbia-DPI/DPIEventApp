@@ -23,7 +23,7 @@ function App(){
           path="/"
           render={()=>{
             if (user && !isLoading){
-              return (<SignupForm />);
+              return (<SignupForm email ={user.email}/>);
             } else {
               return (<div><Login login={loginWithRedirect} isLoading={isLoading}></Login></div>);
             }

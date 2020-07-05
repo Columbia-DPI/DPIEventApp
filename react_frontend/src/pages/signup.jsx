@@ -26,7 +26,7 @@ class SignupForm extends Component {
             school: 'School',
             gender: 'Gender',
             interests: {},
-            tags:['free food' , 'tech', 'professional',  'academic',  'art' , 'study break', 'social event',  'sports' , 'party', 'social ', 'online' , 'stupid' , 'resume drop' , 'finance ', 'concert ', 'choir' , 'varsity ', 'useless ', 'club meeting' , 'panel'  , 'challenge' ],
+            tags:['free food', 'tech','professional', 'academic', 'art', 'study break', 'social event', 'sports', 'party','social', 'online', 'stupid', 'resume drop', 'finance', 'concert', 'choir', 'varsity', 'useless', 'club meeting', 'panel' , 'challenge'],
             tag_dict: null,
             final_tags: null
         }
@@ -44,6 +44,7 @@ class SignupForm extends Component {
           "schoolYear": this.state.schoolyear,
           "gender": this.state.gender,
           "interests": this.state.final_tags,
+          "email": this.props.email
         };
         let url = "./api/storeUserData";
         let fetchPromise = fetch(url, {
