@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PersonalDetails from '../containers/user/personaldetails.jsx';
 import Interests from '../containers/user/interests.jsx';
 import Success from '../containers/user/success.jsx';
-import styled from 'styled-components'
+import styled, { keyframes } from 'styled-components'
 
 const PageContainer = styled.div`
     height: 60rem;
@@ -15,17 +15,23 @@ const PageContainer = styled.div`
 `
 
 class SignupForm extends Component {
-    state = {
-        step: 1,
-        firstName: '',
-        lastName: '',
-        uni: '',
-        schoolyear: 'Year',
-        school: 'School',
-        gender: 'Gender',
-        interests: {'All':''},
-        tags:['free food' , 'tech', 'professional',  'academic',  'art' , 'study break', 'social event',  'sports' , 'party', 'social ', 'online' , 'stupid' , 'resume drop' , 'finance ', 'concert ', 'choir' , 'varsity ', 'useless ', 'club meeting' , 'panel'  , 'challenge' ]
-    }
+    constructor(props){
+        super(props);
+        this.state = {
+            step: 1,
+            firstName: '',
+            lastName: '',
+            uni: '',
+            schoolyear: 'Year',
+            school: 'School',
+            gender: 'Gender',
+            interests: {'All':''},
+            tags:['free food' , 'tech', 'professional',  'academic',  'art' , 'study break', 'social event',  'sports' , 'party', 'social ', 'online' , 'stupid' , 'resume drop' , 'finance ', 'concert ', 'choir' , 'varsity ', 'useless ', 'club meeting' , 'panel'  , 'challenge' ],
+            tag_dict: null
+        }
+    
+        this.getInterests = this.getInterests.bind(this)
+      }
 
     sendData() {
         let payload={
@@ -50,6 +56,22 @@ class SignupForm extends Component {
             data: data.response
           };
         });
+      }
+
+      getInterests() {
+        let payload={
+          "Dummy": null,
+        };
+        let url = "./api/getInterestTags";
+        let fetchPromise = fetch(url, {
+          method: "post",
+          body: JSON.stringify(payload)
+        })
+        .then(response => response.json())
+        .then(response => {
+            this.setState({tag_dict: response})
+            this.setState({tags: Object.keys(this.state.tag_dict)})
+          })
       }
 
     nextStep = () => {
@@ -81,8 +103,16 @@ class SignupForm extends Component {
         this.setState({ [input] : event.target.querySelector('span').innerHTML})
     }
 
+    componentDidMount(){
+        this.getInterests()
+      }
+
     render(){
+        console.log(this.state.tag_dict)
         const {step} = this.state;
+
+        console.log(this.state.tags)
+
         const { firstName, lastName, uni, schoolyear, school, gender, interest, tags } = this.state;
         const values = { firstName, lastName, uni, schoolyear, school, gender, interest, tags};
         //console.log(this.state.interests)

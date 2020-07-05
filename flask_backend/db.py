@@ -62,6 +62,8 @@ class Db:
         res = []
 
         if (tagkeys == None or len(tagkeys) == 0):
+
+            #print(self.eid_by_likes())
             e_num = self.eid_by_likes()
             res = [self.get_event(e[0]) for e in e_num]
 
@@ -142,14 +144,16 @@ class Db:
     def get_event(self, eid):
 
         res = []
-        sql = "select eid, title, location, timestamp, users.name, description, link from events join users on events.organizer = users.uid where eid = " + str(eid)
+        sql = """select eid, title, location, timestamp, users.first_name, description, link
+                from events join users on events.organizer = users.uid where eid = '%s'
+                """ %str(eid)
         try:
             cur = self.conn.cursor()
             cur.execute(sql)
             res.append(cur.fetchone())
             cur.close()
         except Exception as e:
-            print("failed to get event info" + str(eid) + ": " + str(e))
+            print("failed to get event info for eid = " + str(eid) + ": " + str(e))
             return None
 
         return res
@@ -259,7 +263,7 @@ class Db:
         user_bio = tuple(bio.values())
         user_str = "'" + "', '".join(user_bio) + "'"
 
-        sql = 'insert into users (first_name, last_name, uni, school, year, gender) values (%s)' % (user_str,)
+        sql = 'insert into users (first_name, last_name, uni, school, year, gender, email) values (%s)' % (user_str,)
 
         try:
             self.conn.cursor().execute(sql, (user_bio,))
