@@ -116,6 +116,15 @@ def check_user_in_db(email):
     ret = sess_db.get_uid(email)
     return {"userInDB": ret and ret != -1}
 
+@flask_backend.route("/api/doILike", methods=["GET", "POST"])
+def doILike():
+    data = request.get_json(force=True)
+    uid = sess_db.get_uid(data.pop('email', 'null'))
+    ret = sess_db.do_i_like(uid, data.pop('eid', 'null'))
+    if ret == None:
+        return {}
+    return {"doILike": ret}
+
 # Begin page-serve routes
 @flask_backend.route("/", defaults={'path': ''})
 @flask_backend.route("/<path:path>")

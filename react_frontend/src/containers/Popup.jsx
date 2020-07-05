@@ -46,12 +46,25 @@ export default class Popup extends Component {
     constructor(props){
         super(props)
         this.state = {
-            interested: this.props.interested ? this.props.interested : false
+            interested: false
         }
         this.postEventInterest = this.postEventInterest.bind(this)
         this.toggleInterested = this.toggleInterested.bind(this)
     }
 
+    componentDidMount(){
+        this.doILike()
+    }
+
+    doILike(){
+        fetch("./api/doILike", {
+            method: "post",
+            body: JSON.stringify({email: this.props.email, eid: this.props.event['eid']})
+        }).then(res => res.json())
+          .then(res => {this.setState({
+              interested: res ? res['doILike'] : false
+          })})
+    }
     toggleInterested(){
         this.postEventInterest(!this.state.interested)
         this.setState({
