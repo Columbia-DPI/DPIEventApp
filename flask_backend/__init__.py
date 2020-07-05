@@ -29,7 +29,7 @@ logging.basicConfig(level=logging.DEBUG)
 flask_backend.config['TEMPLATES_AUTO_RELOAD'] = True
 
 @flask_backend.route("/api/getAllEvents", methods=['POST'])
-def eventList():
+def coalitionSearch():
     data = request.get_json(force=True)
     # zipcode = data['placeholder']
 
