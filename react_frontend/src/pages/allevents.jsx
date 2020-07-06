@@ -36,24 +36,6 @@ class AllEvents extends Component {
     }
   }
 
-  searchEvents() {
-    let payload={
-      "tags": this.state.tags
-    };
-    let url = "./api/searchEvents";
-    let fetchPromise = fetch(url, {
-      method: "post",
-      body: JSON.stringify(payload)
-    });
-    let jsonPromise = fetchPromise.then(response => response.json());
-
-    return Promise.all([fetchPromise, jsonPromise]).then(function(data) {
-      return {
-        json: JSON.stringify(data),
-        data: data.response
-      };
-    });
-  }
 
   getEvents() {
     let payload={
@@ -85,17 +67,6 @@ class AllEvents extends Component {
 
     var listComp = this.state.eventList
     const tags = this.state.tags || []
-    console.log("listComp",listComp)
-    console.log(this.state.eventList)
-    /*
-    var listComp = null
-    var showButton = <button class="showEventButton" onClick={this.displayAllEvents}>show all events</button>
-    const { currentIndex, galleryItems, responsive, showList} = this.state
-    if (showList){
-      listComp = this.eventList()
-      showButton = <button class="collapseEventButton" onClick={this.displayAllEvents}>collapse list</button>
-    }
-    */
 
     return (
       <div>
