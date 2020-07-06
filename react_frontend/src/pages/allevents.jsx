@@ -16,7 +16,9 @@ class AllEvents extends Component {
   removeTag = (i) => {
     const newTags = [...this.state.tags]
     newTags.splice(i,1);
-    this.setState({tags:newTags});
+    this.setState({tags:newTags}, () => {
+      this.getEvents();
+    });
   }
 
   inputKeyDown = (e) => {
@@ -25,7 +27,9 @@ class AllEvents extends Component {
       if (this.state.tags.find(tag => tag.toLowerCase() === val.toLowerCase())) {
         return;
       }
-      this.setState({ tags: [...this.state.tags, val]});
+      this.setState({ tags: [...this.state.tags, val]}, () => {
+        this.getEvents();
+      });
       this.tagInput.value = null;
     } else if (e.key === 'Backspace' && !val) {
       this.removeTag(this.state.tags.length - 1);
@@ -108,7 +112,7 @@ class AllEvents extends Component {
          </ul>
         </div>
         <div>
-          {this.state.eventList.map((item, i) => <Collection_cell info = {{title:item['title'],type:"Academic",img:"img_"+(i+1),description:"This event has free food and guest speakers!"}}/>)}
+          {this.state.eventList.map((item, i) => <Collection_cell info = {{title:item['title'],type:item['tags'].join(", "),img:item['link'],description:item['description']}}/>)}
         </div>
       </div>
     )

@@ -89,7 +89,7 @@ def get_bio(uid):
 
     return{"response": final_result}
 
-@flask_backend.route("/api/searchEvents", methods=['POST'])
+@flask_backend.route("/api/searchEvents", methods=['GET','POST'])
 def search_events():
     data = request.get_json(force=True)
     tags = data.pop('tags', None)
