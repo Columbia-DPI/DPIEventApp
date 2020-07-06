@@ -9,7 +9,7 @@ class AllEvents extends Component {
 
   state = {
     serverData: null,
-    //eventList: this.eventList(),
+    eventList: [],
     tags:[]
   }
 
@@ -32,23 +32,6 @@ class AllEvents extends Component {
     }
   }
 
-  searchEvents_2() {
-    let payload={
-      "tags": this.state.tags
-
-    };
-    let url = "./api/searchEvents";
-    fetch(url, {
-      method: "post",
-      body: JSON.stringify(payload)
-    })
-      .then(response => response.json())
-      .then(res => {
-        this.setState({
-          events: res['response']
-      })})
-  }
-
   searchEvents() {
     let payload={
       "tags": this.state.tags
@@ -68,28 +51,38 @@ class AllEvents extends Component {
     });
   }
 
+  getEvents() {
+    let payload={
+      "tags": this.state.tags,
+    };
+    let url = "./api/searchEvents";
+    fetch(url, {
+      method: "post",
+      body: JSON.stringify(payload)
+    })
+      .then(response => response.json())
+      .then(res => {
+        this.setState({
+          eventList: res['response']
+      })})
+  }
+
   eventList() {
-      return Array(6)
-        .fill()
-        .map((item, i) => <Collection_cell info = {{title:"DPI Info session",type:"Academic",img:"img_"+(i+1),description:"This event has free food and guest speakers!"}}/>)
+      return this.state.eventList.map((item, i) => <Collection_cell info = {{title:item['title'],type:"Academic",img:"img_"+(i+1),description:"This event has free food and guest speakers!"}}/>)
+  }
+
+  componentDidMount(){
+    this.getEvents();
   }
 
   render() {
     // store value in serverData
-    if (this.serverData==null){
-    this.searchEvents().then(
-      data=>{
-        data=data.json;
-        this.setState({
-          serverData:data
-        });
-      }
-    );}
-    console.log("---------------------------------");
-    console.log("serverData: ", this.state['serverData']);
-    // javascript code here
-    //var listComp = this.eventList()
+
+
+    var listComp = this.state.eventList
     const tags = this.state.tags || []
+    console.log("listComp",listComp)
+    console.log(this.state.eventList)
     /*
     var listComp = null
     var showButton = <button class="showEventButton" onClick={this.displayAllEvents}>show all events</button>
@@ -115,7 +108,7 @@ class AllEvents extends Component {
          </ul>
         </div>
         <div>
-          {tags}
+          {this.state.eventList.map((item, i) => <Collection_cell info = {{title:item['title'],type:"Academic",img:"img_"+(i+1),description:"This event has free food and guest speakers!"}}/>)}
         </div>
       </div>
     )
