@@ -236,7 +236,7 @@ class Db:
     # return int tid, returns -1 on failure
     def get_tid(self, tag_name):
         
-        sql = "select distinct tid from tags where tag = '" + tag_name + "'"
+        sql = "select distinct tid from tags where tag = '%s'" %tag_name
 
         try:
             cur = self.conn.cursor()
@@ -253,7 +253,7 @@ class Db:
 
         return int(tid[0])
 
-# EDIT
+
     # insert_user: dictionary
     # need to check for valid class and school
     # return uid of user just added, returns -1 on failure
@@ -263,7 +263,7 @@ class Db:
         user_bio = tuple(bio.values())
         user_str = "'" + "', '".join(user_bio) + "'"
 
-        sql = 'insert into users (first_name, last_name, uni, school, year, gender) values (%s)' % (user_str,)
+        sql = 'insert into users (first_name, last_name, uni, school, year, gender, email) values (%s)' % (user_str,)
 
         try:
             self.conn.cursor().execute(sql, (user_bio,))
@@ -279,6 +279,26 @@ class Db:
 
         return uid
 
+
+    # get_uid: 
+    # use user email to query uid
+    # return -1 on error and uid on success
+    def get_uid(self, email):
+        res = -1
+        sql = "select distinct uid from users where email = '%s'" %email 
+        try:
+            cur = self.conn.cursor()
+            cur.execute(sql)    
+            ret = cur.fetchone()
+            if ret:
+                res = int(ret[0])
+            cur.close()
+
+        except Exception as e:
+            print("failed to get uid of user with email " + email + ": " + str(e))
+            return None
+
+        return res
 
     # interest_tag: mark tags as interested
     # auto-generated uid, list of ints tids
@@ -301,6 +321,7 @@ class Db:
                 return -1
 
         return count
+
 
     # show all tags
     # get from the database all tags with their tids
@@ -363,6 +384,25 @@ class Db:
         return res    
 
 
+    # do_i_like: return if user has liked an event
+    # return Ture if so, False if not
+    def do_i_like(self, uid, eid):
+        res = []
+        sql = "select distinct eid from likes where uid = '%s' and eid = '%s'" %(uid, eid)
+
+        try:
+            cur = self.conn.cursor()
+            cur.execute(sql)    
+            res = cur.fetchone()
+            cur.close()
+
+        except Exception as e:
+            print("failed to check if %s likes %s: %s" %(uid, eid, e))
+            return None
+        if res == None or len(res) == 0:
+            return False
+        return True     
+
 
     # num_likes: show the number of likes of an event
     # eid
@@ -375,7 +415,7 @@ class Db:
         try:
             cur = self.conn.cursor()
             cur.execute(sql)    
-            num = int(cur.fetchone()[0])
+            num = cur.fetchone()[0]
             cur.close()
 
         except Exception as e:
@@ -390,7 +430,7 @@ class Db:
     def who_likes(self, eid):
 
         res = []
-        sql = "select distinct uid from likes where eid = '" + str(eid) + "'"
+        sql = "select distinct uid from likes where eid = '%s'" %str(eid)
 
         try:
             cur = self.conn.cursor()
@@ -404,6 +444,7 @@ class Db:
 
         return res
 
+
     # RETEST THIS  
     # get_event_tags: get tags of an event
     # input eid
@@ -411,7 +452,7 @@ class Db:
     def get_event_tags(self, eid):
 
         res = []
-        sql = "select tags.tid, tag from tags join event_tag on event_tag.tid = tags.tid where eid = '" + str(eid) + "'"
+        sql = "select tags.tid, tag from tags join event_tag on event_tag.tid = tags.tid where eid = '%s'" %str(eid)
 
         try:
             cur = self.conn.cursor()
@@ -424,7 +465,6 @@ class Db:
             return None
 
         return res
-
 
 
     # my_interests: tags that a user is interested in
@@ -529,7 +569,7 @@ class Db:
     # edit_bio
     # input uid, new user bio
     # return tuple of fields modified
-    # bio has 6 elements: e.g. u1 = {"first_name": "Very", "last_name" :"Confused", "UNI":"vc1", "school":"CC", "year":"2020", "gender" : "Male"}
+    # bio has 7 elements: e.g. u1 = {"first_name": "Very", "last_name" :"Confused", "UNI":"vc1", "school":"CC", "year":"2020", "gender" : "Male", "email":"123@columbia.edu"}
     def edit_bio(self, uid, bio):
         user_bio = tuple(bio.values())
         first_name = user_bio[0]
@@ -538,12 +578,13 @@ class Db:
         school = user_bio[3]
         year = user_bio[4]
         gender = user_bio[5]
+        email = user_bio[6]
 
 
 
         sql = "update users set first_name = '" + first_name + "', last_name = '" + last_name +"', uni = '" + UNI + "', "
         sql += "school = '" + school + "', "
-        sql += "year = '" + year + "', gender = '" + gender + "'"
+        sql += "year = '" + year + "', gender = '" + gender + "', email = '" + email + "'"
         sql += "where uid = '" + str(uid) + "'"
         print(sql)
 

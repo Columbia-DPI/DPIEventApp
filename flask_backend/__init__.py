@@ -29,7 +29,7 @@ logging.basicConfig(level=logging.DEBUG)
 flask_backend.config['TEMPLATES_AUTO_RELOAD'] = True
 
 @flask_backend.route("/api/getAllEvents", methods=['POST'])
-def eventList():
+def coalitionSearch():
     data = request.get_json(force=True)
     # zipcode = data['placeholder']
 
@@ -66,8 +66,6 @@ def store_data():
     uid = sess_db.insert_user(data)
     sess_db.interest_tag(uid, interests)
 
-    print(data)
-    print(interests)
     return data
 
 @flask_backend.route("/api/getInterestTags", methods=['POST'])
@@ -114,22 +112,40 @@ def search_events():
     #return jsonify(res_dict)
     return{"response": final_res}
 
+@flask_backend.route("/api/postEventInterest", methods=['POST'])
+def mark_event_as_interested():
+    data = request.get_json(force=True)
+    uid = sess_db.get_uid(data.pop('email', 'null'))
+    eid = data.pop('eid', 'null')
+    if data.pop('interested', False):
+        ret = sess_db.like_event(uid, eid)
+    else:
+        ret = sess_db.unlike_event(uid, eid)
 
+    if not ret:
+        return {"status": "failure"}
 
+    return {"status": "success"}
 
+@flask_backend.route("/api/checkUserInDB/<string:email>", methods=["GET"])
+def check_user_in_db(email):
+    ret = sess_db.get_uid(email)
+    return {"userInDB": ret and ret != -1}
+
+@flask_backend.route("/api/doILike", methods=["GET", "POST"])
+def doILike():
+    data = request.get_json(force=True)
+    uid = sess_db.get_uid(data.pop('email', 'null'))
+    ret = sess_db.do_i_like(uid, data.pop('eid', 'null'))
+    if ret == None:
+        return {}
+    return {"doILike": ret}
 
 # Begin page-serve routes
-@flask_backend.route("/")
-@flask_backend.route("/login")
-@flask_backend.route("/allevents")
-@flask_backend.route("/home")
-@flask_backend.route("/profile")
+@flask_backend.route("/", defaults={'path': ''})
 @flask_backend.route("/<path:path>")
-
-
-
-def index():
+def index(path):
     #return "Hello World!"
-
     return render_template("index.html", token="dumbedeedoo")
+
 flask_backend.run(debug=True, use_reloader=False)

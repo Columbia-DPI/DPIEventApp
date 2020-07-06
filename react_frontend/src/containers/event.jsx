@@ -14,11 +14,7 @@ class Event extends Component {
     super(props);
   }
   render(){
-    const title = this.props.info.title;
-    const type = this.props.info.type;
-    const img = this.props.info.img;
-    const timestamp = this.props.info.timestamp;
-    const organizer = this.props.info.organizer;
+    const { title, type, img, timestamp, organizer } = this.props.info;
     return(
       <div class="item cultural col-sm-6 col-md-4 col-lg-4 mb-4">
             <a class="item-wrap">

@@ -1,5 +1,6 @@
 import React, { Component } from "react"
 import styled from "styled-components"
+import { Button } from "semantic-ui-react"
 
 const Container = styled.div`
     height: 100%;
@@ -42,6 +43,48 @@ const EventLink = styled.div`
 `
 
 export default class Popup extends Component {
+    constructor(props){
+        super(props)
+        this.state = {
+            interested: false
+        }
+        this.postEventInterest = this.postEventInterest.bind(this)
+        this.toggleInterested = this.toggleInterested.bind(this)
+    }
+
+    componentDidMount(){
+        this.doILike()
+    }
+
+    doILike(){
+        fetch("./api/doILike", {
+            method: "post",
+            body: JSON.stringify({email: this.props.email, eid: this.props.event['eid']})
+        }).then(res => res.json())
+          .then(res => {this.setState({
+              interested: res ? res['doILike'] : false
+          })})
+    }
+    toggleInterested(){
+        this.postEventInterest(!this.state.interested)
+        this.setState({
+            interested: !this.state.interested
+        })
+    }
+
+    postEventInterest(interested) {
+        let payload={
+          "eid": this.props.event['eid'],
+          "email": this.props.email,
+          "interested": interested
+        };
+        let url = "./api/postEventInterest";
+        fetch(url, {
+          method: "post",
+          body: JSON.stringify(payload)
+        })
+    }
+    
     render(){
         return (
             <Container>
@@ -62,9 +105,12 @@ export default class Popup extends Component {
                 <RowTwo>
                     <h3>Description</h3>
                     <p>{this.props.event['description']}</p>
+                    <Button onClick={this.toggleInterested}>
+                        {this.state.interested ? "Unlike" : "Like"}
+                    </Button>
                     <EventLink>
                         <p><b>Event link: </b>{this.props.event['link']}</p>
-                </EventLink>
+                    </EventLink>
                 </RowTwo>
             </Container>
         )

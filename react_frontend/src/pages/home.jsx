@@ -152,7 +152,7 @@ class HomePage extends Component {
           if (i === this.state.popup_index){
             return (<Modal open={this.state.open} onClose = {this.onClosePopup}>
                       <PopupContainer>
-                        <Popup index={i} event={item} />
+                        <Popup index={i} event={item} email={this.props.email}/>
                       </PopupContainer>
                     </Modal>)
           }
