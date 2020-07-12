@@ -28,7 +28,7 @@ const collegeoptions = [
   { key: 'b', text: 'Barnard', value: 'barnard'}
 ]
 
-class PersonalDetails extends Component{
+class EventDetails extends Component{
 
     saveAndContinue = (e) => {
         e.preventDefault()
@@ -102,4 +102,4 @@ class PersonalDetails extends Component{
     }
 }
 
-export default PersonalDetails;
+export default EventDetails;

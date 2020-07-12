@@ -33,23 +33,29 @@ class Db:
         eid = -1
         event_info = tuple(event.values())
         event_str = "'" + "', '".join(event_info) + "', " + str(organizer)
-        print(event_str)
-        sql = 'insert into \"events\" (title, location, timestamp, description, link, organizer) values (%s)' % (event_str,)
+
+        # NOTE: putting the on conflict clause here to prevent events with duplicate information
+        sql = 'insert into \"events\" (title, location, timestamp, description, link, organizer) values (%s)' % (event_str,) \
+                + " on conflict (title, location, organizer, description, link, timestamp) do nothing"
 
         try:
             cur = self.conn.cursor()
             cur.execute(sql, (event_str,))
             self.conn.commit()
-            sql2 = 'select max(eid) as latest_event from events'
-            cur2 = self.conn.cursor()
-            cur2.execute(sql2)
-            eid = int(cur2.fetchone()[0])
             cur.close()
-            cur2.close()
 
         except Exception as e:
             print('failed to insert: ' + str(e))
-            return -1
+            
+        # NOTE: should still query for this event regardless of the success of sql1, because it might fail because of duplicate events
+        sql2 = f"select eid from events where title = '{event['title']}' and location = '{event['location']}'" \
+                                                + f" and timestamp = '{event['timestamp']}' and description = '{event['description']}'" \
+                                                + f" and link = '{event['link']}' and organizer = '{organizer}'"
+        cur2 = self.conn.cursor()
+        cur2.execute(sql2)
+        eid = int(cur2.fetchone()[0])
+        if not eid:
+            eid = -1
 
         return eid
 
@@ -60,7 +66,6 @@ class Db:
     def select_event(self, tagkeys):
 
         res = []
-        print("tagkeys: ",tagkeys)
 
         if (tagkeys == None or len(tagkeys) == 0):
 
@@ -198,24 +203,26 @@ class Db:
 
 
     # add_tags: add (eid, tags) into event_tag
-    # list of tag names,  int eid
+    # list of tag names or tid,  int eid
     # return number of tags added, return -1 on failure
-    def add_tags(self, eid, tags):
+    # NOTE: the tid argument is a boolean indicating whether the tags argument is using names or tid
+    def add_tags(self, eid, tags, tid):
 
         count = 0
-
         for t in tags:
-            tid = self.get_tid(t)
-            if (tid == -1):
-                self.new_tag(t)
+            if tid:
+                tid = t
+            else:
                 tid = self.get_tid(t)
+                if (tid == -1):
+                    self.new_tag(t)
+                    tid = self.get_tid(t)
             et_str = str(eid) +", " + str(tid)
             sql = 'insert into event_tag values (%s)' % (et_str,)
-
+            print(sql)
             try:
                 self.conn.cursor().execute(sql, (et_str,))
                 self.conn.commit()
-                print(sql)
                 count += 1
 
             except Exception as e:

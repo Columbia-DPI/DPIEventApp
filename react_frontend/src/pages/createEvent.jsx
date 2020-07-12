@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import PersonalDetails from '../containers/create/eventdetails.jsx';
+import EventDetails from '../containers/create/eventdetails.jsx';
 import Interests from '../containers/create/interests.jsx';
 import Success from '../containers/create/success.jsx';
 import styled, { keyframes } from 'styled-components'
@@ -27,12 +27,17 @@ class CreateForm extends Component {
             interests: {},
             tags:['free food', 'tech','professional', 'academic', 'art', 'study break', 'social event', 'sports', 'party','social', 'online', 'stupid', 'resume drop', 'finance', 'concert', 'choir', 'varsity', 'useless', 'club meeting', 'panel' , 'challenge'],
             tag_dict: null,
-            final_tags: null
+            final_tags: null,
+            email: this.props.email ? this.props.email : null
         }
 
         this.getInterests = this.getInterests.bind(this)
         this.getTags = this.getTags.bind(this)
       }
+
+    handleres(res){
+      // TODO
+    }
 
     sendData() {
         let payload={
@@ -40,23 +45,16 @@ class CreateForm extends Component {
           "location": this.state.location,
           'timestamp': this.state.timestamp,
           'description': this.state.description,
-          'imagelink': this.state.imagelink,
-          "interests": this.state.final_tags,
-          "email": this.props.email
+          'link': this.state.imagelink,
+          "tags": this.state.final_tags,
+          "organizer": this.state.email
         };
-        let url = "./api/storeUserData";
+        let url = "./api/insertEvent";
         let fetchPromise = fetch(url, {
           method: "post",
           body: JSON.stringify(payload)
-        });
-        let jsonPromise = fetchPromise.then(response => response.json());
-
-        return Promise.all([fetchPromise, jsonPromise]).then(function(data) {
-          return {
-            json: JSON.stringify(data),
-            data: data.response
-          };
-        });
+        }).then(res => res.json())
+          .then(res => this.handleres(res))
       }
 
       getInterests() {
@@ -82,7 +80,6 @@ class CreateForm extends Component {
         for (var i = 0; i < interest_keys.length; i++){
           interest_tags.push(this.state.tag_dict[interest_keys[i]])
         }
-        console.log(interest_tags)
         this.setState({final_tags: interest_tags})
       }
 
@@ -111,7 +108,6 @@ class CreateForm extends Component {
     }
 
     handleDropdown = input => event => {
-        console.log(event.target)
         this.setState({ [input] : event.target.querySelector('span').innerHTML})
     }
 
@@ -120,18 +116,14 @@ class CreateForm extends Component {
       }
 
     render(){
-        console.log(this.state.tag_dict)
         const {step} = this.state;
-
-        console.log(this.state.tags)
-
         const { title, location, timestamp, description, imagelink, interest, tags } = this.state;
         const values = { title, location, timestamp, description, imagelink, interest, tags};
         //console.log(this.state.interests)
         // The values need to be saved to database when there is a change
         switch(step) {
         case 1:
-            return <PageContainer><PersonalDetails
+            return <PageContainer><EventDetails
                     nextStep={this.nextStep}
                     prevStep={this.prevStep}
                     handleChange = {this.handleChange}

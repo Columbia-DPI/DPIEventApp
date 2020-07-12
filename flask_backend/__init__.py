@@ -141,6 +141,27 @@ def doILike():
         return {}
     return {"doILike": ret}
 
+@flask_backend.route("/api/insertEvent", methods=["GET", "POST"])
+def insert_event():
+    data = request.get_json(force=True)
+    tags = data.pop('tags', None)
+
+    # if no such user, return failure
+    organizer = sess_db.get_uid(data.pop('organizer', None))
+    if not organizer or organizer == -1:
+        return {"status": "failure", "failure_cause": "user_not_exist"} 
+
+    # if insertion failed, return failure
+    eid = sess_db.insert_event(data, organizer)
+    if eid == -1:
+        return {"status": "failure", "failure_cause": "insert_failure"}
+
+    # if there are tags, insert them into event_tag
+    if tags:
+        sess_db.add_tags(eid, tags, True)
+
+    return {"status": "success"}
+
 # Begin page-serve routes
 @flask_backend.route("/", defaults={'path': ''})
 @flask_backend.route("/<path:path>")

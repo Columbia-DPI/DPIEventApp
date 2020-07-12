@@ -64,9 +64,9 @@ function App(){
 
         <Route
           exact={true}
-          path="/create"
+        path="/createEvent"
           render={()=> (
-            <CreateForm/>
+            <CreateForm email={user.email}/>
           )}
         />
 

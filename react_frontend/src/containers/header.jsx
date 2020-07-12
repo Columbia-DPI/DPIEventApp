@@ -28,7 +28,7 @@ class Header extends Component {
         </div>
         <div style={{marginLeft:"67%"}}>
           <Link to="/profile"><Button>My profile</Button></Link>
-          <Link to="/create"><Button>Create event</Button></Link>
+          <Link to="/createEvent"><Button>Create event</Button></Link>
           <Button onClick={() => this.context.logout({returnTo: window.location.origin})}>Log out</Button>
         </div>
       </div>
