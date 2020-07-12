@@ -62,9 +62,6 @@ class AllEvents extends Component {
   }
 
   render() {
-    // store value in serverData
-
-
     var listComp = this.state.eventList
     const tags = this.state.tags || []
 

@@ -6,8 +6,9 @@ import HomePage from "./pages/home.jsx";
 import SignupForm from './pages/signup.jsx';
 import Profile from './pages/profile.jsx';
 import { Auth0Context } from './contexts/auth0-context';
-import Login from './pages/login'
+import Login from './pages/login.jsx'
 import AllEvents from './pages/allevents.jsx'
+import CreateForm from './pages/createEvent.jsx'
 
 function App(){
     const { user, loginWithRedirect, isLoading} = useContext(Auth0Context);
@@ -40,7 +41,7 @@ function App(){
           path="/"
           render={()=>{
             if (user && !isLoading){
-              return userInDB ? 
+              return userInDB ?
                     (<Redirect to={{pathname: "/home"}}></Redirect>)
                     : (<SignupForm email ={user.email}/>);
             } else {
@@ -48,16 +49,24 @@ function App(){
             }
           }}
         />
-        
+
         <Route exact path="/home" render={() => {
           return (<HomePage email={user ? user.email : null} />)
         }} />
-        
+
         <Route
           exact={true}
           path="/profile"
           render={()=> (
             <Profile/>
+          )}
+        />
+
+        <Route
+          exact={true}
+          path="/create"
+          render={()=> (
+            <CreateForm/>
           )}
         />
 
