@@ -51,7 +51,7 @@ function App(){
         />
 
         <Route exact path="/home" render={() => {
-          return (<HomePage email={user ? user.email : null} />)
+          return (<HomePage email={user.email} />)  
         }} />
 
         <Route
@@ -73,11 +73,15 @@ function App(){
         <Route
           exact={true}
           path="/login"
-          render={()=> (
-            <Container textAlign='center'>
-              <SignupForm />
-            </Container>
-          )}
+          render={()=> {
+            if (user){
+              return (<Container textAlign='center'>
+                        <SignupForm email={user.email}/>
+                      </Container>)
+            } else {
+              return (<Redirect to={{pathname: "/"}}></Redirect>)
+            }
+          }}
         />
 
         <Route
