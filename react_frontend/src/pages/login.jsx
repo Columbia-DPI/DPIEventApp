@@ -7,7 +7,7 @@ const Title = styled.h1`
 `
 
 const PageContainer = styled.div`
-    height: 40rem;
+    height: 60rem;
     width: 100%;
     padding: 0 10rem;
     display: flex;

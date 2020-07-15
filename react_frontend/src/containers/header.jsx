@@ -26,8 +26,9 @@ class Header extends Component {
         <div>
           <header style={{alignContent:"center"}}>CUBrite</header>
         </div>
-        <div style={{marginLeft:"77%"}}>
+        <div style={{marginLeft:"67%"}}>
           <Link to="/profile"><Button>My profile</Button></Link>
+          <Link to="/createEvent"><Button>Create event</Button></Link>
           <Button onClick={() => this.context.logout({returnTo: window.location.origin})}>Log out</Button>
         </div>
       </div>

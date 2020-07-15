@@ -43,7 +43,7 @@ class Interests extends Component{
         return(
             <div>
                 <h1></h1>
-                <Title className="ui centered">I am interested in ... </Title>
+                <Title className="ui centered">My event is about ... </Title>
                 {tags_div}
                 <Form color='blue' >
                     <Form.Group>

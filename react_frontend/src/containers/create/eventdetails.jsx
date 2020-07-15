@@ -28,7 +28,7 @@ const collegeoptions = [
   { key: 'b', text: 'Barnard', value: 'barnard'}
 ]
 
-class PersonalDetails extends Component{
+class EventDetails extends Component{
 
     saveAndContinue = (e) => {
         e.preventDefault()
@@ -49,55 +49,49 @@ class PersonalDetails extends Component{
 
                 <Form.Group widths='equal' class='inline fields'>
                   <Form.Field>
-                      <label>First Name</label>
+                      <label>Title</label>
                       <input
-                      placeholder='First Name'
-                      onChange={this.props.handleChange('firstName')}
-                      defaultValue={values.firstName}
+                      placeholder='Title'
+                      onChange={this.props.handleChange('title')}
+                      defaultValue={values.title}
                       />
                   </Form.Field>
                   <Form.Field>
-                      <label>Last Name</label>
+                      <label>Location</label>
                       <input
-                      placeholder='Last Name'
-                      onChange={this.props.handleChange('lastName')}
-                      defaultValue={values.lastName}
+                      placeholder='Location'
+                      onChange={this.props.handleChange('location')}
+                      defaultValue={values.location}
                       />
                   </Form.Field>
                   <Form.Field>
-                      <label>UNI</label>
+                      <label>Time Stamp</label>
                       <input
-                      placeholder='UNI'
-                      onChange={this.props.handleChange('uni')}
-                      defaultValue={values.uni}
+                      placeholder='TimeStamp'
+                      onChange={this.props.handleChange('timestamp')}
+                      defaultValue={values.timestamp}
                       />
                   </Form.Field>
                 </Form.Group>
                 <Form.Group widths='equal' class='inline fields'>
-                  <Form.Field
-                    control={Select}
-                    label='Gender'
-                    options={genderoptions}
-                    placeholder='Gender'
-                    defaultValue={values.gender}
-                    onChange={this.props.handleDropdown('gender')}
-                  />
-
-                  <Form.Field
-                    control={Select}
-                    label='Year'
-                    options={yearoptions}
-                    placeholder='Year'
-                    defaultValue={values.schoolyear}
-                    onChange={this.props.handleDropdown('schoolyear')}
-                  />
-                  <Form.Field
-                    control={Select}
-                    label='School'
-                    options={collegeoptions}
-                    placeholder={values.school}
-                    onChange={this.props.handleDropdown('school')}
-                  />
+                  <Form.Field>
+                      <label>Description</label>
+                      <input
+                      placeholder='Description'
+                      onChange={this.props.handleChange('description')}
+                      defaultValue={values.description}
+                      />
+                  </Form.Field>
+                </Form.Group>
+                <Form.Group widths='equal' class='inline fields'>
+                  <Form.Field>
+                      <label>Image Link</label>
+                      <input
+                      placeholder='Image Link'
+                      onChange={this.props.handleChange('imagelink')}
+                      defaultValue={values.imagelink}
+                      />
+                  </Form.Field>
                 </Form.Group>
                 <Button size='small' onClick={this.saveAndContinue}>Save and Continue</Button>
 
@@ -108,4 +102,4 @@ class PersonalDetails extends Component{
     }
 }
 
-export default PersonalDetails;
+export default EventDetails;

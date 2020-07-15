@@ -1,17 +1,36 @@
-import React, {useContext, Component, useImperativeHandle, useReducer} from 'react';
+import React, {useContext, useState, useEffect} from 'react';
 import './App.css';
-import ReactDOM from "react-dom";
-import {BrowserRouter, Route} from "react-router-dom";
+import {BrowserRouter, Route, Redirect} from "react-router-dom";
 import { Container } from 'semantic-ui-react';
 import HomePage from "./pages/home.jsx";
 import SignupForm from './pages/signup.jsx';
 import Profile from './pages/profile.jsx';
 import { Auth0Context } from './contexts/auth0-context';
-import { Menu } from "semantic-ui-react";
-import Login from './pages/login'
+import Login from './pages/login.jsx'
+import AllEvents from './pages/allevents.jsx'
+import CreateForm from './pages/createEvent.jsx'
 
 function App(){
     const { user, loginWithRedirect, isLoading} = useContext(Auth0Context);
+    const [ userInDB, setUserInDB ] = useState(false)
+
+    useEffect(() => {
+      if (user) {
+        checkUserInDB()
+      }
+    })
+
+    const checkUserInDB = async () => {
+      let res = await fetch("./api/checkUserInDB/" + user.email, {method: "GET"})
+      let json = await res.json()
+      if (json){
+        setUserInDB(json['userInDB'])
+      }
+      else {
+        setUserInDB(false)
+      }
+    }
+
     return (
       <div>
       <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.12/semantic.min.css"/>
@@ -22,19 +41,18 @@ function App(){
           path="/"
           render={()=>{
             if (user && !isLoading){
-              return (<SignupForm />);
+              return userInDB ?
+                    (<Redirect to={{pathname: "/home"}}></Redirect>)
+                    : (<SignupForm email ={user.email}/>);
             } else {
               return (<div><Login login={loginWithRedirect} isLoading={isLoading}></Login></div>);
             }
           }}
         />
-        <Route
-          exact={true}
-          path="/home"
-          render={()=> (
-            <HomePage />
-          )}
-        />
+
+        <Route exact path="/home" render={() => {
+          return (<HomePage email={user.email} />)  
+        }} />
 
         <Route
           exact={true}
@@ -46,21 +64,34 @@ function App(){
 
         <Route
           exact={true}
-          path="/login"
+        path="/createEvent"
           render={()=> (
-            <Container textAlign='center'>
-              <SignupForm />
-            </Container>
+            <CreateForm email={user.email}/>
           )}
+        />
+
+        <Route
+          exact={true}
+          path="/login"
+          render={()=> {
+            if (user){
+              return (<Container textAlign='center'>
+                        <SignupForm email={user.email}/>
+                      </Container>)
+            } else {
+              return (<Redirect to={{pathname: "/"}}></Redirect>)
+            }
+          }}
         />
 
         <Route
           exact={true}
           path="/allevents"
           render={()=>(
-            <div>Hello hello hello</div>
+            <AllEvents />
           )}
         />
+
         </div>
         </BrowserRouter>
         </div>

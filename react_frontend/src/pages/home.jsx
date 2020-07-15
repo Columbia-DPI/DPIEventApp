@@ -1,159 +1,162 @@
 import React, { Component } from "react";
-import AliceCarousel from 'react-alice-carousel';
-import 'react-alice-carousel/lib/alice-carousel.css';
+import Carousel from "react-multi-carousel";
+import "react-multi-carousel/lib/styles.css";
+import "react-responsive-modal/styles.css";
 import Event from '../containers/event.jsx';
 import Header from '../containers/header.jsx'
 import Collection_cell from '../containers/collection_cell.jsx'
 import Collection from '../containers/collection.jsx'
-import '../style.css'
 import styled from 'styled-components'
+import '../style.css'
+import Popup from '../containers/Popup.jsx'
+import { Modal } from "react-responsive-modal";
+
+const EventContainer = styled.div`
+  height: 100%;
+  width: 100%;
+  border: solid black 0.2rem;
+  display: block;
+`
+
+const PopupContainer = styled.div`
+  height: 60rem;
+  width: 800px;
+  padding: 10px;
+`
+
+const responsiveCarousel = {
+  superLargeDesktop: {
+    breakpoint: { max: 4000, min: 3000 },
+    items: 5
+  },
+  desktop: {
+    breakpoint: { max: 3000, min: 1024 },
+    items: 3
+  },
+  tablet: {
+    breakpoint: { max: 1024, min: 464 },
+    items: 2
+  },
+  mobile: {
+    breakpoint: { max: 464, min: 0 },
+    items: 1
+  }
+}
+
+const CarouselContainer = styled.div`
+  width: 100%;
+  padding: 0 8rem;
+  margin-top: 3rem;
+`
 
 class HomePage extends Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      serverData: null,
+      events: [],
+      event_carousel_num: 12,
+      popup_index: -1,
+      open: false
+    }
 
-  state = {
-    serverData: null,
-    currentIndex: 0,
-    itemsInSlide: 1,
-    showList: false,
-    responsive: { 0: { items: 3 } },
-    galleryItems: this.galleryItems(),
-    eventList: this.eventList(),
+    this.fetchAllEvents = this.fetchAllEvents.bind(this)
+    this.eventList = this.eventList.bind(this)
+    this.togglePopup = this.togglePopup.bind(this)
+    this.onClosePopup = this.onClosePopup.bind(this)
   }
 
-  galleryItems() {
-      return Array(6)
-      .fill()
-      .map((item, i) => <Event info = {{title:"Event name",type:"Academic",img:"img_"+(i+1)}}/>)
+  componentDidMount(){
+    this.fetchAllEvents()
   }
-/*
-  fetchResults() {
-    let that = this;
-    let payload = {
-      "placeholder": "nothing rn",
-    };
-    let uri = "./api/getAllEvents";
-    fetch(uri, {
-      method: "post",
-      body: JSON.stringify(payload)
-    }).then(function(response){
-      return response.json();
-    }).then(function(data){
-      //console.log(data);
-      //console.log("Fetched: "+JSON.stringify(data));
-      //return JSON.stringify(data);
-      // that.setState({serverData:data.response});
-    });
+
+  componentDidUpdate(){
+    console.log(this.state.popup_index)
   }
-*/
-  fetchResults() {
+
+  togglePopup(event_index){
+    this.setState({
+      popup_index: event_index,
+      open: true
+    })
+  }
+
+  fetchAllEvents() {
     let payload={
       "placeholder": "nothing rn",
     };
     let url = "./api/getAllEvents";
-    let fetchPromise = fetch(url, {
+    fetch(url, {
       method: "post",
       body: JSON.stringify(payload)
-    });
-    let jsonPromise = fetchPromise.then(response => response.json());
-
-    return Promise.all([fetchPromise, jsonPromise]).then(function(data) {
-      return {
-        json: JSON.stringify(data),
-        data: data.response
-      };
-    });
-  }
-
-  eventList() {
-      return Array(6)
-        .fill()
-        .map((item, i) => <Collection_cell info = {{title:"DPI Info session",type:"Academic",img:"img_"+(i+1),description:"This event has free food and guest speakers!"}}/>)
-  }
-
-  slidePrevPage = () => {
-    const currentIndex = this.state.currentIndex - this.state.itemsInSlide
-    this.setState({ currentIndex })
-  }
-
-  slideNextPage = () => {
-    const {
-      itemsInSlide,
-      galleryItems: { length },
-    } = this.state
-    let currentIndex = this.state.currentIndex + itemsInSlide
-    if (currentIndex > length) currentIndex = length
-
-    this.setState({ currentIndex })
-  }
-
-  handleOnSlideChange = (event) => {
-    const { itemsInSlide, item } = event
-    this.setState({ itemsInSlide, currentIndex: item })
-  }
-
-  displayAllEvents = () =>{
-    const {
-      showList,
-    } = this.state
-    if (showList){
-      this.setState({showList:false})
-    } else {
-      this.setState({showList:true})
-    }
-  }
-
-  render() {
-    // store value in serverData
-    if (this.serverData==null){
-    this.fetchResults().then(
-      data=>{
-        data=data.json;
+    })
+      .then(response => response.json())
+      .then(res => {
         this.setState({
-          serverData:data
-        });
-      }
-    );}
+          events: res['response'],
+          event_carousel_num: res['response'].length < 12 ? res['response'].length : 12
+      })})
+  }
 
-    console.log("serverData: ", this.state['serverData']);
-    // javascript code here
-    var listComp = null
-    var showButton = <button class="showEventButton" onClick={this.displayAllEvents}>show all events</button>
-    const { currentIndex, galleryItems, responsive, showList} = this.state
-    if (showList){
-      listComp = this.eventList()
-      showButton = <button class="collapseEventButton" onClick={this.displayAllEvents}>collapse list</button>
+  eventList(type) {
+    if (type == "all"){
+        return this.state.events
+        .map((item, i) => <Collection_cell info = {{title: item['title'],
+                                                    type: "Academic",
+                                                    img: item['link'],
+                                                    description: item['description'], 
+                                                    timestamp: item['timestamp']}}/>)
     }
+    return this.state.events
+      .map((item, i) => <Event info = {{title: item['title'],
+                                                  type: "Academic",
+                                                  img: item['link'],
+                                                  description: item['description'],
+                                                  timestamp: item['timestamp']}}/>)
+  }
 
-
+  onClosePopup(){
+    this.setState({
+      open: false
+    })
+  }
+  render() {
     return (
       <div>
         <Header/>
-        <div class="Row">
-          <div class="Column_side">
-            <button class="button" onClick={this.slidePrevPage}><i class="i arrow left"></i></button>
-            </div>
-          <div class="Column_center">
-            <AliceCarousel
-              items={galleryItems}
-              slideToIndex={currentIndex}
-              responsive={responsive}
-              buttonsDisabled={false}
-              onInitialized={this.handleOnSlideChange}
-              onSlideChanged={this.handleOnSlideChange}
-              onResized={this.handleOnSlideChange}
-            />
-          </div>
-          <div class="Column_side">
-            <button class="button" onClick={this.slideNextPage}><i class="i arrow right"></i></button>
-          </div>
-        </div>
-        <div>
-          {showButton}
-        </div>
-        <div>
-          {listComp}
-        </div>
-
+        <CarouselContainer>
+          <Carousel responsive={responsiveCarousel}
+                    autoPlay={this.props.deviceType !== "mobile" ? true : false}
+                    autoPlaySpeed={3000}
+                    infiniteLoop={true}
+                    keyBoardControl={true}
+                    removeArrowOnDeviceType={["tablet", "mobile"]}
+                    deviceType={this.props.deviceType}
+                    itemClass="carousel-item-padding-40-px">
+            {this.state.events.map((item, i) => {
+              const tags = item['tags'].slice(0, 3).join(", ")
+              return(
+                <EventContainer onClick={() => this.togglePopup(i)}>
+                     <Event info = {{title: item['title'],
+                                  type: tags,
+                                  img: item['link'],
+                                  description: item['description'],
+                                  timestamp: item['timestamp'], 
+                                  organizer: item['organizer']}}/>
+                </EventContainer>
+              )
+            })}
+          </Carousel>
+        </CarouselContainer>
+        {this.state.events.map((item, i) => {
+          if (i === this.state.popup_index){
+            return (<Modal open={this.state.open} onClose = {this.onClosePopup}>
+                      <PopupContainer>
+                        <Popup index={i} event={item} email={this.props.email}/>
+                      </PopupContainer>
+                    </Modal>)
+          }
+        })}
       </div>
     )
   }
